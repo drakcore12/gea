@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>G.E.A. Servicios Energéticos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary: #002339;
+            --secondary: #001a2a;
+            --accent-gas: #0288d1;
+            --accent-electric: #ffb300;
+            --accent-water: #43a047;
+            --card-bg: #01334c;
+            --card-hover: #01465e;
+            --text-light: #ffffff;
+            --font-main: 'Poppins', sans-serif;
+            --rgb-accent-gas: 2, 136, 209;
+            --rgb-accent-electric: 255, 179, 0;
+            --rgb-accent-water: 67, 160, 71;
+            --rgb-default-glow: var(--rgb-accent-gas);
+            --whatsapp-green: #25D366;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            /* scroll-padding-top es manejado dinámicamente por JS */
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--secondary);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            background-color: rgba(0, 35, 57, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid var(--card-bg);
+        }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        .header-logo img { height: 50px; transition: transform 0.3s ease; }
+        .header-logo img:hover { transform: scale(1.1); }
+        nav ul { list-style: none; display: flex; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a {
+            color: var(--text-light); text-decoration: none; font-weight: 600;
+            position: relative; padding-bottom: 5px; transition: color 0.3s ease;
+            display: flex; align-items: center;
+        }
+        nav ul li a .nav-icon { margin-right: 8px; font-size: 0.9em; }
+        nav ul li a::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            width: 0; height: 2px; background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        nav ul li a[data-section="gas"].active,
+        nav ul li a[data-section="gas"]:hover { color: var(--accent-gas); }
+        nav ul li a[data-section="electricidad"].active,
+        nav ul li a[data-section="electricidad"]:hover { color: var(--accent-electric); }
+        nav ul li a[data-section="agua"].active,
+        nav ul li a[data-section="agua"]:hover { color: var(--accent-water); }
+        nav ul li a[data-section="contacto"].active,
+        nav ul li a[data-section="contacto"]:hover { color: var(--accent-gas); }
+        nav ul li a.active::after,
+        nav ul li a:hover::after { width: 100%; }
+
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; position: relative; overflow: hidden;
+            background: linear-gradient(rgba(0, 26, 42, 0.85), rgba(0, 26, 42, 0.95)), url('https://source.unsplash.com/1920x1080/?modern,technology,energy') no-repeat center center/cover;
+            /* padding-top es gestionado por JavaScript para ajustarse a la altura del header */
+        }
+        .hero-logo-container { margin-bottom: 30px; animation: float 6s ease-in-out infinite, fadeInLogo 1s ease-out forwards; }
+        .hero-logo-container img { max-width: 200px; filter: drop-shadow(0 0 25px rgba(var(--rgb-default-glow), 0.7)); }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; font-weight: 700;
+            opacity: 0; transform: translateY(30px); animation: slideUpFadeIn 0.8s ease-out 0.5s forwards;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero h1 .highlight-gas { color: var(--accent-gas); }
+        .hero h1 .highlight-electric { color: var(--accent-electric); }
+        .hero h1 .highlight-water { color: var(--accent-water); }
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem); margin-bottom: 40px; max-width: 700px;
+            opacity: 0; transform: translateY(30px); animation: slideUpFadeIn 0.8s ease-out 0.8s forwards;
+        }
+        .cta-button {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--accent-gas); color: var(--text-light);
+            padding: 14px 30px; border-radius: 50px; text-decoration: none; font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            opacity: 0; transform: scale(0.8); animation: scaleUpFadeIn 0.5s ease-out 1.2s forwards;
+            border: none; cursor: pointer;
+        }
+        .cta-button .cta-icon { margin-right: 10px; font-size: 1.1em; }
+        .cta-button:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); background-color: var(--accent-electric); }
+
+        .service-section { padding: 80px 0; min-height: 70vh; position: relative; overflow: hidden; }
+        .service-section:nth-child(even) { background-color: var(--card-bg); }
+        .service-section h2, #contacto .contact-intro-p, .service-text p, .service-text ul li, footer .container > * { opacity: 0; }
+        .service-section h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem); text-align: center; margin-bottom: 60px;
+            position: relative; padding-bottom: 15px; font-weight: 600;
+        }
+        .service-section h2::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 80px; height: 4px; border-radius: 2px;
+        }
+        #gas h2::after { background-color: var(--accent-gas); }
+        #electricidad h2::after { background-color: var(--accent-electric); }
+        #agua h2::after { background-color: var(--accent-water); }
+        #contacto h2::after { background-color: var(--accent-gas); }
+        .service-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: flex-start; }
+        .service-image { opacity: 0; }
+        .service-text p { font-size: 1.1rem; margin-bottom: 20px; }
+        .service-text ul { list-style: none; padding-left: 0; }
+        .service-text ul li { padding: 10px 0 10px 5px; position: relative; font-size: 1.05rem; display: flex; align-items: flex-start; }
+        .service-text ul li .service-icon { margin-right: 12px; font-size: 1.2em; width: 25px; text-align: center; margin-top: 2px; }
+        #gas .service-text ul li .service-icon { color: var(--accent-gas); }
+        #electricidad .service-text ul li .service-icon { color: var(--accent-electric); }
+        #agua .service-text ul li .service-icon { color: var(--accent-water); }
+        .service-image img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 3px solid rgba(255,255,255,0.1); }
+
+        footer { text-align: center; padding: 40px 0; background-color: var(--primary); margin-top: 50px; border-top: 1px solid var(--card-bg); overflow: hidden; }
+        footer p { margin-bottom: 5px; }
+
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
+            background-color: var(--whatsapp-green); color: #FFF; border-radius: 50px;
+            text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; animation: pulse-whatsapp 2s infinite;
+        }
+        .whatsapp-float img { width: 35px; height: 35px; }
+        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 4px 4px 15px rgba(0,0,0,0.4); animation-play-state: paused; }
+
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes fadeInLogo { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideUpFadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleUpFadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-80px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse-whatsapp {
+            0% { transform: scale(1); box-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+            50% { transform: scale(1.05); box-shadow: 3px 3px 15px rgba(37, 211, 102, 0.5); }
+            100% { transform: scale(1); box-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+        }
+        .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+        .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+        .animate-fade-in-up { animation: fadeInUp 0.7s ease-out forwards; }
+        .animate-zoom-in { animation: zoomIn 0.7s ease-out forwards; }
+
+        #particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+
+        @media (max-width: 768px) {
+            header { padding: 10px 0; }
+            header .container { flex-direction: column; }
+            .header-logo { margin-bottom: 10px; }
+            nav ul { padding-top: 10px; justify-content: center; flex-wrap: wrap; }
+            nav ul li { margin: 5px 10px; }
+            .hero h1 { font-size: clamp(2rem, 8vw, 3rem); }
+            .hero p { font-size: clamp(0.9rem, 4vw, 1.1rem); }
+            .service-content { grid-template-columns: 1fr; text-align: center; }
+            .service-image { margin-top: 30px; order: -1; }
+            #electricidad .service-content .service-text { order: 1; }
+            .service-text ul li { padding-left: 0; text-align: left; justify-content: center; }
+            .service-text ul li .service-icon { margin-top: 0; }
+            #contacto .cta-button { display: block; width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 15px; }
+            .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            .whatsapp-float img { width: 28px; height: 28px; }
+        }
+    </style>
+</head>
+<body>
+<header id="main-header">
+    <div class="container">
+        <a href="#hero" class="header-logo">
+            <img src="https://i.imgur.com/Bm2HvZ3.png" alt="G.E.A. Logo"> <!-- Asegúrate que la ruta sea correcta -->
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#gas" data-section="gas"><i class="fas fa-fire-flame-curved nav-icon"></i>Gas</a></li>
+                <li><a href="#electricidad" data-section="electricidad"><i class="fas fa-bolt nav-icon"></i>Electricidad</a></li>
+                <li><a href="#agua" data-section="agua"><i class="fas fa-tint nav-icon"></i>Agua</a></li>
+                <li><a href="#contacto" data-section="contacto"><i class="fas fa-envelope nav-icon"></i>Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="hero" id="hero">
+    <div id="particles-js"></div>
+    <div class="hero-logo-container">
+        <img src="https://i.imgur.com/Bm2HvZ3.png" alt="G.E.A. Logo"> <!-- Asegúrate que la ruta sea correcta -->
+    </div>
+    <h1>Soluciones Energéticas <span class="highlight-gas">Integrales</span> para <span class="highlight-electric">tu Hogar</span> y <span class="highlight-water">Negocio</span></h1>
+    <p>Profesionales en instalaciones y mantenimiento de Gas, Electricidad y Agua. Calidad y seguridad garantizada.</p>
+    <a href="#contacto" class="cta-button">
+        <i class="fas fa-paper-plane cta-icon"></i>Contáctanos Ahora
+    </a>
+</section>
+
+<main>
+    <section class="service-section" id="gas">
+        <div class="container">
+            <h2>Servicios de Gas</h2>
+            <div class="service-content">
+                <div class="service-text">
+                    <p>Ofrecemos soluciones completas para instalaciones de gas natural y propano, garantizando seguridad y cumplimiento normativo. Técnicos certificados a tu servicio.</p>
+                    <ul>
+                        <li><i class="fas fa-check-circle service-icon"></i>Instalación de tuberías de gas</li>
+                        <li><i class="fas fa-check-circle service-icon"></i>Conexión de electrodomésticos</li>
+                        <li><i class="fas fa-certificate service-icon"></i>Certificación de instalaciones</li>
+                        <li><i class="fas fa-tools service-icon"></i>Mantenimiento y reparaciones</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://i.imgur.com/yFmtW2d.jpeg" alt="Servicios de Gas">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="service-section" id="electricidad">
+        <div class="container">
+            <h2>Servicios Eléctricos</h2>
+            <div class="service-content">
+                 <div class="service-image">
+                    <img src="https://i.imgur.com/oeCwaDG.jpeg" alt="Servicios Eléctricos">
+                </div>
+                <div class="service-text">
+                    <p>Instalaciones eléctricas seguras y eficientes para su hogar o negocio. Modernizamos tu sistema eléctrico cumpliendo todas las normativas vigentes.</p>
+                    <ul>
+                        <li><i class="fas fa-plug service-icon"></i>Instalación de cableado y cuadros</li>
+                        <li><i class="far fa-lightbulb service-icon"></i>Sistemas de iluminación LED</li>
+                        <li><i class="fas fa-shield-alt service-icon"></i>Protección eléctrica avanzada</li>
+                        <li><i class="fas fa-wrench service-icon"></i>Reparaciones y diagnóstico</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="service-section" id="agua">
+        <div class="container">
+            <h2>Servicios de Agua y Fontanería</h2>
+            <div class="service-content">
+                <div class="service-text">
+                    <p>Soluciones profesionales para todos sus problemas de fontanería, desde reparaciones menores hasta instalaciones completas de sistemas de agua.</p>
+                    <ul>
+                        <li><i class="fas fa-faucet-drip service-icon"></i>Instalación de tuberías y grifería</li>
+                        <li><i class="fas fa-temperature-high service-icon"></i>Sistemas de agua caliente</li>
+                        <li><i class="fas fa-filter service-icon"></i>Filtración y tratamiento de agua</li>
+                        <li><i class="fas fa-water service-icon"></i>Desagües y alcantarillado</li>
+                    </ul>
+                </div>
+                <div class="service-image">
+                    <img src="https://i.imgur.com/Dt65dkB.png" alt="Servicios de Agua">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="service-section" id="contacto">
+        <div class="container">
+            <h2>Contáctanos</h2>
+            <p class="contact-intro-p" style="text-align:center; max-width: 600px; margin-left:auto; margin-right:auto; margin-bottom: 40px;">¿Listo para iniciar tu proyecto o necesitas una consulta? Estamos aquí para ayudarte.</p>
+            <div style="text-align:center;">
+                 <!-- Se eliminó el botón "Llámanos" que era redundante con el flotante de WhatsApp -->
+                 <a href="mailto:luiseduardo1913@gmail.com" class="cta-button" style="background: var(--accent-electric); margin:10px;">
+                    <i class="fas fa-envelope cta-icon"></i>Envíanos un Email
+                 </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2024 G.E.A. Servicios Energéticos. Todos los derechos reservados.</p>
+        <p><i class="fas fa-handshake"></i> Tu socio confiable en energía.</p>
+    </div>
+</footer>
+
+<a href="https://wa.me/573136317078?text=Hola,%20estoy%20interesado%20en%20sus%20servicios." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
+
+<!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const root = document.documentElement;
+        const headerEl = document.getElementById('main-header');
+        const heroSection = document.getElementById('hero');
+        let headerHeight = 80; // Default, se actualizará
+
+        function updateLayoutForFixedHeader() {
+            if (headerEl) {
+                headerHeight = headerEl.offsetHeight;
+                root.style.scrollPaddingTop = headerHeight + 'px';
+                if (heroSection) {
+                    heroSection.style.paddingTop = headerHeight + 'px';
+                }
+            }
+        }
+        
+        updateLayoutForFixedHeader(); 
+        window.addEventListener('load', updateLayoutForFixedHeader); 
+        window.addEventListener('resize', updateLayoutForFixedHeader);
+
+        const observerOptions = { 
+            threshold: 0.1, 
+        };
+
+        const observerCallback = (entries, observerInstance) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    if (target.matches('.service-section h2, #contacto .contact-intro-p')) {
+                        target.classList.add('animate-fade-in-up');
+                    } else if (target.matches('.service-image')) {
+                        target.classList.add('animate-zoom-in');
+                    } else if (target.matches('.service-text')) {
+                        const parentContent = target.closest('.service-content');
+                        const isImageFirst = parentContent && parentContent.children[0]?.matches('.service-image');
+                        if (isImageFirst && target === parentContent.children[1]) {
+                            target.classList.add('animate-slide-in-right');
+                        } else { 
+                            target.classList.add('animate-slide-in-left'); 
+                        }
+                        const p = target.querySelector('p');
+                        if(p) { 
+                            p.style.opacity = '0';
+                            p.style.animation = `fadeInUp 0.7s ease-out 0.2s forwards`; 
+                        }
+                        const listItems = target.querySelectorAll('ul li');
+                        listItems.forEach((li, index) => {
+                            li.style.opacity = '0';
+                            li.style.animation = `fadeInUp 0.5s ease-out ${0.3 + (index * 0.15)}s forwards`;
+                        });
+                    } else if (target.matches('footer .container > *')) {
+                         target.style.animationDelay = `${target.dataset.delay || '0s'}`;
+                         target.classList.add('animate-fade-in-up');
+                    }
+                    observerInstance.unobserve(target);
+                }
+            });
+        };
+        const animationObserver = new IntersectionObserver(observerCallback, observerOptions);
+        document.querySelectorAll('.service-section h2, #contacto .contact-intro-p, .service-text, .service-image').forEach(el => {
+            animationObserver.observe(el);
+        });
+        document.querySelectorAll('footer .container > *').forEach((el, index) => {
+            el.dataset.delay = `${index * 0.15}s`;
+            animationObserver.observe(el);
+        });
+
+        const navLinks = document.querySelectorAll('nav ul li a');
+        const sections = document.querySelectorAll('main section[id], section#hero[id]');
+        const heroLogoImg = document.querySelector('.hero-logo-container img');
+
+        function updateActiveNavLinkAndGlow() {
+            let currentSectionId = 'hero';
+            const scrollY = window.scrollY;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - headerHeight - Math.min(100, section.offsetHeight * 0.2); 
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (scrollY >= sectionTop && scrollY < sectionBottom) { 
+                    currentSectionId = section.getAttribute('id'); 
+                }
+            });
+            
+            if (heroSection && scrollY < (heroSection.offsetTop + heroSection.offsetHeight * 0.5 - headerHeight)) {
+                 if (sections[0] && sections[0].id === 'hero') {
+                    currentSectionId = 'hero';
+                 }
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSectionId) { 
+                    link.classList.add('active'); 
+                }
+            });
+            if (heroLogoImg) {
+                let glowColorRGBVar = '--rgb-default-glow'; 
+                if (currentSectionId === 'gas') glowColorRGBVar = '--rgb-accent-gas';
+                else if (currentSectionId === 'electricidad') glowColorRGBVar = '--rgb-accent-electric';
+                else if (currentSectionId === 'agua') glowColorRGBVar = '--rgb-accent-water';
+                const rgbValue = getComputedStyle(root).getPropertyValue(glowColorRGBVar).trim();
+                heroLogoImg.style.filter = `drop-shadow(0 0 25px rgba(${rgbValue}, 0.7))`;
+            }
+        }
+        window.addEventListener('scroll', updateActiveNavLinkAndGlow);
+        updateActiveNavLinkAndGlow();
+
+        // Particle JS (Opcional)
+        /*
+        if (typeof particlesJS !== 'undefined' && document.getElementById('particles-js')) {
+            particlesJS('particles-js', { // Configuración de partículas ... });
+        }
+        */
+    });
+</script>
+</body>
+</html>
