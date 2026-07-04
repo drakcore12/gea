@@ -50,7 +50,9 @@ function saveManualTheme(theme) {
 
 function syncBrandMarks() {
   const headerLogo = document.querySelector('.brand-image');
+  const footerLogo = document.querySelector('.footer-brand-plate img');
   if (headerLogo) headerLogo.src = logoNegative;
+  if (footerLogo) footerLogo.src = logoNegative;
 }
 
 function updateThemeControl(theme, override) {
