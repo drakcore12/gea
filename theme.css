@@ -8,7 +8,7 @@ html[data-theme="dark"] .menu-toggle{background:#101d31;color:#e8eef9;border-col
 html[data-theme="dark"] .hero{background:radial-gradient(circle at 82% 10%,rgba(0,91,231,.24),transparent 32%),linear-gradient(135deg,#0b1525,#0a1b36)}
 html[data-theme="dark"] .hero:before{border-color:rgba(123,181,255,.16);box-shadow:0 0 0 45px rgba(123,181,255,.05),0 0 0 90px rgba(123,181,255,.03)}
 html[data-theme="dark"] h1,html[data-theme="dark"] h2,html[data-theme="dark"] h3{color:#f2f6ff}
-html[data-theme="dark"] h1 span{color:#7bb5ff}
+html[data-theme="dark"] h1 span{color:#fe8601}
 html[data-theme="dark"] .lead,html[data-theme="dark"] .section-heading p:not(.eyebrow),html[data-theme="dark"] .steps p,html[data-theme="dark"] .service-card p,html[data-theme="dark"] details p{color:#b5c3d8}
 html[data-theme="dark"] .trust-list{color:#dce8fb}
 html[data-theme="dark"] .button-secondary{background:#101d31;color:#e8eef9;border-color:#5b7ca7}
