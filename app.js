@@ -72,8 +72,26 @@ function createThemeControl() {
   themeButton.addEventListener('click', () => { const selectedTheme = (root.getAttribute('data-theme') || scheduledTheme()) === 'dark' ? 'light' : 'dark'; saveManualTheme(selectedTheme); applyResolvedTheme(); });
 }
 
+function addGoogleReviewLink() {
+  const socialLinks = document.querySelector('.contact-section .social-links');
+  if (!socialLinks || document.querySelector('[data-google-review]')) return;
+
+  const reviewLink = document.createElement('a');
+  reviewLink.href = 'https://g.page/r/CawVQrcAW8KpEBM/review';
+  reviewLink.target = '_blank';
+  reviewLink.rel = 'noreferrer';
+  reviewLink.dataset.googleReview = 'true';
+  reviewLink.textContent = 'Califica nuestro servicio en Google';
+  reviewLink.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;margin-top:18px;padding:11px 15px;border:1px solid rgba(255,255,255,.65);border-radius:10px;color:#fff;font-weight:800;text-decoration:none;transition:.2s ease';
+  reviewLink.addEventListener('mouseenter', () => { reviewLink.style.background = 'rgba(255,255,255,.14)'; });
+  reviewLink.addEventListener('mouseleave', () => { reviewLink.style.background = 'transparent'; });
+  reviewLink.addEventListener('click', () => gtag('event', 'google_review_click', { link_url: reviewLink.href }));
+  socialLinks.insertAdjacentElement('afterend', reviewLink);
+}
+
 createThemeControl();
 applyResolvedTheme();
+addGoogleReviewLink();
 document.addEventListener('visibilitychange', () => { if (!document.hidden) applyResolvedTheme(); });
 
 const whatsappNumber = '573017605677';
@@ -94,6 +112,7 @@ if (leadForm) {
     event.preventDefault();
     const data = new FormData(leadForm);
     const message = ['Hola, Soluciones GEA. Quiero solicitar una cotización.', '', `Nombre: ${data.get('nombre')}`, `Teléfono: ${data.get('telefono')}`, `Servicio: ${data.get('servicio')}`, `Necesidad: ${data.get('detalle')}`].join('\n');
+    gtag('event', 'generate_lead', { method: 'whatsapp_form' });
     window.open(whatsappUrl(message), '_blank', 'noopener,noreferrer');
   });
 }
