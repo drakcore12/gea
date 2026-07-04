@@ -34,6 +34,17 @@ html[data-theme="dark"] .site-footer{background:#011949;border-color:#24467d}
 html[data-theme="dark"] .footer-brand-plate{background:transparent}
 html[data-theme="dark"] .floating-whatsapp{box-shadow:0 12px 25px rgba(0,0,0,.38)}
 
+/* Preguntas frecuentes: contraste y jerarquía en modo oscuro */
+html[data-theme="dark"] .faq-section{background:#031e51}
+html[data-theme="dark"] .faq-section .eyebrow{color:#57bb2d}
+html[data-theme="dark"] .faq-section h2{color:#fff}
+html[data-theme="dark"] .faq-list details{background:#082d68;border-color:#4d79b7}
+html[data-theme="dark"] .faq-list details:hover{background:#0b367b;border-color:#77a7eb}
+html[data-theme="dark"] .faq-list summary{color:#fff}
+html[data-theme="dark"] .faq-list summary::marker{color:#fe8601}
+html[data-theme="dark"] .faq-list details[open]{border-color:#fe8601;background:#0c397d}
+html[data-theme="dark"] .faq-list details p{color:#d9e7fa}
+
 .theme-toggle{width:42px;height:42px;display:inline-grid;place-items:center;flex:0 0 auto;border:1px solid #cbd8e7;background:#f5f8fc;color:#011949;border-radius:12px;transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease}
 .theme-toggle:hover{transform:translateY(-2px);background:#e9f1fc}
 .theme-toggle:focus-visible{outline:3px solid rgba(0,91,231,.35);outline-offset:3px}
