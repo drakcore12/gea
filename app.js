@@ -1,145 +1,17 @@
-// Google Analytics 4
-window.dataLayer = window.dataLayer || [];
-function gtag(){window.dataLayer.push(arguments);}
-window.gtag = window.gtag || gtag;
-gtag('js', new Date());
-gtag('config', 'G-43XJ69N8VD');
+window.dataLayer=window.dataLayer||[];function gtag(){window.dataLayer.push(arguments)}window.gtag=window.gtag||gtag;gtag('js',new Date);gtag('config','G-43XJ69N8VD');const a=document.createElement('script');a.async=true;a.src='https://www.googletagmanager.com/gtag/js?id=G-43XJ69N8VD';document.head.appendChild(a);const s=document.createElement('link');s.rel='stylesheet';s.href='./theme.css';document.head.appendChild(s);
 
-const analyticsScript = document.createElement('script');
-analyticsScript.async = true;
-analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-43XJ69N8VD';
-document.head.appendChild(analyticsScript);
-
-const themeStylesheet = document.createElement('link');
-themeStylesheet.rel = 'stylesheet';
-themeStylesheet.href = './theme.css';
-document.head.appendChild(themeStylesheet);
-
-const root = document.documentElement;
-const themeStorageKey = 'gea-theme-manual-override';
-const logoPositive = './assets/img/imagotipo-horizontal-color-transparente.png';
-const logoNegative = './assets/img/imagotipo-horizontal-negativo-transparente.png';
-let themeTimer;
-let themeButton;
-
-function scheduledTheme(date = new Date()) {
-  const hour = date.getHours();
-  return hour >= 18 || hour < 6 ? 'dark' : 'light';
-}
-
-function nextThemeBoundary(date = new Date()) {
-  const next = new Date(date);
-  next.setMinutes(0, 0, 0);
-  if (date.getHours() < 6) next.setHours(6);
-  else if (date.getHours() < 18) next.setHours(18);
-  else { next.setDate(next.getDate() + 1); next.setHours(6); }
-  return next;
-}
-
-function readManualTheme() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(themeStorageKey) || 'null');
-    if (saved && ['light', 'dark'].includes(saved.theme) && Number(saved.expiresAt) > Date.now()) return saved;
-    localStorage.removeItem(themeStorageKey);
-  } catch (_) {}
-  return null;
-}
-
-function saveManualTheme(theme) {
-  try { localStorage.setItem(themeStorageKey, JSON.stringify({ theme, expiresAt: nextThemeBoundary().getTime() })); } catch (_) {}
-}
-
-function syncBrandMarks(theme) {
-  const headerLogo = document.querySelector('.brand-image');
-  const footerLogo = document.querySelector('.footer-brand-plate img');
-  if (headerLogo) headerLogo.src = theme === 'dark' ? logoNegative : logoPositive;
-  if (footerLogo) footerLogo.src = logoNegative;
-}
-
-function updateThemeControl(theme, override) {
-  if (!themeButton) return;
-  const nextMode = theme === 'dark' ? 'claro' : 'oscuro';
-  const source = override ? 'Selección manual hasta el próximo cambio automático.' : 'Automático según la hora local.';
-  themeButton.setAttribute('aria-pressed', String(theme === 'dark'));
-  themeButton.setAttribute('aria-label', `Activar modo ${nextMode}. ${source}`);
-  themeButton.title = `Activar modo ${nextMode}. ${source}`;
-  themeButton.querySelector('.sr-only').textContent = `Tema actual: ${theme === 'dark' ? 'oscuro' : 'claro'}. ${source}`;
-}
-
-function applyTheme(theme, override = null) {
-  root.setAttribute('data-theme', theme);
-  syncBrandMarks(theme);
-  updateThemeControl(theme, override);
-}
-
-function scheduleThemeCheck() {
-  window.clearTimeout(themeTimer);
-  themeTimer = window.setTimeout(applyResolvedTheme, Math.max(1000, nextThemeBoundary().getTime() - Date.now() + 750));
-}
-
-function applyResolvedTheme() {
-  const override = readManualTheme();
-  applyTheme(override ? override.theme : scheduledTheme(), override);
-  scheduleThemeCheck();
-}
-
-function createThemeControl() {
-  const navWrap = document.querySelector('.nav-wrap');
-  if (!navWrap) return;
-  themeButton = document.createElement('button');
-  themeButton.type = 'button';
-  themeButton.className = 'theme-toggle';
-  themeButton.innerHTML = '<svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><span class="sr-only"></span>';
-  navWrap.insertBefore(themeButton, navWrap.querySelector('.button-header') || null);
-  themeButton.addEventListener('click', () => {
-    const selectedTheme = (root.getAttribute('data-theme') || scheduledTheme()) === 'dark' ? 'light' : 'dark';
-    saveManualTheme(selectedTheme);
-    applyResolvedTheme();
-  });
-}
-
-function addGoogleReviewLink() {
-  const socialLinks = document.querySelector('.contact-section .social-links');
-  if (!socialLinks || document.querySelector('[data-google-review]')) return;
-  const reviewLink = document.createElement('a');
-  reviewLink.href = 'https://g.page/r/CawVQrcAW8KpEBM/review';
-  reviewLink.target = '_blank';
-  reviewLink.rel = 'noreferrer';
-  reviewLink.dataset.googleReview = 'true';
-  reviewLink.textContent = 'Califica nuestro servicio en Google';
-  reviewLink.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;margin-top:18px;padding:11px 15px;border:1px solid rgba(255,255,255,.65);border-radius:10px;color:#fff;font-weight:800;text-decoration:none;transition:.2s ease';
-  reviewLink.addEventListener('mouseenter', () => { reviewLink.style.background = 'rgba(255,255,255,.14)'; });
-  reviewLink.addEventListener('mouseleave', () => { reviewLink.style.background = 'transparent'; });
-  reviewLink.addEventListener('click', () => gtag('event', 'google_review_click', { link_url: reviewLink.href }));
-  socialLinks.insertAdjacentElement('afterend', reviewLink);
-}
-
-createThemeControl();
-applyResolvedTheme();
-addGoogleReviewLink();
-document.addEventListener('visibilitychange', () => { if (!document.hidden) applyResolvedTheme(); });
-
-const whatsappNumber = '573017605677';
-const messages = { general: 'Hola, Soluciones GEA. Quiero solicitar información o una cotización.', gas: 'Hola, Soluciones GEA. Necesito una cotización para un servicio de gas.', electricidad: 'Hola, Soluciones GEA. Necesito una cotización para un servicio eléctrico.', agua: 'Hola, Soluciones GEA. Necesito una cotización para un servicio de agua.', mantenimiento: 'Hola, Soluciones GEA. Estoy interesado en un plan de mantenimiento preventivo.' };
-function whatsappUrl(message) { return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`; }
-document.querySelectorAll('[data-whatsapp]').forEach((link) => { const key = link.dataset.whatsapp || 'general'; link.href = whatsappUrl(messages[key] || messages.general); });
-
-const menuButton = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.main-nav');
-if (menuButton && nav) {
-  menuButton.addEventListener('click', () => { const isOpen = nav.classList.toggle('is-open'); menuButton.setAttribute('aria-expanded', String(isOpen)); menuButton.textContent = isOpen ? 'Cerrar' : 'Menú'; });
-  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { nav.classList.remove('is-open'); menuButton.setAttribute('aria-expanded', 'false'); menuButton.textContent = 'Menú'; }));
-}
-
-const leadForm = document.querySelector('#lead-form');
-if (leadForm) {
-  leadForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const data = new FormData(leadForm);
-    const message = ['Hola, Soluciones GEA. Quiero solicitar una cotización.', '', `Nombre: ${data.get('nombre')}`, `Teléfono: ${data.get('telefono')}`, `Servicio: ${data.get('servicio')}`, `Necesidad: ${data.get('detalle')}`].join('\n');
-    gtag('event', 'generate_lead', { method: 'whatsapp_form' });
-    window.open(whatsappUrl(message), '_blank', 'noopener,noreferrer');
-  });
-}
-
-document.querySelector('#year').textContent = new Date().getFullYear();
+const root=document.documentElement,themeStorageKey='gea-theme-manual-override',logoPositive='./assets/img/imagotipo-horizontal-color-transparente.png',logoNegative='./assets/img/imagotipo-horizontal-negativo-transparente.png';let themeTimer,themeButton;
+const scheduledTheme=(d=new Date)=>d.getHours()>=18||d.getHours()<6?'dark':'light';
+function nextThemeBoundary(d=new Date){const n=new Date(d);n.setMinutes(0,0,0);if(d.getHours()<6)n.setHours(6);else if(d.getHours()<18)n.setHours(18);else{n.setDate(n.getDate()+1);n.setHours(6)}return n}
+function readManualTheme(){try{const x=JSON.parse(localStorage.getItem(themeStorageKey)||'null');if(x&&['light','dark'].includes(x.theme)&&Number(x.expiresAt)>Date.now())return x;localStorage.removeItem(themeStorageKey)}catch(_){}return null}
+function syncBrandMarks(theme){const h=document.querySelector('.brand-image'),f=document.querySelector('.footer-brand-plate img');if(h)h.src=theme==='dark'?logoNegative:logoPositive;if(f)f.src=logoNegative}
+function updateThemeControl(theme,override){if(!themeButton)return;const next=theme==='dark'?'claro':'oscuro',source=override?'Selección manual hasta el próximo cambio automático.':'Automático según la hora local.';themeButton.setAttribute('aria-pressed',String(theme==='dark'));themeButton.setAttribute('aria-label',`Activar modo ${next}. ${source}`);themeButton.title=`Activar modo ${next}. ${source}`;themeButton.querySelector('.sr-only').textContent=`Tema actual: ${theme==='dark'?'oscuro':'claro'}. ${source}`}
+function applyTheme(theme,override=null){root.setAttribute('data-theme',theme);syncBrandMarks(theme);updateThemeControl(theme,override)}
+function applyResolvedTheme(){const o=readManualTheme();applyTheme(o?o.theme:scheduledTheme(),o);clearTimeout(themeTimer);themeTimer=setTimeout(applyResolvedTheme,Math.max(1000,nextThemeBoundary().getTime()-Date.now()+750))}
+function createThemeControl(){const w=document.querySelector('.nav-wrap');if(!w)return;themeButton=document.createElement('button');themeButton.type='button';themeButton.className='theme-toggle';themeButton.innerHTML='<svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><span class="sr-only"></span>';w.insertBefore(themeButton,w.querySelector('.button-header')||null);themeButton.addEventListener('click',()=>{const t=(root.getAttribute('data-theme')||scheduledTheme())==='dark'?'light':'dark';try{localStorage.setItem(themeStorageKey,JSON.stringify({theme:t,expiresAt:nextThemeBoundary().getTime()}))}catch(_){}applyResolvedTheme()})}
+function fixMap(){const map=document.querySelector('.coverage-map iframe');if(map)map.src='https://maps.google.com/maps?q=Carrera%20141%20%2362-86%2C%20Medell%C3%ADn%2C%20Colombia&t=&z=15&ie=UTF8&iwloc=&output=embed'}
+function addGoogleReviewLink(){const x=document.querySelector('.contact-section .social-links');if(!x||document.querySelector('[data-google-review]'))return;const l=document.createElement('a');l.href='https://g.page/r/CawVQrcAW8KpEBM/review';l.target='_blank';l.rel='noreferrer';l.dataset.googleReview='true';l.textContent='Califica nuestro servicio en Google';l.style.cssText='display:inline-flex;align-items:center;justify-content:center;margin-top:18px;padding:11px 15px;border:1px solid rgba(255,255,255,.65);border-radius:10px;color:#fff;font-weight:800;text-decoration:none;transition:.2s ease';l.onmouseenter=()=>l.style.background='rgba(255,255,255,.14)';l.onmouseleave=()=>l.style.background='transparent';l.onclick=()=>gtag('event','google_review_click',{link_url:l.href});x.insertAdjacentElement('afterend',l)}
+createThemeControl();applyResolvedTheme();fixMap();addGoogleReviewLink();document.addEventListener('visibilitychange',()=>{if(!document.hidden)applyResolvedTheme()});
+const whatsappNumber='573017605677',messages={general:'Hola, Soluciones GEA. Quiero solicitar información o una cotización.',gas:'Hola, Soluciones GEA. Necesito una cotización para un servicio de gas.',electricidad:'Hola, Soluciones GEA. Necesito una cotización para un servicio eléctrico.',agua:'Hola, Soluciones GEA. Necesito una cotización para un servicio de agua.',mantenimiento:'Hola, Soluciones GEA. Estoy interesado en un plan de mantenimiento preventivo.'},whatsappUrl=m=>`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(m)}`;document.querySelectorAll('[data-whatsapp]').forEach(l=>{const k=l.dataset.whatsapp||'general';l.href=whatsappUrl(messages[k]||messages.general)});
+const menuButton=document.querySelector('.menu-toggle'),nav=document.querySelector('.main-nav');if(menuButton&&nav){menuButton.onclick=()=>{const o=nav.classList.toggle('is-open');menuButton.setAttribute('aria-expanded',String(o));menuButton.textContent=o?'Cerrar':'Menú'};nav.querySelectorAll('a').forEach(l=>l.onclick=()=>{nav.classList.remove('is-open');menuButton.setAttribute('aria-expanded','false');menuButton.textContent='Menú'})}
+const leadForm=document.querySelector('#lead-form');if(leadForm)leadForm.onsubmit=e=>{e.preventDefault();const d=new FormData(leadForm),m=['Hola, Soluciones GEA. Quiero solicitar una cotización.','',`Nombre: ${d.get('nombre')}`,`Teléfono: ${d.get('telefono')}`,`Servicio: ${d.get('servicio')}`,`Necesidad: ${d.get('detalle')}`].join('\n');gtag('event','generate_lead',{method:'whatsapp_form'});window.open(whatsappUrl(m),'_blank','noopener,noreferrer')};const year=document.querySelector('#year');if(year)year.textContent=new Date().getFullYear();
