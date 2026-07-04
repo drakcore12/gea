@@ -17,6 +17,8 @@ document.head.appendChild(themeStylesheet);
 
 const root = document.documentElement;
 const themeStorageKey = 'gea-theme-manual-override';
+const logoPositive = './assets/img/imagotipo-horizontal-color-transparente.png';
+const logoNegative = './assets/img/imagotipo-horizontal-negativo.png';
 let themeTimer;
 let themeButton;
 
@@ -47,6 +49,13 @@ function saveManualTheme(theme) {
   try { localStorage.setItem(themeStorageKey, JSON.stringify({ theme, expiresAt: nextThemeBoundary().getTime() })); } catch (_) {}
 }
 
+function syncBrandMarks(theme) {
+  const headerLogo = document.querySelector('.brand-image');
+  const footerLogo = document.querySelector('.site-footer img');
+  if (headerLogo) headerLogo.src = theme === 'dark' ? logoNegative : logoPositive;
+  if (footerLogo) footerLogo.src = logoNegative;
+}
+
 function updateThemeControl(theme, override) {
   if (!themeButton) return;
   const nextMode = theme === 'dark' ? 'claro' : 'oscuro';
@@ -57,9 +66,22 @@ function updateThemeControl(theme, override) {
   themeButton.querySelector('.sr-only').textContent = `Tema actual: ${theme === 'dark' ? 'oscuro' : 'claro'}. ${source}`;
 }
 
-function applyTheme(theme, override = null) { root.setAttribute('data-theme', theme); updateThemeControl(theme, override); }
-function scheduleThemeCheck() { window.clearTimeout(themeTimer); themeTimer = window.setTimeout(applyResolvedTheme, Math.max(1000, nextThemeBoundary().getTime() - Date.now() + 750)); }
-function applyResolvedTheme() { const override = readManualTheme(); applyTheme(override ? override.theme : scheduledTheme(), override); scheduleThemeCheck(); }
+function applyTheme(theme, override = null) {
+  root.setAttribute('data-theme', theme);
+  syncBrandMarks(theme);
+  updateThemeControl(theme, override);
+}
+
+function scheduleThemeCheck() {
+  window.clearTimeout(themeTimer);
+  themeTimer = window.setTimeout(applyResolvedTheme, Math.max(1000, nextThemeBoundary().getTime() - Date.now() + 750));
+}
+
+function applyResolvedTheme() {
+  const override = readManualTheme();
+  applyTheme(override ? override.theme : scheduledTheme(), override);
+  scheduleThemeCheck();
+}
 
 function createThemeControl() {
   const navWrap = document.querySelector('.nav-wrap');
@@ -69,13 +91,16 @@ function createThemeControl() {
   themeButton.className = 'theme-toggle';
   themeButton.innerHTML = '<svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><span class="sr-only"></span>';
   navWrap.insertBefore(themeButton, navWrap.querySelector('.button-header') || null);
-  themeButton.addEventListener('click', () => { const selectedTheme = (root.getAttribute('data-theme') || scheduledTheme()) === 'dark' ? 'light' : 'dark'; saveManualTheme(selectedTheme); applyResolvedTheme(); });
+  themeButton.addEventListener('click', () => {
+    const selectedTheme = (root.getAttribute('data-theme') || scheduledTheme()) === 'dark' ? 'light' : 'dark';
+    saveManualTheme(selectedTheme);
+    applyResolvedTheme();
+  });
 }
 
 function addGoogleReviewLink() {
   const socialLinks = document.querySelector('.contact-section .social-links');
   if (!socialLinks || document.querySelector('[data-google-review]')) return;
-
   const reviewLink = document.createElement('a');
   reviewLink.href = 'https://g.page/r/CawVQrcAW8KpEBM/review';
   reviewLink.target = '_blank';
