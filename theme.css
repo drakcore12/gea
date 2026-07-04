@@ -31,8 +31,11 @@ html[data-theme="dark"] .contact-form input,html[data-theme="dark"] .contact-for
 html[data-theme="dark"] .contact-form input::placeholder,html[data-theme="dark"] .contact-form textarea::placeholder{color:#9eb2ce}
 html[data-theme="dark"] .contact-form .form-note{color:#c1cde0}
 html[data-theme="dark"] .site-footer{background:#011949;border-color:#24467d}
-html[data-theme="dark"] .footer-brand-plate{background:transparent}
 html[data-theme="dark"] .floating-whatsapp{box-shadow:0 12px 25px rgba(0,0,0,.38)}
+
+/* Footer: mismo aspecto en modo claro y oscuro */
+.footer-brand-plate{padding:0!important;background:transparent!important;border-radius:0!important}
+.footer-brand-plate img{display:block;width:190px;max-width:100%;height:auto}
 
 /* Preguntas frecuentes: contraste y jerarquía en modo oscuro */
 html[data-theme="dark"] .faq-section{background:#031e51}
