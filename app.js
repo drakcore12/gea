@@ -17,7 +17,6 @@ document.head.appendChild(themeStylesheet);
 
 const root = document.documentElement;
 const themeStorageKey = 'gea-theme-manual-override';
-const logoPositive = './assets/img/imagotipo-horizontal-color-transparente.png';
 const logoNegative = './assets/img/imagotipo-horizontal-negativo-transparente.png';
 let themeTimer;
 let themeButton;
@@ -49,9 +48,9 @@ function saveManualTheme(theme) {
   try { localStorage.setItem(themeStorageKey, JSON.stringify({ theme, expiresAt: nextThemeBoundary().getTime() })); } catch (_) {}
 }
 
-function syncBrandMarks(theme) {
+function syncBrandMarks() {
   const headerLogo = document.querySelector('.brand-image');
-  if (headerLogo) headerLogo.src = theme === 'dark' ? logoNegative : logoPositive;
+  if (headerLogo) headerLogo.src = logoNegative;
 }
 
 function updateThemeControl(theme, override) {
@@ -66,7 +65,7 @@ function updateThemeControl(theme, override) {
 
 function applyTheme(theme, override = null) {
   root.setAttribute('data-theme', theme);
-  syncBrandMarks(theme);
+  syncBrandMarks();
   updateThemeControl(theme, override);
 }
 
