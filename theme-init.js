@@ -32,7 +32,6 @@
   root.classList.remove('no-js');
   root.classList.add('js');
   root.dataset.theme = theme;
-  root.style.colorScheme = theme;
   window.__geaInitialTheme = theme;
 
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
