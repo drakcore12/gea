@@ -23,6 +23,7 @@
   let themeTimer = null;
   let sessionThemeOverride = null;
   let analyticsLoaded = false;
+  let sessionAnalyticsConsent = null;
 
   function safeStorageGet(key) {
     try {
@@ -142,7 +143,6 @@
 
   function applyTheme(theme, isManual = false) {
     root.dataset.theme = theme;
-    root.style.colorScheme = theme;
     syncHeaderLogo(theme);
     syncThemeColor(theme);
     updateThemeControl(theme, isManual);
@@ -177,7 +177,8 @@
 
   function currentAnalyticsConsent() {
     const value = safeStorageGet(CONFIG.analyticsConsentKey);
-    return value === 'granted' || value === 'denied' ? value : null;
+    if (value === 'granted' || value === 'denied') return value;
+    return sessionAnalyticsConsent;
   }
 
   function loadAnalytics() {
@@ -205,16 +206,22 @@
   }
 
   function trackEvent(name, parameters = {}) {
+    if (currentAnalyticsConsent() !== 'granted') return;
     if (!analyticsLoaded || typeof window.gtag !== 'function') return;
     window.gtag('event', name, parameters);
   }
 
   function setAnalyticsConsent(value) {
+    sessionAnalyticsConsent = value;
     safeStorageSet(CONFIG.analyticsConsentKey, value);
     const banner = document.querySelector('.consent-banner');
     if (banner) banner.hidden = true;
 
-    if (value === 'granted') loadAnalytics();
+    if (value === 'granted') {
+      loadAnalytics();
+    } else if (analyticsLoaded && typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', { analytics_storage: 'denied' });
+    }
   }
 
   function initializeAnalyticsConsent() {
@@ -233,6 +240,7 @@
     manageButtons.forEach((button) => {
       button.addEventListener('click', () => {
         safeStorageRemove(CONFIG.analyticsConsentKey);
+        sessionAnalyticsConsent = null;
         if (banner) {
           banner.hidden = false;
           banner.querySelector('button')?.focus();
@@ -311,8 +319,7 @@
   }
 
   function openExternalUrl(url) {
-    const openedWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!openedWindow) window.location.assign(url);
+    window.location.assign(url);
   }
 
   function initializeLeadForm() {
