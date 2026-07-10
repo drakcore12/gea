@@ -1,239 +1,269 @@
-// Google Analytics 4
-window.dataLayer = window.dataLayer || [];
+(() => {
+  'use strict';
 
-function gtag() {
-  window.dataLayer.push(arguments);
-}
+  const CONFIG = Object.freeze({
+    analyticsId: 'G-43XJ69N8VD',
+    analyticsConsentKey: 'gea-analytics-consent',
+    themeStorageKey: 'gea-theme-manual-override',
+    whatsappNumber: '573017605677',
+    logoPositive: './assets/img/imagotipo-horizontal-color-transparente.png',
+    logoNegative: './assets/img/imagotipo-horizontal-negativo-transparente.png',
+    themeColors: Object.freeze({ light: '#ffffff', dark: '#011949' }),
+  });
 
-window.gtag = window.gtag || gtag;
-gtag('js', new Date());
-gtag('config', 'G-43XJ69N8VD');
+  const WHATSAPP_MESSAGES = Object.freeze({
+    general: 'Hola, Soluciones GEA. Quiero solicitar información o una cotización.',
+    gas: 'Hola, Soluciones GEA. Necesito una cotización para un servicio de gas.',
+    electricidad: 'Hola, Soluciones GEA. Necesito una cotización para un servicio eléctrico.',
+    agua: 'Hola, Soluciones GEA. Necesito una cotización para un servicio de agua.',
+    mantenimiento: 'Hola, Soluciones GEA. Estoy interesado en un plan de mantenimiento preventivo.',
+  });
 
-const analyticsScript = document.createElement('script');
-analyticsScript.async = true;
-analyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-43XJ69N8VD';
-document.head.appendChild(analyticsScript);
+  const root = document.documentElement;
+  let themeTimer = null;
+  let sessionThemeOverride = null;
+  let analyticsLoaded = false;
 
-// Tema claro/oscuro
-const root = document.documentElement;
-const themeStorageKey = 'gea-theme-manual-override';
-const logoPositive = './assets/img/imagotipo-horizontal-color-transparente.png';
-const logoNegative = './assets/img/imagotipo-horizontal-negativo-transparente.png';
-
-let themeTimer;
-let themeButton;
-
-function scheduledTheme(date = new Date()) {
-  const hour = date.getHours();
-  return hour >= 18 || hour < 6 ? 'dark' : 'light';
-}
-
-function nextThemeBoundary(date = new Date()) {
-  const next = new Date(date);
-  next.setMinutes(0, 0, 0);
-
-  if (date.getHours() < 6) {
-    next.setHours(6);
-  } else if (date.getHours() < 18) {
-    next.setHours(18);
-  } else {
-    next.setDate(next.getDate() + 1);
-    next.setHours(6);
+  function safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (_) {
+      return null;
+    }
   }
 
-  return next;
-}
+  function safeStorageSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 
-function readManualTheme() {
-  try {
-    const savedTheme = JSON.parse(localStorage.getItem(themeStorageKey) || 'null');
+  function safeStorageRemove(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (_) {
+      // No es necesario interrumpir la experiencia por un fallo de almacenamiento.
+    }
+  }
 
-    if (
-      savedTheme &&
-      ['light', 'dark'].includes(savedTheme.theme) &&
-      Number(savedTheme.expiresAt) > Date.now()
-    ) {
-      return savedTheme;
+  function scheduledTheme(date = new Date()) {
+    const hour = date.getHours();
+    return hour >= 18 || hour < 6 ? 'dark' : 'light';
+  }
+
+  function nextThemeBoundary(date = new Date()) {
+    const next = new Date(date);
+    next.setMinutes(0, 0, 0);
+
+    if (date.getHours() < 6) {
+      next.setHours(6);
+    } else if (date.getHours() < 18) {
+      next.setHours(18);
+    } else {
+      next.setDate(next.getDate() + 1);
+      next.setHours(6);
     }
 
-    localStorage.removeItem(themeStorageKey);
-  } catch (_) {
-    // La página puede seguir funcionando aunque localStorage esté bloqueado.
+    return next;
   }
 
-  return null;
-}
+  function readStoredTheme() {
+    const rawValue = safeStorageGet(CONFIG.themeStorageKey);
+    if (!rawValue) return null;
 
-function saveManualTheme(theme) {
-  try {
-    localStorage.setItem(
-      themeStorageKey,
-      JSON.stringify({
-        theme,
-        expiresAt: nextThemeBoundary().getTime(),
-      }),
+    try {
+      const saved = JSON.parse(rawValue);
+      const isValid =
+        saved &&
+        ['light', 'dark'].includes(saved.theme) &&
+        Number(saved.expiresAt) > Date.now();
+
+      if (isValid) return saved;
+    } catch (_) {
+      // Se elimina cualquier valor corrupto.
+    }
+
+    safeStorageRemove(CONFIG.themeStorageKey);
+    return null;
+  }
+
+  function saveManualTheme(theme) {
+    sessionThemeOverride = theme;
+    safeStorageSet(
+      CONFIG.themeStorageKey,
+      JSON.stringify({ theme, expiresAt: nextThemeBoundary().getTime() }),
     );
-  } catch (_) {
-    // La selección se aplica durante la sesión aunque no pueda guardarse.
   }
-}
 
-function syncHeaderLogo(theme) {
-  const headerLogo = document.querySelector('.brand-image');
-
-  if (headerLogo) {
-    headerLogo.src = theme === 'dark' ? logoNegative : logoPositive;
+  function resolvedTheme() {
+    const stored = readStoredTheme();
+    return {
+      theme: stored?.theme || sessionThemeOverride || scheduledTheme(),
+      isManual: Boolean(stored || sessionThemeOverride),
+    };
   }
-}
 
-function updateThemeControl(theme, override) {
-  if (!themeButton) return;
+  function syncHeaderLogo(theme) {
+    const headerLogo = document.querySelector('.brand-image');
+    if (!headerLogo) return;
 
-  const nextMode = theme === 'dark' ? 'claro' : 'oscuro';
-  const source = override
-    ? 'Selección manual hasta el próximo cambio automático.'
-    : 'Automático según la hora local.';
-
-  themeButton.setAttribute('aria-pressed', String(theme === 'dark'));
-  themeButton.setAttribute('aria-label', `Activar modo ${nextMode}. ${source}`);
-  themeButton.title = `Activar modo ${nextMode}. ${source}`;
-
-  const accessibleText = themeButton.querySelector('.sr-only');
-  if (accessibleText) {
-    accessibleText.textContent = `Tema actual: ${theme === 'dark' ? 'oscuro' : 'claro'}. ${source}`;
+    const desiredSource = theme === 'dark' ? CONFIG.logoNegative : CONFIG.logoPositive;
+    if (headerLogo.getAttribute('src') !== desiredSource) {
+      headerLogo.setAttribute('src', desiredSource);
+    }
   }
-}
 
-function applyTheme(theme, override = null) {
-  root.setAttribute('data-theme', theme);
-  syncHeaderLogo(theme);
-  updateThemeControl(theme, override);
-}
+  function syncThemeColor(theme) {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) metaThemeColor.content = CONFIG.themeColors[theme];
+  }
 
-function scheduleThemeCheck() {
-  window.clearTimeout(themeTimer);
+  function updateThemeControl(theme, isManual) {
+    const button = document.querySelector('.theme-toggle');
+    if (!button) return;
 
-  themeTimer = window.setTimeout(
-    applyResolvedTheme,
-    Math.max(1000, nextThemeBoundary().getTime() - Date.now() + 750),
-  );
-}
+    const nextMode = theme === 'dark' ? 'claro' : 'oscuro';
+    const source = isManual
+      ? 'Selección manual hasta el próximo cambio automático.'
+      : 'Automático según la hora local.';
 
-function applyResolvedTheme() {
-  const override = readManualTheme();
-  applyTheme(override ? override.theme : scheduledTheme(), override);
-  scheduleThemeCheck();
-}
+    button.setAttribute('aria-pressed', String(theme === 'dark'));
+    button.setAttribute('aria-label', `Activar modo ${nextMode}. ${source}`);
+    button.title = `Activar modo ${nextMode}`;
 
-function createThemeControl() {
-  const navWrap = document.querySelector('.nav-wrap');
-  if (!navWrap) return;
+    const accessibleText = button.querySelector('.sr-only');
+    if (accessibleText) {
+      accessibleText.textContent = `Tema actual: ${theme === 'dark' ? 'oscuro' : 'claro'}. ${source}`;
+    }
+  }
 
-  themeButton = document.createElement('button');
-  themeButton.type = 'button';
-  themeButton.className = 'theme-toggle';
-  themeButton.innerHTML = `
-    <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-    </svg>
-    <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
-    </svg>
-    <span class="sr-only"></span>
-  `;
+  function applyTheme(theme, isManual = false) {
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme;
+    syncHeaderLogo(theme);
+    syncThemeColor(theme);
+    updateThemeControl(theme, isManual);
+  }
 
-  navWrap.insertBefore(themeButton, navWrap.querySelector('.button-header') || null);
+  function scheduleThemeCheck() {
+    window.clearTimeout(themeTimer);
+    themeTimer = window.setTimeout(
+      applyResolvedTheme,
+      Math.max(1000, nextThemeBoundary().getTime() - Date.now() + 750),
+    );
+  }
 
-  themeButton.addEventListener('click', () => {
-    const currentTheme = root.getAttribute('data-theme') || scheduledTheme();
-    const selectedTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  function applyResolvedTheme() {
+    const { theme, isManual } = resolvedTheme();
+    applyTheme(theme, isManual);
+    scheduleThemeCheck();
+  }
 
-    saveManualTheme(selectedTheme);
-    applyResolvedTheme();
-  });
-}
+  function initializeThemeControl() {
+    const button = document.querySelector('.theme-toggle');
+    if (!button) return;
 
-// Enlace para reseñas de Google
-function addGoogleReviewLink() {
-  const socialLinks = document.querySelector('.contact-section .social-links');
+    button.addEventListener('click', () => {
+      const currentTheme = root.dataset.theme || scheduledTheme();
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      saveManualTheme(nextTheme);
+      applyTheme(nextTheme, true);
+      scheduleThemeCheck();
+    });
+  }
 
-  if (!socialLinks || document.querySelector('[data-google-review]')) return;
+  function currentAnalyticsConsent() {
+    const value = safeStorageGet(CONFIG.analyticsConsentKey);
+    return value === 'granted' || value === 'denied' ? value : null;
+  }
 
-  const reviewLink = document.createElement('a');
-  reviewLink.href = 'https://g.page/r/CawVQrcAW8KpEBM/review';
-  reviewLink.target = '_blank';
-  reviewLink.rel = 'noopener noreferrer';
-  reviewLink.dataset.googleReview = 'true';
-  reviewLink.textContent = 'Califica nuestro servicio en Google';
-  reviewLink.style.cssText = [
-    'display:inline-flex',
-    'align-items:center',
-    'justify-content:center',
-    'margin-top:18px',
-    'padding:11px 15px',
-    'border:1px solid rgba(255,255,255,.65)',
-    'border-radius:10px',
-    'color:#fff',
-    'font-weight:800',
-    'text-decoration:none',
-    'transition:.2s ease',
-  ].join(';');
+  function loadAnalytics() {
+    if (analyticsLoaded || currentAnalyticsConsent() !== 'granted') return;
 
-  reviewLink.addEventListener('mouseenter', () => {
-    reviewLink.style.background = 'rgba(255,255,255,.14)';
-  });
+    analyticsLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {
+      window.dataLayer.push(arguments);
+    };
 
-  reviewLink.addEventListener('mouseleave', () => {
-    reviewLink.style.background = 'transparent';
-  });
+    window.gtag('js', new Date());
+    window.gtag('config', CONFIG.analyticsId, {
+      anonymize_ip: true,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      transport_type: 'beacon',
+    });
 
-  reviewLink.addEventListener('click', () => {
-    gtag('event', 'google_review_click', { link_url: reviewLink.href });
-  });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(CONFIG.analyticsId)}`;
+    script.dataset.analyticsScript = 'true';
+    document.head.appendChild(script);
+  }
 
-  socialLinks.insertAdjacentElement('afterend', reviewLink);
-}
+  function trackEvent(name, parameters = {}) {
+    if (!analyticsLoaded || typeof window.gtag !== 'function') return;
+    window.gtag('event', name, parameters);
+  }
 
-// WhatsApp
-const whatsappNumber = '573017605677';
-const whatsappMessages = {
-  general: 'Hola, Soluciones GEA. Quiero solicitar información o una cotización.',
-  gas: 'Hola, Soluciones GEA. Necesito una cotización para un servicio de gas.',
-  electricidad: 'Hola, Soluciones GEA. Necesito una cotización para un servicio eléctrico.',
-  agua: 'Hola, Soluciones GEA. Necesito una cotización para un servicio de agua.',
-  mantenimiento: 'Hola, Soluciones GEA. Estoy interesado en un plan de mantenimiento preventivo.',
-};
+  function setAnalyticsConsent(value) {
+    safeStorageSet(CONFIG.analyticsConsentKey, value);
+    const banner = document.querySelector('.consent-banner');
+    if (banner) banner.hidden = true;
 
-function whatsappUrl(message) {
-  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-}
+    if (value === 'granted') loadAnalytics();
+  }
 
-function initializeWhatsappLinks() {
-  document.querySelectorAll('[data-whatsapp]').forEach((link) => {
-    const messageKey = link.dataset.whatsapp || 'general';
-    link.href = whatsappUrl(whatsappMessages[messageKey] || whatsappMessages.general);
-  });
-}
+  function initializeAnalyticsConsent() {
+    const banner = document.querySelector('.consent-banner');
+    const acceptButton = document.querySelector('[data-consent-accept]');
+    const rejectButton = document.querySelector('[data-consent-reject]');
+    const manageButtons = document.querySelectorAll('[data-consent-manage]');
+    const consent = currentAnalyticsConsent();
 
-// Menú móvil
-const verticalMenuIcon = `
-  <svg class="menu-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-    <circle cx="12" cy="5" r="2"></circle>
-    <circle cx="12" cy="12" r="2"></circle>
-    <circle cx="12" cy="19" r="2"></circle>
-  </svg>
-`;
+    if (consent === 'granted') loadAnalytics();
+    if (banner) banner.hidden = Boolean(consent);
 
-function initializeMobileMenu() {
-  const menuButton = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('.main-nav');
+    acceptButton?.addEventListener('click', () => setAnalyticsConsent('granted'));
+    rejectButton?.addEventListener('click', () => setAnalyticsConsent('denied'));
 
-  if (!menuButton || !nav) return;
+    manageButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        safeStorageRemove(CONFIG.analyticsConsentKey);
+        if (banner) {
+          banner.hidden = false;
+          banner.querySelector('button')?.focus();
+        }
+      });
+    });
+  }
 
-  menuButton.innerHTML = verticalMenuIcon;
+  function whatsappUrl(message) {
+    return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  }
 
-  function setMenuState(isOpen) {
+  function initializeWhatsappLinks() {
+    document.querySelectorAll('[data-whatsapp]').forEach((link) => {
+      const messageKey = link.dataset.whatsapp || 'general';
+      link.href = whatsappUrl(WHATSAPP_MESSAGES[messageKey] || WHATSAPP_MESSAGES.general);
+
+      link.addEventListener('click', () => {
+        trackEvent('whatsapp_click', {
+          placement: link.dataset.analytics || 'unspecified',
+          service: messageKey,
+        });
+      });
+    });
+  }
+
+  function setMenuState(isOpen, { returnFocus = false } = {}) {
+    const menuButton = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.main-nav');
+    if (!menuButton || !nav) return;
+
     nav.classList.toggle('is-open', isOpen);
     menuButton.setAttribute('aria-expanded', String(isOpen));
     menuButton.setAttribute(
@@ -241,85 +271,108 @@ function initializeMobileMenu() {
       isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación',
     );
     menuButton.title = isOpen ? 'Cerrar menú' : 'Abrir menú';
+
+    if (returnFocus) menuButton.focus();
   }
 
-  setMenuState(false);
+  function initializeMobileMenu() {
+    const menuButton = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.main-nav');
+    if (!menuButton || !nav) return;
 
-  menuButton.addEventListener('click', () => {
-    setMenuState(!nav.classList.contains('is-open'));
-  });
+    setMenuState(false);
 
-  nav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => setMenuState(false));
-  });
-}
+    menuButton.addEventListener('click', () => {
+      setMenuState(!nav.classList.contains('is-open'));
+    });
 
-// Botón flotante de WhatsApp
-const whatsappIcon = `
-  <svg class="whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true">
-    <path d="M16.02 3.2c-7.08 0-12.8 5.7-12.8 12.74 0 2.24.59 4.43 1.7 6.35L3.1 28.8l6.72-1.76a12.83 12.83 0 0 0 6.2 1.58h.01c7.07 0 12.8-5.7 12.8-12.74C28.83 8.9 23.1 3.2 16.02 3.2Zm0 23.28h-.01a10.65 10.65 0 0 1-5.44-1.49l-.39-.23-3.99 1.04 1.07-3.88-.25-.4a10.5 10.5 0 0 1-1.63-5.64c0-5.82 4.77-10.56 10.64-10.56 5.86 0 10.63 4.74 10.63 10.56 0 5.82-4.77 10.6-10.63 10.6Zm5.83-7.92c-.32-.16-1.9-.93-2.2-1.04-.3-.11-.52-.16-.74.16-.21.32-.84 1.04-1.03 1.25-.19.21-.38.24-.7.08-.33-.16-1.37-.5-2.61-1.6-.97-.86-1.63-1.92-1.82-2.24-.19-.32-.02-.5.14-.66.15-.15.32-.38.48-.56.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.74-1.76-1.01-2.41-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.4-.3.32-1.15 1.12-1.15 2.74 0 1.62 1.18 3.19 1.34 3.41.16.21 2.32 3.69 5.63 5.02.79.34 1.41.54 1.89.69.8.26 1.53.22 2.1.13.64-.1 1.9-.77 2.17-1.5.27-.74.27-1.38.19-1.51-.08-.14-.29-.22-.61-.38Z"></path>
-  </svg>
-`;
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setMenuState(false));
+    });
 
-function initializeFloatingWhatsapp() {
-  const floatingWhatsapp = document.querySelector('.floating-whatsapp');
-  if (!floatingWhatsapp) return;
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+        setMenuState(false, { returnFocus: true });
+      }
+    });
 
-  floatingWhatsapp.innerHTML = whatsappIcon;
-  floatingWhatsapp.title = 'Escribir por WhatsApp';
-
-  Object.assign(floatingWhatsapp.style, {
-    width: '68px',
-    height: '68px',
-    minHeight: '68px',
-    padding: '0',
-    display: 'inline-grid',
-    placeItems: 'center',
-  });
-
-  const icon = floatingWhatsapp.querySelector('.whatsapp-icon');
-  if (icon) {
-    icon.style.cssText = 'width:36px;height:36px;display:block;fill:currentColor';
+    window.addEventListener('resize', () => {
+      if (window.matchMedia('(min-width: 761px)').matches) setMenuState(false);
+    });
   }
-}
 
-// Formulario de contacto
-function initializeLeadForm() {
-  const leadForm = document.querySelector('#lead-form');
-  if (!leadForm) return;
+  function normalizedFieldValue(form, fieldName, maxLength) {
+    const field = form.elements.namedItem(fieldName);
+    if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement)) {
+      return '';
+    }
 
-  leadForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+    return field.value.trim().replace(/\s+/g, ' ').slice(0, maxLength);
+  }
 
-    const data = new FormData(leadForm);
-    const message = [
-      'Hola, Soluciones GEA. Quiero solicitar una cotización.',
-      '',
-      `Nombre: ${data.get('nombre')}`,
-      `Teléfono: ${data.get('telefono')}`,
-      `Servicio: ${data.get('servicio')}`,
-      `Necesidad: ${data.get('detalle')}`,
-    ].join('\n');
+  function openExternalUrl(url) {
+    const openedWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!openedWindow) window.location.assign(url);
+  }
 
-    gtag('event', 'generate_lead', { method: 'whatsapp_form' });
-    window.open(whatsappUrl(message), '_blank', 'noopener,noreferrer');
+  function initializeLeadForm() {
+    const form = document.querySelector('#lead-form');
+    const submitButton = document.querySelector('[data-lead-submit]');
+    if (!form || !submitButton) return;
+
+    submitButton.addEventListener('click', () => {
+      if (!form.reportValidity()) return;
+
+      const name = normalizedFieldValue(form, 'nombre', 80);
+      const phone = normalizedFieldValue(form, 'telefono', 20);
+      const service = normalizedFieldValue(form, 'servicio', 50);
+      const detail = normalizedFieldValue(form, 'detalle', 1000);
+
+      const message = [
+        'Hola, Soluciones GEA. Quiero solicitar una cotización.',
+        '',
+        `Nombre: ${name}`,
+        `Teléfono: ${phone}`,
+        `Servicio: ${service}`,
+        `Necesidad: ${detail}`,
+      ].join('\n');
+
+      trackEvent('generate_lead', { method: 'whatsapp_form', service });
+      openExternalUrl(whatsappUrl(message));
+    });
+  }
+
+  function initializeTrackedLinks() {
+    document.querySelectorAll('[data-track-event]').forEach((link) => {
+      link.addEventListener('click', () => {
+        trackEvent(link.dataset.trackEvent || 'link_click', {
+          placement: link.dataset.analytics || 'unspecified',
+          destination: link.getAttribute('href') || '',
+        });
+      });
+    });
+  }
+
+  function updateFooterYear() {
+    document.querySelectorAll('[data-current-year]').forEach((element) => {
+      element.textContent = String(new Date().getFullYear());
+    });
+  }
+
+  function initialize() {
+    initializeThemeControl();
+    applyResolvedTheme();
+    initializeAnalyticsConsent();
+    initializeWhatsappLinks();
+    initializeMobileMenu();
+    initializeLeadForm();
+    initializeTrackedLinks();
+    updateFooterYear();
+  }
+
+  initialize();
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) applyResolvedTheme();
   });
-}
-
-function updateFooterYear() {
-  const year = document.querySelector('#year');
-  if (year) year.textContent = new Date().getFullYear();
-}
-
-createThemeControl();
-applyResolvedTheme();
-addGoogleReviewLink();
-initializeWhatsappLinks();
-initializeMobileMenu();
-initializeFloatingWhatsapp();
-initializeLeadForm();
-updateFooterYear();
-
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) applyResolvedTheme();
-});
+})();
