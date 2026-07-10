@@ -3,7 +3,7 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Strict-Transport-Security: max-age=31536000
   Cross-Origin-Opener-Policy: same-origin-allow-popups
 
@@ -14,10 +14,10 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=604800, must-revalidate
 
 /*.css
-  Cache-Control: public, max-age=604800, must-revalidate
+  Cache-Control: public, max-age=86400, must-revalidate
 
 /*.js
-  Cache-Control: public, max-age=604800, must-revalidate
+  Cache-Control: public, max-age=86400, must-revalidate
