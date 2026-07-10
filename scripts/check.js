@@ -50,8 +50,12 @@ for (const file of htmlFiles) {
 }
 
 const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const theme = fs.readFileSync(path.join(root, 'theme.css'), 'utf8');
+
 if (!index.includes('imagotipo-horizontal-negativo-transparente.png')) report('index.html: el footer no contiene el imagotipo negativo');
 if (!index.includes('data-lead-submit')) report('index.html: falta el control seguro del formulario');
+if (!fs.existsSync(path.join(root, 'brand.css'))) report('Falta brand.css');
+if (!theme.includes("@import url('./brand.css')")) report('theme.css: falta cargar brand.css');
 if (!fs.existsSync(path.join(root, '_headers'))) report('Falta _headers');
 if (!fs.existsSync(path.join(root, 'robots.txt'))) report('Falta robots.txt');
 if (!fs.existsSync(path.join(root, 'sitemap.xml'))) report('Falta sitemap.xml');
