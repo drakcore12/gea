@@ -1,20 +1,46 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="no-js">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#011949" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Servicios técnicos de agua, gas y electricidad para hogares, negocios e industrias en Medellín y el Área Metropolitana. Solicita orientación y cotización por WhatsApp.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://soluciones-gea.netlify.app/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:site_name" content="Soluciones GEA">
+  <meta property="og:title" content="Servicios de Agua, Gas y Electricidad en Medellín | Soluciones GEA">
+  <meta property="og:description" content="Atención técnica para hogares, negocios e industrias en Medellín y el Área Metropolitana.">
+  <meta property="og:url" content="https://soluciones-gea.netlify.app/">
+  <meta property="og:image" content="https://soluciones-gea.netlify.app/assets/img/imagotipo-horizontal-color-transparente.png">
+  <meta property="og:image:alt" content="Imagotipo de Soluciones GEA">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Servicios de Agua, Gas y Electricidad en Medellín | Soluciones GEA">
+  <meta name="twitter:description" content="Atención técnica para hogares, negocios e industrias en Medellín y el Área Metropolitana.">
+  <meta name="twitter:image" content="https://soluciones-gea.netlify.app/assets/img/imagotipo-horizontal-color-transparente.png">
+
+  <title>Servicios de Agua, Gas y Electricidad en Medellín | Soluciones GEA</title>
+
   <link rel="icon" href="./assets/img/isotipo-color-transparente.ico" sizes="any">
   <link rel="shortcut icon" href="./assets/img/isotipo-color-transparente.ico">
   <link rel="apple-touch-icon" href="./assets/img/isotipo-color-transparente.ico">
-  <meta name="description" content="Soluciones técnicas de gas, electricidad y agua en Medellín y el Área Metropolitana. Solicita diagnóstico por WhatsApp." />
-  <title>Soluciones GEA | Ingeniería Integral</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./social.css" />
-  <link rel="stylesheet" href="./theme.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://maps.google.com">
+
+  <script src="./theme-init.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./social.css">
+  <link rel="stylesheet" href="./theme.css">
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"HomeAndConstructionBusiness","name":"Soluciones GEA","url":"https://soluciones-gea.netlify.app/","telephone":"+573017605677","image":"https://soluciones-gea.netlify.app/assets/img/imagotipo-horizontal-color-transparente.png","logo":"https://soluciones-gea.netlify.app/assets/img/imagotipo-horizontal-color-transparente.png","description":"Servicios técnicos de agua, gas y electricidad para hogares, negocios e industrias en Medellín y el Área Metropolitana.","address":{"@type":"PostalAddress","streetAddress":"Carrera 141 #62-86","addressLocality":"Medellín","addressRegion":"Antioquia","addressCountry":"CO"},"areaServed":["Medellín","Bello","Envigado","Itagüí","Sabaneta","La Estrella"],"sameAs":["https://www.facebook.com/profile.php?id=61591598215345","https://www.instagram.com/solucionesgea_oficial/","https://www.tiktok.com/@solucionesgea_oficial"]}</script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -22,9 +48,9 @@
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="#inicio" aria-label="Soluciones GEA, ir al inicio">
-        <img class="brand-image" src="./assets/img/imagotipo-horizontal-color-transparente.png" alt="Soluciones GEA — Ingeniería Integral" />
+        <img class="brand-image" src="./assets/img/imagotipo-horizontal-color-transparente.png" width="220" height="59" alt="Soluciones GEA — Ingeniería Integral" decoding="async">
       </a>
-      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false">Menú</button>
+
       <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
         <a href="#servicios">Servicios</a>
         <a href="#emergencias">Emergencias</a>
@@ -33,7 +59,27 @@
         <a href="#cobertura">Cobertura</a>
         <a href="#contacto">Contacto</a>
       </nav>
-      <a class="button button-header" data-whatsapp="general" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+
+      <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar tema">
+        <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+        </svg>
+        <span class="sr-only">Cambiar tema</span>
+      </button>
+
+      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú de navegación">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="5" r="2"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+          <circle cx="12" cy="19" r="2"></circle>
+        </svg>
+      </button>
+
+      <a class="button button-header" data-whatsapp="general" data-analytics="nav" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
     </div>
   </header>
 
@@ -45,8 +91,8 @@
           <h1>Soluciones técnicas de <span>agua, gas y electricidad.</span></h1>
           <p class="lead">Atención residencial, comercial e industrial. Te explicamos el problema, cotizamos con claridad y trabajamos con orden.</p>
           <div class="hero-actions">
-            <a class="button button-primary" data-whatsapp="general" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
-            <a class="button button-secondary" href="tel:+573017605677">Llamar al +57 301 760 5677</a>
+            <a class="button button-primary" data-whatsapp="general" data-analytics="hero" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+            <a class="button button-secondary" data-track-event="phone_click" data-analytics="hero" href="tel:+573017605677">Llamar al +57 301 760 5677</a>
           </div>
           <ul class="trust-list" aria-label="Beneficios principales">
             <li>Diagnóstico técnico</li>
@@ -57,14 +103,33 @@
 
         <div class="hero-panel" aria-label="Servicios de Soluciones GEA">
           <div class="hero-brand-row">
-            <div class="hero-isotipo-wrap"><img class="hero-isotipo" src="./assets/img/isotipo.jpeg" alt="Isotipo de Soluciones GEA" /></div>
-            <div><p class="hero-panel-label">SOLUCIONES GEA</p><p class="hero-panel-title">Ingeniería integral</p></div>
+            <div class="hero-isotipo-wrap">
+              <img class="hero-isotipo" src="./assets/img/isotipo.jpeg" width="52" height="52" alt="Isotipo de Soluciones GEA" decoding="async" fetchpriority="high">
+            </div>
+            <div>
+              <p class="hero-panel-label">SOLUCIONES GEA</p>
+              <p class="hero-panel-title">Ingeniería integral</p>
+            </div>
           </div>
+
           <div class="service-orbits">
-            <article class="orbit-card gas"><img class="orbit-icon" src="./assets/img/icono_gas_transparente.png" alt="" /><strong>Gas</strong><small>Diagnóstico y mantenimiento</small></article>
-            <article class="orbit-card electric"><img class="orbit-icon" src="./assets/img/icono_electricidad_transparente.png" alt="" /><strong>Electricidad</strong><small>Instalaciones y reparaciones</small></article>
-            <article class="orbit-card water"><img class="orbit-icon" src="./assets/img/icono_agua_transparente.png" alt="" /><strong>Agua</strong><small>Redes y soluciones hidráulicas</small></article>
+            <article class="orbit-card gas">
+              <img class="orbit-icon" src="./assets/img/icono_gas_transparente.png" width="43" height="43" alt="" decoding="async">
+              <strong>Gas</strong>
+              <small>Diagnóstico y mantenimiento</small>
+            </article>
+            <article class="orbit-card electric">
+              <img class="orbit-icon" src="./assets/img/icono_electricidad_transparente.png" width="43" height="43" alt="" decoding="async">
+              <strong>Electricidad</strong>
+              <small>Instalaciones y reparaciones</small>
+            </article>
+            <article class="orbit-card water">
+              <img class="orbit-icon" src="./assets/img/icono_agua_transparente.png" width="43" height="43" alt="" decoding="async">
+              <strong>Agua</strong>
+              <small>Redes y soluciones hidráulicas</small>
+            </article>
           </div>
+
           <div class="hero-note">Ingeniería integral para hogares, negocios y administraciones.</div>
         </div>
       </div>
@@ -72,29 +137,71 @@
 
     <section id="emergencias" class="emergency-section">
       <div class="container emergency-grid">
-        <div><p class="eyebrow eyebrow-light">ATENCIÓN PRIORITARIA</p><h2>¿Tienes una situación urgente?</h2><p>Cuéntanos qué ocurre. Revisamos tu caso y te orientamos sobre el siguiente paso seguro.</p></div>
+        <div>
+          <p class="eyebrow eyebrow-light">ATENCIÓN PRIORITARIA</p>
+          <h2>¿Tienes una situación urgente?</h2>
+          <p>Cuéntanos qué ocurre. Revisamos tu caso y te orientamos sobre el siguiente paso seguro.</p>
+        </div>
         <div class="emergency-actions">
-          <a class="emergency-card" data-whatsapp="agua" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer"><img class="emergency-icon" src="./assets/img/icono_agua_transparente.png" alt="" /><strong>Fuga de agua</strong><small>Solicitar diagnóstico</small></a>
-          <a class="emergency-card" data-whatsapp="electricidad" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer"><img class="emergency-icon" src="./assets/img/icono_electricidad_transparente.png" alt="" /><strong>Falla eléctrica</strong><small>Solicitar diagnóstico</small></a>
-          <a class="emergency-card" data-whatsapp="gas" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer"><img class="emergency-icon" src="./assets/img/icono_gas_transparente.png" alt="" /><strong>Posible fuga de gas</strong><small>Solicitar orientación</small></a>
+          <a class="emergency-card" data-whatsapp="agua" data-analytics="emergency-water" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">
+            <img class="emergency-icon" src="./assets/img/icono_agua_transparente.png" width="38" height="38" alt="" loading="lazy" decoding="async">
+            <strong>Fuga de agua</strong><small>Solicitar diagnóstico</small>
+          </a>
+          <a class="emergency-card" data-whatsapp="electricidad" data-analytics="emergency-electricity" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">
+            <img class="emergency-icon" src="./assets/img/icono_electricidad_transparente.png" width="38" height="38" alt="" loading="lazy" decoding="async">
+            <strong>Falla eléctrica</strong><small>Solicitar diagnóstico</small>
+          </a>
+          <a class="emergency-card" data-whatsapp="gas" data-analytics="emergency-gas" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">
+            <img class="emergency-icon" src="./assets/img/icono_gas_transparente.png" width="38" height="38" alt="" loading="lazy" decoding="async">
+            <strong>Posible fuga de gas</strong><small>Solicitar orientación</small>
+          </a>
         </div>
       </div>
     </section>
 
     <section id="servicios" class="section">
       <div class="container">
-        <div class="section-heading"><p class="eyebrow">SERVICIOS PRINCIPALES</p><h2>Un equipo, tres especialidades.</h2><p>Selecciona el tipo de servicio que necesitas y escríbenos con una descripción breve del problema.</p></div>
+        <div class="section-heading">
+          <p class="eyebrow">SERVICIOS PRINCIPALES</p>
+          <h2>Un equipo, tres especialidades.</h2>
+          <p>Selecciona el tipo de servicio que necesitas y escríbenos con una descripción breve del problema.</p>
+        </div>
+
         <div class="service-grid">
-          <article class="service-card card-gas"><img class="service-icon" src="./assets/img/icono_gas_transparente.png" alt="Icono de servicio de gas" /><h3>Gas</h3><p>Diagnóstico, mantenimiento, instalaciones y revisión de equipos de gas.</p><ul><li>Calentadores y gasodomésticos</li><li>Detección de novedades</li><li>Pruebas y mantenimiento</li></ul><a data-whatsapp="gas" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar servicio de gas <span>→</span></a></article>
-          <article class="service-card card-electric"><img class="service-icon" src="./assets/img/icono_electricidad_transparente.png" alt="Icono de servicio de electricidad" /><h3>Electricidad</h3><p>Soluciones para redes eléctricas, tableros, iluminación y puntos de consumo.</p><ul><li>Diagnóstico de fallas</li><li>Breakers y tableros</li><li>Iluminación y cableado</li></ul><a data-whatsapp="electricidad" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar servicio eléctrico <span>→</span></a></article>
-          <article class="service-card card-water"><img class="service-icon" src="./assets/img/icono_agua_transparente.png" alt="Icono de servicio de agua" /><h3>Agua</h3><p>Atención a redes hidráulicas, fugas, presión, desagües y mantenimiento.</p><ul><li>Fugas y reparaciones</li><li>Tanques, bombas y presión</li><li>Desagües y alcantarillado</li></ul><a data-whatsapp="agua" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar servicio de agua <span>→</span></a></article>
+          <article class="service-card card-gas">
+            <img class="service-icon" src="./assets/img/icono_gas_transparente.png" width="66" height="66" alt="Icono de servicio de gas" loading="lazy" decoding="async">
+            <h3>Gas</h3>
+            <p>Diagnóstico, mantenimiento, instalaciones y revisión de equipos de gas.</p>
+            <ul><li>Calentadores y gasodomésticos</li><li>Detección de novedades</li><li>Pruebas y mantenimiento</li></ul>
+            <a data-whatsapp="gas" data-analytics="service-gas" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar servicio de gas <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="service-card card-electric">
+            <img class="service-icon" src="./assets/img/icono_electricidad_transparente.png" width="66" height="66" alt="Icono de servicio de electricidad" loading="lazy" decoding="async">
+            <h3>Electricidad</h3>
+            <p>Soluciones para redes eléctricas, tableros, iluminación y puntos de consumo.</p>
+            <ul><li>Diagnóstico de fallas</li><li>Breakers y tableros</li><li>Iluminación y cableado</li></ul>
+            <a data-whatsapp="electricidad" data-analytics="service-electricity" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar servicio eléctrico <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="service-card card-water">
+            <img class="service-icon" src="./assets/img/icono_agua_transparente.png" width="66" height="66" alt="Icono de servicio de agua" loading="lazy" decoding="async">
+            <h3>Agua</h3>
+            <p>Atención a redes hidráulicas, fugas, presión, desagües y mantenimiento.</p>
+            <ul><li>Fugas y reparaciones</li><li>Tanques, bombas y presión</li><li>Desagües y alcantarillado</li></ul>
+            <a data-whatsapp="agua" data-analytics="service-water" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Cotizar servicio de agua <span aria-hidden="true">→</span></a>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="section section-soft">
       <div class="container process-grid">
-        <div class="section-heading section-heading-left"><p class="eyebrow">NUESTRO PROCESO</p><h2>Claro desde el primer mensaje.</h2><p>Trabajamos con información entendible para que puedas decidir con seguridad.</p></div>
+        <div class="section-heading section-heading-left">
+          <p class="eyebrow">NUESTRO PROCESO</p>
+          <h2>Claro desde el primer mensaje.</h2>
+          <p>Trabajamos con información entendible para que puedas decidir con seguridad.</p>
+        </div>
         <ol class="steps">
           <li><span>01</span><div><h3>Cuéntanos tu necesidad</h3><p>Indica el servicio, ubicación y lo que estás observando.</p></div></li>
           <li><span>02</span><div><h3>Recibe orientación inicial</h3><p>Definimos si corresponde diagnóstico, visita o atención prioritaria.</p></div></li>
@@ -106,18 +213,39 @@
 
     <section id="mantenimiento" class="maintenance-section">
       <div class="container maintenance-grid">
-        <div><p class="eyebrow eyebrow-light">MANTENIMIENTO PREVENTIVO</p><h2>Evita que una falla detenga tu hogar o negocio.</h2><p>Programamos revisiones para identificar novedades antes de que se conviertan en una urgencia.</p></div>
-        <div class="maintenance-panel"><h3>Para hogares, locales y administraciones</h3><ul><li>Visitas programadas</li><li>Revisión de puntos críticos</li><li>Reporte de hallazgos</li><li>Recomendaciones priorizadas</li></ul><a class="button button-accent" data-whatsapp="mantenimiento" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Solicitar mantenimiento</a></div>
+        <div>
+          <p class="eyebrow eyebrow-light">MANTENIMIENTO PREVENTIVO</p>
+          <h2>Evita que una falla detenga tu hogar o negocio.</h2>
+          <p>Programamos revisiones para identificar novedades antes de que se conviertan en una urgencia.</p>
+        </div>
+        <div class="maintenance-panel">
+          <h3>Para hogares, locales y administraciones</h3>
+          <ul><li>Visitas programadas</li><li>Revisión de puntos críticos</li><li>Reporte de hallazgos</li><li>Recomendaciones priorizadas</li></ul>
+          <a class="button button-accent" data-whatsapp="mantenimiento" data-analytics="maintenance" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Solicitar mantenimiento</a>
+        </div>
       </div>
     </section>
 
     <section id="redes" class="social-promo">
       <div class="container social-grid">
-        <div class="social-copy"><p class="eyebrow">COMUNIDAD SOLUCIONES GEA</p><h2>Síguenos para prevenir problemas antes de que se vuelvan urgencias.</h2><p>Publicamos casos reales, consejos prácticos para hogares y negocios, señales de alerta y contenido sobre agua, gas y electricidad.</p></div>
+        <div class="social-copy">
+          <p class="eyebrow">COMUNIDAD SOLUCIONES GEA</p>
+          <h2>Síguenos para prevenir problemas antes de que se vuelvan urgencias.</h2>
+          <p>Publicamos casos reales, consejos prácticos para hogares y negocios, señales de alerta y contenido sobre agua, gas y electricidad.</p>
+        </div>
         <div class="social-list">
-          <a class="social-card social-facebook" href="https://www.facebook.com/profile.php?id=61591598215345" target="_blank" rel="noopener noreferrer" aria-label="Seguir a Soluciones GEA en Facebook"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8h2.75l.41-3H13.5V8.09c0-.87.25-1.46 1.5-1.46h1.6V3.95c-.28-.04-1.25-.12-2.37-.12-2.35 0-3.96 1.43-3.96 4.07V10H7.6v3h2.67v8h3.23Z"/></svg></span><span><strong>Facebook</strong><small>Consejos, novedades y servicios para Medellín.</small></span><span class="follow-label">Seguir →</span></a>
-          <a class="social-card social-instagram" href="https://www.instagram.com/solucionesgea_oficial/" target="_blank" rel="noopener noreferrer" aria-label="Seguir a Soluciones GEA en Instagram"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span><span><strong>Instagram</strong><small>Antes y después, tips y contenido de la marca.</small></span><span class="follow-label">Seguir →</span></a>
-          <a class="social-card social-tiktok" href="https://www.tiktok.com/@solucionesgea_oficial" target="_blank" rel="noopener noreferrer" aria-label="Seguir a Soluciones GEA en TikTok"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 3h2.7c.24 1.91 1.36 3.47 3.2 4.25v2.8a8.1 8.1 0 0 1-3.2-1.06v6.31a5.73 5.73 0 1 1-5.73-5.73c.24 0 .48.02.71.05v2.83a2.88 2.88 0 1 0 2.32 2.82V3Z"/></svg></span><span><strong>TikTok</strong><small>Videos cortos, educación y situaciones cotidianas.</small></span><span class="follow-label">Seguir →</span></a>
+          <a class="social-card social-facebook" data-track-event="social_click" data-analytics="facebook" href="https://www.facebook.com/profile.php?id=61591598215345" target="_blank" rel="noopener noreferrer" aria-label="Seguir a Soluciones GEA en Facebook">
+            <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8h2.75l.41-3H13.5V8.09c0-.87.25-1.46 1.5-1.46h1.6V3.95c-.28-.04-1.25-.12-2.37-.12-2.35 0-3.96 1.43-3.96 4.07V10H7.6v3h2.67v8h3.23Z"></path></svg></span>
+            <span><strong>Facebook</strong><small>Consejos, novedades y servicios para Medellín.</small></span><span class="follow-label">Seguir →</span>
+          </a>
+          <a class="social-card social-instagram" data-track-event="social_click" data-analytics="instagram" href="https://www.instagram.com/solucionesgea_oficial/" target="_blank" rel="noopener noreferrer" aria-label="Seguir a Soluciones GEA en Instagram">
+            <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg></span>
+            <span><strong>Instagram</strong><small>Antes y después, tips y contenido de la marca.</small></span><span class="follow-label">Seguir →</span>
+          </a>
+          <a class="social-card social-tiktok" data-track-event="social_click" data-analytics="tiktok" href="https://www.tiktok.com/@solucionesgea_oficial" target="_blank" rel="noopener noreferrer" aria-label="Seguir a Soluciones GEA en TikTok">
+            <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 3h2.7c.24 1.91 1.36 3.47 3.2 4.25v2.8a8.1 8.1 0 0 1-3.2-1.06v6.31a5.73 5.73 0 1 1-5.73-5.73c.24 0 .48.02.71.05v2.83a2.88 2.88 0 1 0 2.32 2.82V3Z"></path></svg></span>
+            <span><strong>TikTok</strong><small>Videos cortos, educación y situaciones cotidianas.</small></span><span class="follow-label">Seguir →</span>
+          </a>
         </div>
       </div>
     </section>
@@ -125,14 +253,16 @@
     <section id="cobertura" class="section">
       <div class="container coverage-grid">
         <div class="coverage-map">
-          <iframe title="Ubicación de Soluciones GEA en Google Maps" src="https://maps.google.com/maps?q=Carrera%20141%20%2362-86%2C%20Medell%C3%ADn%2C%20Colombia&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="360" style="border:0;display:block;min-height:360px" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <iframe title="Ubicación de Soluciones GEA en Google Maps" src="https://maps.google.com/maps?q=Carrera%20141%20%2362-86%2C%20Medell%C3%ADn%2C%20Colombia&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" width="600" height="360" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
         </div>
         <div class="section-heading section-heading-left">
           <p class="eyebrow">COBERTURA Y UBICACIÓN</p>
           <h2>Medellín y Área Metropolitana.</h2>
           <p>Escríbenos con tu barrio o municipio para confirmar disponibilidad y coordinar la visita.</p>
           <p><strong>Dirección:</strong> Carrera 141 #62-86, Medellín, Colombia.</p>
-          <div class="hero-actions"><a class="button button-secondary" href="https://www.google.com/maps/search/?api=1&query=Carrera+141+%2362-86,+Medell%C3%ADn,+Colombia" target="_blank" rel="noopener noreferrer">Abrir ubicación en Google Maps</a></div>
+          <div class="hero-actions">
+            <a class="button button-secondary" data-track-event="map_click" data-analytics="coverage" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+141+%2362-86,+Medell%C3%ADn,+Colombia" target="_blank" rel="noopener noreferrer">Abrir ubicación en Google Maps</a>
+          </div>
           <div class="coverage-tags"><span>Medellín</span><span>Bello</span><span>Envigado</span><span>Itagüí</span><span>Sabaneta</span><span>La Estrella</span></div>
         </div>
       </div>
@@ -156,20 +286,34 @@
           <p class="eyebrow eyebrow-light">CONTACTO</p>
           <h2>Hablemos de tu necesidad.</h2>
           <p>La forma más rápida de iniciar es por WhatsApp. También puedes llamarnos directamente.</p>
-          <a class="contact-phone" href="tel:+573017605677">+57 301 760 5677</a>
+          <a class="contact-phone" data-track-event="phone_click" data-analytics="contact" href="tel:+573017605677">+57 301 760 5677</a>
           <div class="social-links" aria-label="Redes sociales de Soluciones GEA">
-            <a href="https://www.facebook.com/profile.php?id=61591598215345" target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href="https://www.instagram.com/solucionesgea_oficial/" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href="https://www.tiktok.com/@solucionesgea_oficial" target="_blank" rel="noopener noreferrer">TikTok</a>
+            <a data-track-event="social_click" data-analytics="contact-facebook" href="https://www.facebook.com/profile.php?id=61591598215345" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a data-track-event="social_click" data-analytics="contact-instagram" href="https://www.instagram.com/solucionesgea_oficial/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a data-track-event="social_click" data-analytics="contact-tiktok" href="https://www.tiktok.com/@solucionesgea_oficial" target="_blank" rel="noopener noreferrer">TikTok</a>
           </div>
+          <a class="google-review-link" data-track-event="google_review_click" data-analytics="contact" href="https://g.page/r/CawVQrcAW8KpEBM/review" target="_blank" rel="noopener noreferrer">Califica nuestro servicio en Google</a>
         </div>
-        <form class="contact-form" id="lead-form">
-          <label>Nombre<input required name="nombre" autocomplete="name" /></label>
-          <label>Teléfono<input required type="tel" name="telefono" autocomplete="tel" /></label>
-          <label>Servicio<select required name="servicio"><option value="">Selecciona una opción</option><option>Gas</option><option>Electricidad</option><option>Agua</option><option>Mantenimiento preventivo</option><option>Otro</option></select></label>
-          <label>Cuéntanos qué necesitas<textarea required name="detalle" rows="4" placeholder="Ej.: Tengo una fuga debajo del lavaplatos en Laureles."></textarea></label>
-          <button class="button button-primary" type="submit">Enviar por WhatsApp</button>
-          <p class="form-note">Al enviarlo se abrirá WhatsApp con tu solicitud preparada.</p>
+
+        <form class="contact-form" id="lead-form" novalidate>
+          <label for="nombre">Nombre
+            <input id="nombre" required name="nombre" autocomplete="name" maxlength="80">
+          </label>
+          <label for="telefono">Teléfono
+            <input id="telefono" required type="tel" name="telefono" autocomplete="tel" inputmode="tel" maxlength="20" pattern="[0-9+() -]{7,20}">
+          </label>
+          <label for="servicio">Servicio
+            <select id="servicio" required name="servicio">
+              <option value="">Selecciona una opción</option>
+              <option>Gas</option><option>Electricidad</option><option>Agua</option><option>Mantenimiento preventivo</option><option>Otro</option>
+            </select>
+          </label>
+          <label for="detalle">Cuéntanos qué necesitas
+            <textarea id="detalle" required name="detalle" rows="4" maxlength="1000" placeholder="Ej.: Tengo una fuga debajo del lavaplatos en Laureles."></textarea>
+          </label>
+          <button class="button button-primary" type="button" data-lead-submit>Preparar solicitud en WhatsApp</button>
+          <p class="form-note">Al continuar se abrirá WhatsApp con tu solicitud preparada. Consulta nuestra <a href="./privacidad.html">política de privacidad</a>.</p>
+          <noscript><p class="noscript-note">JavaScript está desactivado. Escríbenos directamente al <a href="https://wa.me/573017605677">WhatsApp +57 301 760 5677</a>.</p></noscript>
         </form>
       </div>
     </section>
@@ -177,13 +321,29 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <a class="footer-brand-plate" href="#inicio"><img src="./assets/img/imagotipo-horizontal-negativo-transparente.png" alt="Soluciones GEA" /></a>
+      <a class="footer-brand-plate" href="#inicio" aria-label="Volver al inicio">
+        <img src="./assets/img/imagotipo-horizontal-negativo-transparente.png" width="190" height="51" alt="Soluciones GEA" loading="lazy" decoding="async">
+      </a>
       <p>Soluciones integrales, resultados que perduran.</p>
-      <p>© <span id="year"></span> Soluciones GEA. Medellín, Colombia.</p>
+      <div class="footer-actions">
+        <p>© <span data-current-year></span> Soluciones GEA. Medellín, Colombia.<br><a href="./privacidad.html">Privacidad</a> · <button class="privacy-control" type="button" data-consent-manage>Preferencias de medición</button></p>
+      </div>
     </div>
   </footer>
 
-  <a class="floating-whatsapp" data-whatsapp="general" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer" aria-label="Escribir a Soluciones GEA por WhatsApp">WhatsApp</a>
-  <script src="./app.js"></script>
+  <a class="floating-whatsapp" data-whatsapp="general" data-analytics="floating" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer" aria-label="Escribir a Soluciones GEA por WhatsApp">
+    <svg class="whatsapp-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3.2c-7.08 0-12.8 5.7-12.8 12.74 0 2.24.59 4.43 1.7 6.35L3.1 28.8l6.72-1.76a12.83 12.83 0 0 0 6.2 1.58h.01c7.07 0 12.8-5.7 12.8-12.74C28.83 8.9 23.1 3.2 16.02 3.2Zm0 23.28h-.01a10.65 10.65 0 0 1-5.44-1.49l-.39-.23-3.99 1.04 1.07-3.88-.25-.4a10.5 10.5 0 0 1-1.63-5.64c0-5.82 4.77-10.56 10.64-10.56 5.86 0 10.63 4.74 10.63 10.56 0 5.82-4.77 10.6-10.63 10.6Zm5.83-7.92c-.32-.16-1.9-.93-2.2-1.04-.3-.11-.52-.16-.74.16-.21.32-.84 1.04-1.03 1.25-.19.21-.38.24-.7.08-.33-.16-1.37-.5-2.61-1.6-.97-.86-1.63-1.92-1.82-2.24-.19-.32-.02-.5.14-.66.15-.15.32-.38.48-.56.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.74-1.76-1.01-2.41-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.4-.3.32-1.15 1.12-1.15 2.74 0 1.62 1.18 3.19 1.34 3.41.16.21 2.32 3.69 5.63 5.02.79.34 1.41.54 1.89.69.8.26 1.53.22 2.1.13.64-.1 1.9-.77 2.17-1.5.27-.74.27-1.38.19-1.51-.08-.14-.29-.22-.61-.38Z"></path></svg>
+  </a>
+
+  <aside class="consent-banner" role="dialog" aria-labelledby="consent-title" aria-describedby="consent-description" hidden>
+    <h2 id="consent-title">Privacidad y medición</h2>
+    <p id="consent-description">Usamos medición anónima para entender qué partes de la página son útiles. Puedes aceptar o continuar sin Analytics. <a href="./privacidad.html">Más información</a>.</p>
+    <div class="consent-actions">
+      <button class="button button-secondary" type="button" data-consent-reject>Continuar sin medición</button>
+      <button class="button button-primary" type="button" data-consent-accept>Aceptar medición</button>
+    </div>
+  </aside>
+
+  <script src="./app.js" defer></script>
 </body>
 </html>
