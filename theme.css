@@ -1,3 +1,5 @@
+@import url('./brand.css');
+
 html[data-theme='dark'] {
   color-scheme: dark;
 }
@@ -42,7 +44,11 @@ html[data-theme='dark'] .theme-icon-moon {
 }
 
 html[data-theme='dark'] .hero {
-  background: radial-gradient(circle at 82% 10%, rgba(0, 91, 231, 0.3), transparent 32%), linear-gradient(135deg, #011949, #062b67);
+  background-color: #011949;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    radial-gradient(circle at 82% 10%, rgba(0, 91, 231, 0.3), transparent 32%);
 }
 
 html[data-theme='dark'] .hero::before {
