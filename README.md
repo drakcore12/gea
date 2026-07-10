@@ -13,9 +13,10 @@ Landing page estática para Soluciones GEA, empresa de servicios técnicos de ag
 ## Archivos principales
 
 - `index.html`: página principal.
-- `styles.css`: sistema visual, componentes y responsive.
+- `styles.css`: estructura, componentes y responsive.
+- `brand.css`: tipografía, radios, sombras, jerarquía, acentos y motion alineados con el manual de identidad.
 - `social.css`: tarjetas de redes sociales.
-- `theme.css`: diferencias del modo oscuro.
+- `theme.css`: carga la capa de marca y aplica diferencias del modo oscuro.
 - `theme-init.js`: aplica el tema antes del primer renderizado.
 - `app.js`: tema, menú, WhatsApp, formulario, medición y consentimiento.
 - `privacidad.html`: política de privacidad.
@@ -33,6 +34,13 @@ Landing page estática para Soluciones GEA, empresa de servicios técnicos de ag
 - Naranja: `#FE8601`.
 - Verde: `#57BB2D`.
 - Azul agua: `#005BE7`.
+- Manrope: títulos, botones, navegación e interfaz.
+- Inter: párrafos, formularios, ayudas y contenido extenso.
+- Tarjetas y botones: radio base de 12 px.
+- Campos compactos: radio base de 8 px.
+- Transiciones de interfaz: 200–300 ms.
+- Animación inicial de marca: 0.9 s.
+- Toda animación respeta `prefers-reduced-motion`.
 
 ## Privacidad
 
