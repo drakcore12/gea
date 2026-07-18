@@ -28,6 +28,17 @@
     return null;
   }
 
+  function loadHomeServiceEnhancements() {
+    const isHome = location.pathname === '/' || location.pathname.endsWith('/index.html');
+    if (!isHome || document.querySelector('script[data-service-pages]')) return;
+
+    const script = document.createElement('script');
+    script.src = '/service-pages.js';
+    script.defer = true;
+    script.dataset.servicePages = 'true';
+    document.head.appendChild(script);
+  }
+
   const theme = storedTheme() || scheduledTheme();
   root.classList.remove('no-js');
   root.classList.add('js');
@@ -38,4 +49,6 @@
   if (metaThemeColor) {
     metaThemeColor.content = theme === 'dark' ? darkThemeColor : lightThemeColor;
   }
+
+  loadHomeServiceEnhancements();
 })();
