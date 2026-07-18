@@ -24,6 +24,7 @@ jobs:
         run: |
           node --check app.js
           node --check theme-init.js
+          node --check service-pages.js
           node --check scripts/check.js
 
       - name: Validate static files
