@@ -1,59 +1,66 @@
 # Soluciones GEA — sitio web
 
-Landing page estática para Soluciones GEA, empresa de servicios técnicos de agua, gas y electricidad en Medellín y el Área Metropolitana.
+Sitio estático de Soluciones GEA, empresa de servicios técnicos de agua, gas y electricidad en Medellín y el Área Metropolitana.
 
 ## Tecnología
 
-- HTML semántico
-- CSS responsive con modo claro y oscuro
-- JavaScript sin dependencias
-- Despliegue en Netlify
-- Google Analytics opcional y condicionado al consentimiento
+- HTML semántico y páginas estáticas indexables.
+- CSS responsive con modo claro y oscuro.
+- JavaScript sin dependencias.
+- Despliegue en Netlify.
+- Google Analytics opcional y condicionado al consentimiento.
 
-## Archivos principales
+## Arquitectura
 
 - `index.html`: página principal.
-- `styles.css`: estructura, componentes y responsive.
-- `brand.css`: tipografía, radios, sombras, jerarquía, acentos y motion alineados con el manual de identidad.
-- `social.css`: tarjetas de redes sociales.
-- `theme.css`: carga la capa de marca y aplica diferencias del modo oscuro.
-- `theme-init.js`: aplica el tema antes del primer renderizado.
-- `app.js`: tema, menú, WhatsApp, formulario, medición y consentimiento.
+- `servicios/index.html`: directorio de los siete servicios oficiales.
+- `servicios/fugas-de-agua-y-gas-medellin/`: GEA Fugas Express.
+- `servicios/mantenimiento-cocinas-comerciales-medellin/`: GEA Cocina Segura.
+- `servicios/redes-internas-de-gas-medellin/`: GEA Gas Conforme.
+- `servicios/servicios-electricos-comerciales-medellin/`: GEA Eléctrico Comercial.
+- `servicios/lavado-de-tanques-medellin/`: GEA Agua Limpia.
+- `servicios/bombas-y-presion-de-agua-medellin/`: GEA Presión y Bombas.
+- `servicios/gea-care-mantenimiento-preventivo-negocios-medellin/`: planes GEA Care.
 - `privacidad.html`: política de privacidad.
 - `404.html`: página de error.
-- `_headers`: cabeceras de seguridad y caché para Netlify.
-- `netlify.toml`: configuración de despliegue y redirecciones.
-- `robots.txt` y `sitemap.xml`: indexación.
+
+## Estilos y scripts
+
+- `styles.css`: estructura, componentes y responsive general.
+- `brand.css`: tipografía, radios, sombras, jerarquía y movimiento de marca.
+- `social.css`: tarjetas de redes sociales.
+- `theme.css`: carga la capa de marca y aplica el modo oscuro.
+- `service-pages.css`: componentes de landings, precios, planes, breadcrumbs y enlaces relacionados.
+- `theme-init.js`: aplica el tema antes del primer renderizado y enlaza el directorio desde el inicio.
+- `app.js`: tema, menú, formulario, medición y consentimiento.
+- `service-pages.js`: mensajes de WhatsApp específicos y navegación de servicios.
+
+## SEO local
+
+Cada landing tiene título, descripción, canonical, Open Graph, un solo H1, BreadcrumbList, datos estructurados `Service`, precios públicos desde, preguntas frecuentes y enlaces internos. `sitemap.xml` incluye todas las páginas indexables.
+
+El sitio publica únicamente información comercial. Las tarifas internas por hora, fórmulas, factores de riesgo, márgenes y reglas de redondeo no se exponen.
 
 ## Reglas de marca
 
-- Nav en modo claro: imagotipo a color.
-- Nav en modo oscuro: imagotipo negativo.
-- Footer en ambos modos: imagotipo negativo transparente.
+- Nav claro: imagotipo a color.
+- Nav oscuro: imagotipo negativo.
+- Footer: imagotipo negativo transparente.
 - Azul principal: `#011949`.
 - Naranja: `#FE8601`.
 - Verde: `#57BB2D`.
 - Azul agua: `#005BE7`.
-- Manrope: títulos, botones, navegación e interfaz.
-- Inter: párrafos, formularios, ayudas y contenido extenso.
-- Tarjetas y botones: radio base de 12 px.
-- Campos compactos: radio base de 8 px.
-- Transiciones de interfaz: 200–300 ms.
-- Animación inicial de marca: 0.9 s.
-- Toda animación respeta `prefers-reduced-motion`.
-
-## Privacidad
-
-Google Analytics no se carga hasta que el visitante acepta la medición. El formulario no envía información a un backend: prepara un mensaje localmente y abre WhatsApp.
+- Manrope para títulos e interfaz; Inter para contenido.
 
 ## Validación local
 
 ```bash
 node --check app.js
 node --check theme-init.js
+node --check service-pages.js
 node scripts/check.js
 ```
 
-## Despliegue
+## Despliegue e indexación
 
-Netlify debe publicar la raíz del repositorio desde la rama `main`. No se requiere comando de compilación.
+Netlify publica la raíz del repositorio desde `main`, sin comando de compilación. Después de cada publicación importante se debe comprobar `sitemap.xml`, inspeccionar las URLs en Google Search Console y solicitar indexación de las páginas prioritarias.
