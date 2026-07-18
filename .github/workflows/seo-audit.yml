@@ -1,0 +1,70 @@
+name: Temporary SEO audit
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  seo-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout audit branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Lighthouse
+        run: npm install --global lighthouse@12.8.2
+
+      - name: Run Lighthouse mobile and desktop
+        env:
+          TARGET_URL: https://soluciones-gea.netlify.app/
+        run: |
+          mkdir -p audit-output
+          set +e
+          lighthouse "$TARGET_URL" \
+            --quiet \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --form-factor=mobile \
+            --screenEmulation.mobile=true \
+            --throttling-method=simulate \
+            --output=json \
+            --output-path=audit-output/lighthouse-mobile.json
+          MOBILE_EXIT=$?
+
+          lighthouse "$TARGET_URL" \
+            --quiet \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --preset=desktop \
+            --output=json \
+            --output-path=audit-output/lighthouse-desktop.json
+          DESKTOP_EXIT=$?
+
+          echo "Mobile Lighthouse exit code: $MOBILE_EXIT"
+          echo "Desktop Lighthouse exit code: $DESKTOP_EXIT"
+          exit 0
+
+      - name: Crawl live site and summarize results
+        env:
+          AUDIT_URL: https://soluciones-gea.netlify.app/
+        run: node scripts/remote-seo-audit.mjs
+
+      - name: Add audit to job summary
+        run: cat audit-output/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: soluciones-gea-seo-audit-20260718
+          path: audit-output/
+          if-no-files-found: error
+          retention-days: 7
