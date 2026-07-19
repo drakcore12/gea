@@ -1,0 +1,428 @@
+body.home-ux {
+  font-size: 18px;
+  line-height: 1.62;
+  padding-bottom: 0;
+}
+
+.home-ux p,
+.home-ux li,
+.home-ux label,
+.home-ux input,
+.home-ux select,
+.home-ux textarea,
+.home-ux button,
+.home-ux a {
+  font-size: inherit;
+}
+
+.home-ux .button {
+  min-height: 52px;
+  padding: 14px 22px;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.home-ux .button-large {
+  min-height: 58px;
+  padding: 16px 26px;
+  font-size: 18px;
+}
+
+.home-ux .section-heading p:not(.eyebrow) {
+  max-width: 760px;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.home-ux .section-heading h2 {
+  max-width: 860px;
+}
+
+.home-ux .nav-wrap {
+  gap: 16px;
+}
+
+.home-ux .main-nav {
+  gap: 4px;
+}
+
+.home-ux .main-nav a {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 12px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.home-ux .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-ux .header-call {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  color: var(--blue);
+  background: var(--white);
+  border: 2px solid var(--blue);
+  border-radius: 12px;
+  font-family: Manrope, Arial, sans-serif;
+  font-weight: 800;
+}
+
+.home-ux .header-call:hover,
+.home-ux .header-call:focus-visible {
+  color: var(--white);
+  background: var(--blue);
+}
+
+.home-ux .button-header {
+  min-height: 48px;
+  padding-inline: 16px;
+}
+
+.home-ux .care-hero {
+  min-height: auto;
+  padding-block: 72px 78px;
+  overflow: hidden;
+  background-color: #f7f9fc;
+  background-image:
+    linear-gradient(rgba(1, 25, 73, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1, 25, 73, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 86% 12%, rgba(0, 91, 231, 0.15), transparent 30%);
+  background-size: 32px 32px, 32px 32px, auto;
+}
+
+.home-ux .care-hero::before {
+  opacity: 0.45;
+}
+
+.home-ux .care-hero .hero-grid {
+  grid-template-columns: minmax(0, 1.06fr) minmax(380px, 0.94fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.home-ux .care-hero h1 {
+  max-width: 760px;
+  margin-bottom: 24px;
+  font-size: clamp(42px, 5.4vw, 58px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.home-ux .care-hero .lead {
+  max-width: 700px;
+  margin-bottom: 30px;
+  font-size: 21px;
+  line-height: 1.58;
+}
+
+.home-ux .care-hero .hero-actions {
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.home-ux .care-trust-list {
+  display: grid;
+  gap: 10px;
+  max-width: 720px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-ux .care-trust-list li {
+  position: relative;
+  padding-left: 32px;
+  font-size: 17px;
+}
+
+.home-ux .care-trust-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  background: var(--green);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.home-ux .care-dashboard {
+  position: relative;
+  padding: 28px;
+  color: var(--white);
+  background: var(--blue);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  box-shadow: 0 20px 55px rgba(1, 25, 73, 0.22);
+}
+
+.home-ux .care-dashboard::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 7px;
+  background: linear-gradient(90deg, var(--green) 0 33%, var(--orange) 33% 66%, var(--water) 66% 100%);
+  border-radius: 24px 24px 0 0;
+}
+
+.home-ux .care-dashboard-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.home-ux .care-dashboard-head img {
+  padding: 8px;
+  background: var(--white);
+  border-radius: 16px;
+}
+
+.home-ux .care-dashboard-head p {
+  margin: 0 0 2px;
+  color: #a8c3ee;
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.home-ux .care-dashboard-head strong {
+  display: block;
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.home-ux .care-area-list {
+  display: grid;
+  gap: 12px;
+}
+
+.home-ux .care-area {
+  display: grid;
+  grid-template-columns: 48px 1fr 34px;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+}
+
+.home-ux .care-area img {
+  padding: 5px;
+  background: var(--white);
+  border-radius: 12px;
+}
+
+.home-ux .care-area span,
+.home-ux .care-area strong,
+.home-ux .care-area small {
+  display: block;
+}
+
+.home-ux .care-area strong {
+  margin-bottom: 2px;
+  font-size: 18px;
+}
+
+.home-ux .care-area small {
+  color: #d7e3f6;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.home-ux .care-area b {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  background: var(--green);
+  border-radius: 50%;
+}
+
+.home-ux .care-report-preview {
+  display: grid;
+  gap: 3px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  color: var(--blue);
+  background: var(--white);
+  border-radius: 16px;
+}
+
+.home-ux .care-report-preview span {
+  color: var(--water);
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.home-ux .care-report-preview strong {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.home-ux .care-plans-section {
+  padding-block: 84px;
+}
+
+.home-ux .care-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+  margin-top: 42px;
+}
+
+.home-ux .care-plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px 22px 24px;
+  background: var(--white);
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 10px 28px rgba(1, 25, 73, 0.08);
+}
+
+.home-ux .care-plan-card:hover,
+.home-ux .care-plan-card:focus-within {
+  transform: translateY(-4px);
+  border-color: #94abd0;
+  box-shadow: 0 18px 38px rgba(1, 25, 73, 0.14);
+}
+
+.home-ux .care-plan-featured {
+  border-color: var(--orange);
+  box-shadow: 0 18px 45px rgba(254, 134, 1, 0.2);
+}
+
+.home-ux .plan-recommended {
+  position: absolute;
+  top: -17px;
+  left: 18px;
+  right: 18px;
+  margin: 0;
+  padding: 8px 12px;
+  color: var(--blue);
+  background: var(--orange);
+  border-radius: 999px;
+  text-align: center;
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.home-ux .plan-level {
+  margin: 0 0 4px;
+  color: var(--water);
+  font-family: Manrope, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.home-ux .care-plan-card h3 {
+  margin: 0 0 12px;
+  font-size: 25px;
+}
+
+.home-ux .care-plan-price {
+  display: grid;
+  gap: 2px;
+  margin: 0 0 16px;
+}
+
+.home-ux .care-plan-price strong {
+  color: var(--blue);
+  font-family: Manrope, Arial, sans-serif;
+  font-size: clamp(28px, 2.5vw, 34px);
+  line-height: 1.1;
+}
+
+.home-ux .care-plan-price span {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.home-ux .plan-audience {
+  min-height: 88px;
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.home-ux .care-plan-card ul {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.home-ux .care-plan-card li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.home-ux .care-plan-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 900;
+}
+
+.home-ux .plan-button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.home-ux .care-plan-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 28px;
+  padding: 20px 24px;
+  background: #fff8ef;
+  border: 1px solid #ffd3a3;
+  border-radius: 16px;
+}
+
+.home-ux .care-plan-footer p {
+  max-width: 800px;
+  margin: 0;
+  font-size: 17px;
+}
+
+.home-ux .care-plan-footer a {
+  color: var(--blue);
+  font-family: Manrope, Arial, sans-serif;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
