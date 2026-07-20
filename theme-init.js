@@ -37,6 +37,16 @@
     return version ? `${path}?v=${encodeURIComponent(version)}` : path;
   }
 
+  function loadHomePriorityStyles() {
+    if (!isHomePage() || document.querySelector('link[href*="home-priority.css"]')) return;
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = deployedAsset('/home-priority.css');
+    stylesheet.dataset.homePriority = 'true';
+    document.head.appendChild(stylesheet);
+  }
+
   function loadHomeServiceEnhancements() {
     if (!isHomePage() || document.querySelector('script[data-service-pages]')) return;
 
@@ -58,5 +68,8 @@
     metaThemeColor.content = theme === 'dark' ? darkThemeColor : lightThemeColor;
   }
 
-  loadHomeServiceEnhancements();
+  window.addEventListener('DOMContentLoaded', () => {
+    loadHomePriorityStyles();
+    loadHomeServiceEnhancements();
+  }, { once: true });
 })();
