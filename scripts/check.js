@@ -33,7 +33,18 @@ function localReferenceExists(reference, sourceFile) {
   return resolved.startsWith(root) && fs.existsSync(resolved);
 }
 
-const htmlPaths = walk(root).filter((file) => file.endsWith('.html') && !path.basename(file).startsWith('google'));
+function isExternalReference(reference) {
+  return /^(?:https?:)?\/\//i.test(reference) || /^(?:data:|mailto:|tel:)/i.test(reference);
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const allFiles = walk(root);
+const htmlPaths = allFiles.filter((file) => file.endsWith('.html') && !path.basename(file).startsWith('google'));
+const googleVerificationPaths = allFiles.filter((file) => file.endsWith('.html') && path.basename(file).startsWith('google'));
+const cssPaths = allFiles.filter((file) => file.endsWith('.css'));
 const titles = new Map();
 const sitemapPath = path.join(root, 'sitemap.xml');
 const sitemap = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8') : '';
@@ -89,6 +100,13 @@ for (const fullPath of htmlPaths) {
   }
 }
 
+for (const fullPath of googleVerificationPaths) {
+  const filename = path.basename(fullPath);
+  const expected = `google-site-verification: ${filename}`;
+  const actual = fs.readFileSync(fullPath, 'utf8').trim();
+  if (actual !== expected) report(`${filename}: contenido de verificación alterado`);
+}
+
 const requiredServicePages = [
   'servicios/index.html',
   'servicios/fugas-de-agua-y-gas-medellin/index.html',
@@ -106,16 +124,69 @@ for (const file of requiredServicePages) {
 
 const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const theme = fs.readFileSync(path.join(root, 'theme.css'), 'utf8');
+const headersPath = path.join(root, '_headers');
 
 if (!index.includes('imagotipo-horizontal-negativo-transparente.png')) report('index.html: el footer no contiene el imagotipo negativo');
 if (!index.includes('data-lead-submit')) report('index.html: falta el control seguro del formulario');
 if (!fs.existsSync(path.join(root, 'brand.css'))) report('Falta brand.css');
 if (!fs.existsSync(path.join(root, 'service-pages.css'))) report('Falta service-pages.css');
 if (!fs.existsSync(path.join(root, 'service-pages.js'))) report('Falta service-pages.js');
-if (!theme.includes("@import url('./brand.css')")) report('theme.css: falta cargar brand.css');
-if (!fs.existsSync(path.join(root, '_headers'))) report('Falta _headers');
+if (!/@import\s+url\(\s*["']\.\/brand\.css(?:\?v=[^"')]+)?["']\s*\)/i.test(theme)) report('theme.css: falta cargar brand.css');
+if (!fs.existsSync(headersPath)) report('Falta _headers');
 if (!fs.existsSync(path.join(root, 'robots.txt'))) report('Falta robots.txt');
 if (!fs.existsSync(sitemapPath)) report('Falta sitemap.xml');
+if (!fs.existsSync(path.join(root, 'scripts/release.js'))) report('Falta scripts/release.js');
+
+const versionPath = path.join(root, 'version.json');
+if (fs.existsSync(versionPath)) {
+  try {
+    const build = JSON.parse(fs.readFileSync(versionPath, 'utf8'));
+    const version = String(build.version || '');
+    const versionPattern = version ? new RegExp(`(?:[?&])v=${escapeRegExp(version)}(?:[&#]|$)`) : null;
+
+    if (!version) report('version.json: falta version');
+    if (!build.commit) report('version.json: falta commit');
+    if (!build.deployedAt) report('version.json: falta deployedAt');
+
+    if (versionPattern) {
+      for (const fullPath of htmlPaths) {
+        const file = path.relative(root, fullPath);
+        const source = fs.readFileSync(fullPath, 'utf8');
+        const metaVersion = source.match(/<meta\s+name=["']gea-build["']\s+content=["']([^"']+)["']/i)?.[1];
+
+        if (metaVersion !== version) report(`${file}: meta gea-build no coincide con version.json`);
+
+        for (const match of source.matchAll(/\b(?:href|src)=["']([^"']+\.(?:css|js)(?:\?[^"']*)?)["']/gi)) {
+          const reference = match[1];
+          if (!isExternalReference(reference) && !versionPattern.test(reference)) {
+            report(`${file}: recurso sin versión de deploy ${reference}`);
+          }
+        }
+      }
+
+      for (const fullPath of cssPaths) {
+        const file = path.relative(root, fullPath);
+        const source = fs.readFileSync(fullPath, 'utf8');
+        for (const match of source.matchAll(/@import\s+url\(\s*["']?([^"')]+\.css(?:\?[^"')]*)?)["']?\s*\)/gi)) {
+          const reference = match[1];
+          if (!isExternalReference(reference) && !versionPattern.test(reference)) {
+            report(`${file}: @import sin versión de deploy ${reference}`);
+          }
+        }
+      }
+
+      if (fs.existsSync(headersPath)) {
+        const headers = fs.readFileSync(headersPath, 'utf8');
+        if (!headers.includes(`X-GEA-Build: ${version}`)) report('_headers: X-GEA-Build no coincide con version.json');
+        if (!/Cache-Control:\s*no-cache,\s*max-age=0,\s*must-revalidate/i.test(headers)) {
+          report('_headers: falta política global de revalidación');
+        }
+      }
+    }
+  } catch (error) {
+    report(`version.json inválido (${error.message})`);
+  }
+}
 
 if (errors.length) {
   console.error('Validación fallida:');

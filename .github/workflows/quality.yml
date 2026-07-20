@@ -26,7 +26,18 @@ jobs:
           node --check theme-init.js
           node --check service-pages.js
           node --check home-ux.js
+          node --check scripts/release.js
           node --check scripts/check.js
 
-      - name: Validate static files
+      - name: Validate source files
+        run: node scripts/check.js
+
+      - name: Simulate production release
+        env:
+          COMMIT_REF: ${{ github.sha }}
+          CONTEXT: production
+          URL: https://soluciones-gea.netlify.app
+        run: node scripts/release.js
+
+      - name: Validate versioned release
         run: node scripts/check.js
