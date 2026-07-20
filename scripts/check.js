@@ -131,6 +131,7 @@ if (!index.includes('data-lead-submit')) report('index.html: falta el control se
 if (!fs.existsSync(path.join(root, 'brand.css'))) report('Falta brand.css');
 if (!fs.existsSync(path.join(root, 'service-pages.css'))) report('Falta service-pages.css');
 if (!fs.existsSync(path.join(root, 'service-pages.js'))) report('Falta service-pages.js');
+if (!fs.existsSync(path.join(root, 'home-priority.css'))) report('Falta home-priority.css');
 if (!/@import\s+url\(\s*["']\.\/brand\.css(?:\?v=[^"')]+)?["']\s*\)/i.test(theme)) report('theme.css: falta cargar brand.css');
 if (!fs.existsSync(headersPath)) report('Falta _headers');
 if (!fs.existsSync(path.join(root, 'robots.txt'))) report('Falta robots.txt');
@@ -149,6 +150,10 @@ if (fs.existsSync(versionPath)) {
     if (!build.deployedAt) report('version.json: falta deployedAt');
 
     if (versionPattern) {
+      if (!/home-priority\.css\?v=/i.test(index)) {
+        report('index.html: falta cargar home-priority.css en la versión publicada');
+      }
+
       for (const fullPath of htmlPaths) {
         const file = path.relative(root, fullPath);
         const source = fs.readFileSync(fullPath, 'utf8');

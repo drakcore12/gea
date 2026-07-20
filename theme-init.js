@@ -28,12 +28,20 @@
     return null;
   }
 
+  function isHomePage() {
+    return location.pathname === '/' || location.pathname.endsWith('/index.html');
+  }
+
+  function deployedAsset(path) {
+    const version = document.querySelector('meta[name="gea-build"]')?.content;
+    return version ? `${path}?v=${encodeURIComponent(version)}` : path;
+  }
+
   function loadHomeServiceEnhancements() {
-    const isHome = location.pathname === '/' || location.pathname.endsWith('/index.html');
-    if (!isHome || document.querySelector('script[data-service-pages]')) return;
+    if (!isHomePage() || document.querySelector('script[data-service-pages]')) return;
 
     const script = document.createElement('script');
-    script.src = '/service-pages.js';
+    script.src = deployedAsset('/service-pages.js');
     script.defer = true;
     script.dataset.servicePages = 'true';
     document.head.appendChild(script);
