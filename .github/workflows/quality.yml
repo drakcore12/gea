@@ -9,6 +9,31 @@ permissions:
   contents: read
 
 jobs:
+  assets-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate temporary assets inventory
+        run: node scripts/assets-audit.js
+
+      - name: Upload temporary image audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: gea-assets-audit
+          path: |
+            assets-inventory.json
+            assets-audit.html
+            assets/img/**
+          if-no-files-found: error
+          retention-days: 1
+
   static-audit:
     runs-on: ubuntu-latest
     steps:
