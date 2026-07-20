@@ -1,6 +1,6 @@
 [build]
   publish = "."
-  command = "node scripts/release.js"
+  command = "node scripts/release.js && node scripts/assets-audit.js"
 
 [build.environment]
   NODE_VERSION = "22"
