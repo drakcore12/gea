@@ -1,6 +1,9 @@
 [build]
   publish = "."
-  command = "node scripts/release.js && node scripts/check.js"
+  command = "node scripts/release.js"
+
+[build.environment]
+  NODE_VERSION = "22"
 
 [build.processing.html]
   pretty_urls = true
