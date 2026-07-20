@@ -1,0 +1,35 @@
+name: Temporary assets audit
+
+on:
+  push:
+    branches: [audit-service-images-20260720]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-inventory:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audit branch
+        uses: actions/checkout@v4
+        with:
+          ref: audit-service-images-20260720
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate inventory
+        run: node scripts/assets-audit.js
+
+      - name: Commit generated inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets-inventory.json assets-audit.html
+          git diff --cached --quiet || git commit -m "chore: update generated image inventory"
+          git push
