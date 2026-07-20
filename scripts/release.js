@@ -103,6 +103,19 @@ function versionCssImports(css, version) {
   );
 }
 
+function injectBuildHeader(version) {
+  const headersPath = path.join(root, '_headers');
+  if (!fs.existsSync(headersPath)) return;
+
+  const source = fs.readFileSync(headersPath, 'utf8');
+  const buildHeader = `  X-GEA-Build: ${version}`;
+  const updated = /^\s*X-GEA-Build:\s*.*$/im.test(source)
+    ? source.replace(/^\s*X-GEA-Build:\s*.*$/im, buildHeader)
+    : source.replace(/^\/\*\s*$/m, `/*\n${buildHeader}`);
+
+  fs.writeFileSync(headersPath, updated);
+}
+
 const commit = readCommit();
 const shortCommit = safeToken(commit.slice(0, 12), 'local');
 const deployId = safeToken(process.env.DEPLOY_ID, '');
@@ -128,6 +141,8 @@ for (const file of cssFiles) {
   const css = fs.readFileSync(file, 'utf8');
   fs.writeFileSync(file, versionCssImports(css, version));
 }
+
+injectBuildHeader(version);
 
 const buildInformation = {
   site: 'Soluciones GEA',
