@@ -82,6 +82,17 @@ function protectPreviewFromIndexing(html, context) {
   return html.replace(/<head>/i, `<head>\n  ${previewRobots}`);
 }
 
+function injectHomePriorityStyles(html, file) {
+  if (path.relative(root, file) !== 'index.html') return html;
+  if (/home-priority\.css/i.test(html)) return html;
+
+  const marker = /(<link\s+rel=["']stylesheet["']\s+href=["'][^"']*home-ux-theme\.css[^"']*["']\s*>)/i;
+  const stylesheet = '  <link rel="stylesheet" href="./home-priority.css">';
+
+  if (marker.test(html)) return html.replace(marker, `$1\n${stylesheet}`);
+  return html.replace(/<\/head>/i, `${stylesheet}\n</head>`);
+}
+
 function versionHtmlAssets(html, version) {
   return html.replace(
     /\b(href|src)=(["'])([^"']+\.(?:css|js)(?:\?[^"'#]*)?(?:#[^"']*)?)\2/gi,
@@ -135,6 +146,7 @@ for (const file of htmlFiles) {
   let html = fs.readFileSync(file, 'utf8');
   html = injectBuildMeta(html, version);
   html = protectPreviewFromIndexing(html, context);
+  html = injectHomePriorityStyles(html, file);
   html = versionHtmlAssets(html, version);
   fs.writeFileSync(file, html);
 }
