@@ -126,7 +126,9 @@ const deployUrl = process.env.DEPLOY_URL || productionUrl;
 const deployedAt = new Date().toISOString();
 
 const files = walk(root);
-const htmlFiles = files.filter((file) => file.endsWith('.html'));
+const htmlFiles = files.filter(
+  (file) => file.endsWith('.html') && !path.basename(file).startsWith('google'),
+);
 const cssFiles = files.filter((file) => file.endsWith('.css'));
 
 for (const file of htmlFiles) {
