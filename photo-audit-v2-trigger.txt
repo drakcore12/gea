@@ -1,0 +1,1 @@
+Trigger temporal para empaquetar las 23 fotografías originales con el flujo corregido.
