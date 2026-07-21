@@ -13,19 +13,28 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Package work photographs
         shell: bash
         run: |
+          set -euo pipefail
+          shopt -s nullglob
           mkdir -p image-audit
-          if compgen -G 'assets/img/originals/2026-06-20/*.jpeg' > /dev/null; then
-            cp assets/img/originals/2026-06-20/*.jpeg image-audit/
-          else
-            find assets/img -maxdepth 1 -type f -name 'WhatsApp Image*.jpeg' -exec cp '{}' image-audit/ \;
+
+          files=(assets/img/originals/2026-06-20/*.jpeg)
+          if (( ${#files[@]} == 0 )); then
+            files=(assets/img/WhatsApp\ Image*.jpeg)
           fi
-          test "$(find image-audit -type f | wc -l)" -eq 23
+
+          printf 'Photographs found: %s\n' "${#files[@]}"
+          printf '%s\n' "${files[@]}"
+          cp -- "${files[@]}" image-audit/
+          find image-audit -maxdepth 1 -type f -print
+
       - name: Upload image audit artifact
         uses: actions/upload-artifact@v4
         with:
           name: gea-main-image-audit
           path: image-audit/
+          if-no-files-found: error
           retention-days: 1
