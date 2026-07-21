@@ -3,6 +3,8 @@ name: Temporary export main images
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -11,11 +13,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Package WhatsApp work photographs
+      - name: Package work photographs
         shell: bash
         run: |
           mkdir -p image-audit
-          find assets/img -maxdepth 1 -type f -name 'WhatsApp Image*.jpeg' -exec cp '{}' image-audit/ \;
+          if compgen -G 'assets/img/originals/2026-06-20/*.jpeg' > /dev/null; then
+            cp assets/img/originals/2026-06-20/*.jpeg image-audit/
+          else
+            find assets/img -maxdepth 1 -type f -name 'WhatsApp Image*.jpeg' -exec cp '{}' image-audit/ \;
+          fi
           test "$(find image-audit -type f | wc -l)" -eq 23
       - name: Upload image audit artifact
         uses: actions/upload-artifact@v4
