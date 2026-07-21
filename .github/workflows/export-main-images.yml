@@ -1,0 +1,25 @@
+name: Temporary export main images
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  export-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Package WhatsApp work photographs
+        shell: bash
+        run: |
+          mkdir -p image-audit
+          find assets/img -maxdepth 1 -type f -name 'WhatsApp Image*.jpeg' -exec cp '{}' image-audit/ \;
+          test "$(find image-audit -type f | wc -l)" -eq 23
+      - name: Upload image audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gea-main-image-audit
+          path: image-audit/
+          retention-days: 1
