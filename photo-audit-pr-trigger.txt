@@ -1,1 +1,2 @@
 Trigger temporal para exportar y revisar las 23 fotografías originales.
+Segundo intento con empaquetado robusto.
