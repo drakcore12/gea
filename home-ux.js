@@ -3,6 +3,7 @@
 
   const WHATSAPP_NUMBER = '573017605677';
   const CAROUSEL_INTERVAL = 7000;
+  const CAROUSEL_ICON = './assets/img/isotipo.jpeg';
 
   const HOME_MESSAGES = Object.freeze({
     'care-essential': 'Hola, Soluciones GEA. Quiero información sobre el plan GEA Care Essential de $99.000 al mes. Mi negocio es: ',
@@ -52,7 +53,7 @@
       ideal: 'Cafeterías, panaderías y restaurantes pequeños',
       action: 'Ver Plan Plus',
       url: './servicios/gea-care-mantenimiento-preventivo-negocios-medellin/',
-      icon: './assets/img/isotipo-color-transparente.png',
+      icon: CAROUSEL_ICON,
       tone: 'care',
       analytics: 'hero-carousel-care-plus',
     }),
@@ -65,7 +66,7 @@
       ideal: 'Hogares, restaurantes, hoteles y locales',
       action: 'Ver Fugas Express',
       url: './servicios/fugas-de-agua-y-gas-medellin/',
-      icon: './assets/img/icono_agua_transparente.png',
+      icon: CAROUSEL_ICON,
       tone: 'water',
       analytics: 'hero-carousel-fugas',
     }),
@@ -78,7 +79,7 @@
       ideal: 'Restaurantes, cafeterías y panaderías',
       action: 'Ver Cocina Segura',
       url: './servicios/mantenimiento-cocinas-comerciales-medellin/',
-      icon: './assets/img/icono_gas_transparente.png',
+      icon: CAROUSEL_ICON,
       tone: 'gas',
       analytics: 'hero-carousel-cocina',
     }),
@@ -91,7 +92,7 @@
       ideal: 'Hoteles, edificios, negocios y administraciones',
       action: 'Ver Agua Limpia',
       url: './servicios/lavado-de-tanques-medellin/',
-      icon: './assets/img/icono_agua_transparente.png',
+      icon: CAROUSEL_ICON,
       tone: 'water',
       analytics: 'hero-carousel-tanques',
     }),
@@ -104,7 +105,7 @@
       ideal: 'Locales, restaurantes, oficinas y bodegas',
       action: 'Ver servicio eléctrico',
       url: './servicios/servicios-electricos-comerciales-medellin/',
-      icon: './assets/img/icono_electricidad_transparente.png',
+      icon: CAROUSEL_ICON,
       tone: 'electric',
       analytics: 'hero-carousel-electricidad',
     }),
