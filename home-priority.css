@@ -389,62 +389,123 @@
 
 .home-ux .care-plan-card {
   --plan-accent: var(--water);
+  --plan-accent-deep: #0046b5;
+  --plan-on-accent: var(--white);
+  --plan-tint: #eaf3ff;
+  --plan-dark-tint: #0b3474;
+  --plan-shadow: rgba(0, 91, 231, 0.32);
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100%;
   padding: 30px 26px 26px;
   color: var(--ink);
-  background: var(--white);
-  border-style: solid;
-  border-width: 8px 3px 3px;
-  border-color: var(--plan-accent) transparent transparent;
-  border-radius: 22px;
-  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.2);
-  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  background: linear-gradient(180deg, var(--plan-tint) 0 220px, var(--white) 220px);
+  border: 0;
+  border-radius: 24px;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.2),
+    0 10px 0 -4px var(--plan-shadow);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
 .home-ux .care-plan-card::before {
   content: none;
 }
 
+.home-ux .care-plan-card::after {
+  content: "01";
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: -1;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  color: var(--plan-on-accent);
+  background: var(--plan-accent);
+  border-radius: 50%;
+  box-shadow: 0 12px 28px var(--plan-shadow);
+  font-family: Manrope, Inter, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  opacity: 0.2;
+  transform: rotate(8deg);
+}
+
 .home-ux .care-plan-card:nth-child(2) {
   --plan-accent: var(--orange);
+  --plan-accent-deep: #a94b00;
+  --plan-on-accent: var(--blue);
+  --plan-tint: #fff0dd;
+  --plan-dark-tint: #56300a;
+  --plan-shadow: rgba(254, 134, 1, 0.36);
+}
+
+.home-ux .care-plan-card:nth-child(2)::after {
+  content: "02";
+  top: 62px;
 }
 
 .home-ux .care-plan-card:nth-child(3) {
   --plan-accent: var(--green);
+  --plan-accent-deep: #247c10;
+  --plan-on-accent: var(--blue);
+  --plan-tint: #effbe9;
+  --plan-dark-tint: #174728;
+  --plan-shadow: rgba(87, 187, 45, 0.32);
+}
+
+.home-ux .care-plan-card:nth-child(3)::after {
+  content: "03";
 }
 
 .home-ux .care-plan-card:nth-child(4) {
   --plan-accent: var(--blue-2);
+  --plan-accent-deep: var(--blue);
+  --plan-on-accent: var(--white);
+  --plan-tint: #edf1f8;
+  --plan-dark-tint: #122c56;
+  --plan-shadow: rgba(1, 25, 73, 0.34);
+}
+
+.home-ux .care-plan-card:nth-child(4)::after {
+  content: "04";
 }
 
 .home-ux .care-plan-card:hover,
 .home-ux .care-plan-card:focus-within {
   transform: translateY(-7px);
-  border-color: var(--plan-accent);
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    0 30px 64px rgba(0, 0, 0, 0.28),
+    0 12px 0 -4px var(--plan-accent);
 }
 
 .home-ux .care-plan-featured {
   z-index: 2;
-  border-color: var(--orange);
-  border-top-color: var(--plan-accent);
-  box-shadow: 0 30px 70px rgba(254, 134, 1, 0.3);
+  padding-top: 72px;
+  box-shadow:
+    0 30px 70px rgba(254, 134, 1, 0.28),
+    0 12px 0 -4px var(--orange);
 }
 
 .home-ux .care-plan-featured:hover,
 .home-ux .care-plan-featured:focus-within {
-  border-color: var(--orange);
+  box-shadow:
+    0 34px 72px rgba(254, 134, 1, 0.34),
+    0 14px 0 -4px var(--orange);
 }
 
 .home-ux .plan-recommended {
   position: absolute;
-  top: -21px;
-  right: 14px;
-  left: 14px;
-  min-height: 42px;
+  top: 0;
+  right: 0;
+  left: 0;
+  min-height: 48px;
   margin: 0;
   display: flex;
   align-items: center;
@@ -452,14 +513,31 @@
   padding: 9px 12px;
   color: var(--blue);
   background: var(--orange);
-  border-radius: 14px 14px 8px 8px;
+  border-radius: 0;
+  box-shadow: 0 8px 22px rgba(254, 134, 1, 0.26);
   font-size: 1rem;
   font-weight: 900;
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
+.home-ux .plan-level {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  min-height: 32px;
+  margin: 0 0 12px;
+  padding: 6px 11px;
+  color: var(--plan-on-accent);
+  background: var(--plan-accent);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px var(--plan-shadow);
+  letter-spacing: 0.08em;
+}
+
 .home-ux .care-plan-card h3 {
+  position: relative;
+  z-index: 1;
   margin-top: 6px;
   margin-bottom: 8px;
   font-size: clamp(1.8rem, 3vw, 2.45rem);
@@ -526,7 +604,18 @@
   width: 100%;
   min-height: 58px;
   margin-top: auto;
+  color: var(--white);
+  background: var(--plan-accent-deep);
+  border-color: transparent;
+  box-shadow: 0 10px 22px var(--plan-shadow);
   font-size: 1.05rem;
+}
+
+.home-ux .care-plan-card .plan-button:hover,
+.home-ux .care-plan-card .plan-button:focus-visible {
+  color: var(--white);
+  background: var(--blue);
+  border-color: transparent;
 }
 
 .home-ux .care-plan-footer {
@@ -586,6 +675,7 @@
 
   .home-ux .care-plan-featured {
     margin-top: 20px;
+    padding-top: 72px;
   }
 
   .home-ux .plan-audience {
@@ -644,6 +734,7 @@
 
   .home-ux .care-plan-featured {
     margin-top: 20px;
+    padding-top: 72px;
   }
 
   .home-ux .plan-audience {
@@ -669,13 +760,11 @@
 
 html[data-theme="dark"] .home-ux .care-plan-card {
   color: #f5f7fb;
-  background: #0a234f;
-  border-color: rgba(255, 255, 255, 0.16);
-  border-top-color: var(--plan-accent);
+  background: linear-gradient(180deg, var(--plan-dark-tint) 0 220px, #0a234f 220px);
 }
 
 html[data-theme="dark"] .home-ux .care-plan-featured {
-  border-color: var(--orange);
+  background: linear-gradient(180deg, var(--plan-dark-tint) 0 260px, #0a234f 260px);
 }
 
 html[data-theme="dark"] .home-ux .care-plan-price strong,
