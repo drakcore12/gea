@@ -388,6 +388,7 @@
 }
 
 .home-ux .care-plan-card {
+  --plan-accent: var(--water);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -395,43 +396,41 @@
   padding: 30px 26px 26px;
   color: var(--ink);
   background: var(--white);
-  border: 3px solid transparent;
+  border-style: solid;
+  border-width: 8px 3px 3px;
+  border-color: var(--plan-accent) transparent transparent;
   border-radius: 22px;
   box-shadow: 0 20px 46px rgba(0, 0, 0, 0.2);
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .home-ux .care-plan-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 8px;
-  background: var(--water);
-  border-radius: 19px 19px 0 0;
+  content: none;
 }
 
-.home-ux .care-plan-card:nth-child(2)::before {
-  background: var(--orange);
+.home-ux .care-plan-card:nth-child(2) {
+  --plan-accent: var(--orange);
 }
 
-.home-ux .care-plan-card:nth-child(3)::before {
-  background: var(--green);
+.home-ux .care-plan-card:nth-child(3) {
+  --plan-accent: var(--green);
 }
 
-.home-ux .care-plan-card:nth-child(4)::before {
-  background: var(--blue-2);
+.home-ux .care-plan-card:nth-child(4) {
+  --plan-accent: var(--blue-2);
 }
 
 .home-ux .care-plan-card:hover,
 .home-ux .care-plan-card:focus-within {
   transform: translateY(-7px);
-  border-color: var(--water);
+  border-color: var(--plan-accent);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
 }
 
 .home-ux .care-plan-featured {
   z-index: 2;
   border-color: var(--orange);
+  border-top-color: var(--plan-accent);
   box-shadow: 0 30px 70px rgba(254, 134, 1, 0.3);
 }
 
@@ -441,8 +440,12 @@
 }
 
 .home-ux .plan-recommended {
+  position: absolute;
+  top: -21px;
+  right: 14px;
+  left: 14px;
   min-height: 42px;
-  margin: -53px -12px 20px;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -576,6 +579,20 @@
   }
 }
 
+@media (max-width: 760px) {
+  .home-ux .care-plan-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-ux .care-plan-featured {
+    margin-top: 20px;
+  }
+
+  .home-ux .plan-audience {
+    min-height: 0;
+  }
+}
+
 @media (max-width: 680px) {
   .home-ux .commercial-carousel {
     min-height: 0;
@@ -654,6 +671,7 @@ html[data-theme="dark"] .home-ux .care-plan-card {
   color: #f5f7fb;
   background: #0a234f;
   border-color: rgba(255, 255, 255, 0.16);
+  border-top-color: var(--plan-accent);
 }
 
 html[data-theme="dark"] .home-ux .care-plan-featured {
