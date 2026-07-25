@@ -6,8 +6,8 @@
     analyticsConsentKey: 'gea-analytics-consent',
     themeStorageKey: 'gea-theme-manual-override',
     whatsappNumber: '573017605677',
-    logoPositive: './assets/img/imagotipo-horizontal-color-transparente.png',
-    logoNegative: './assets/img/imagotipo-horizontal-negativo-transparente.png',
+    logoPositive: './assets/img/imagotipo-horizontal.svg',
+    logoNegative: './assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg',
     themeColors: Object.freeze({ light: '#ffffff', dark: '#011949' }),
   });
 

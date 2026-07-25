@@ -73,9 +73,9 @@ function generateServiceIconSvgs() {
 
   const isotipo = fs.readFileSync(isotipoPath, 'utf8');
   const icons = {
-    'icono_agua.svg': { viewBox: '890 490 540 860', ids: ['agua'], title: 'Icono de agua Soluciones GEA' },
-    'icono_gas.svg': { viewBox: '120 490 530 860', ids: ['gas'], title: 'Icono de gas Soluciones GEA' },
-    'icono_electricidad.svg': { viewBox: '400 70 750 1290', ids: ['electricidad'], title: 'Icono de electricidad Soluciones GEA' },
+    'icono_agua.svg': { viewBox: '890 490 540 860', ids: ['d'], title: 'Icono de agua Soluciones GEA' },
+    'icono_gas.svg': { viewBox: '120 490 530 860', ids: ['c'], title: 'Icono de gas Soluciones GEA' },
+    'icono_electricidad.svg': { viewBox: '400 70 750 1290', ids: ['b'], title: 'Icono de electricidad Soluciones GEA' },
   };
 
   for (const [filename, definition] of Object.entries(icons)) {

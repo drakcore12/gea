@@ -126,7 +126,7 @@ const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const theme = fs.readFileSync(path.join(root, 'theme.css'), 'utf8');
 const headersPath = path.join(root, '_headers');
 
-if (!index.includes('imagotipo-horizontal-negativo-transparente.png')) report('index.html: el footer no contiene el imagotipo negativo');
+if (!index.includes('Soluciones_GEA_imagotipo_horizontal_blanco.svg')) report('index.html: el footer no contiene el imagotipo negativo');
 if (!index.includes('data-lead-submit')) report('index.html: falta el control seguro del formulario');
 if (!fs.existsSync(path.join(root, 'brand.css'))) report('Falta brand.css');
 if (!fs.existsSync(path.join(root, 'service-pages.css'))) report('Falta service-pages.css');

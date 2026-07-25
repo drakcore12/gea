@@ -3,7 +3,7 @@
 
   const WHATSAPP_NUMBER = '573017605677';
   const CAROUSEL_INTERVAL = 7000;
-  const CAROUSEL_ICON = './assets/img/isotipo.jpeg';
+  const CAROUSEL_ICON = './assets/img/isotipo.svg';
 
   const HOME_MESSAGES = Object.freeze({
     'care-essential': 'Hola, Soluciones GEA. Quiero información sobre el plan GEA Care Essential de $99.000 al mes. Mi negocio es: ',
