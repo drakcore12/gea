@@ -27,12 +27,12 @@ body.home-ux .site-header .brand-image {
 
 @media (max-width: 760px) {
   :root {
-    --header-height: 100px;
+    --header-height: 70px;
   }
 
   .site-header .brand,
   body.home-ux .site-header .brand {
-    width: clamp(185px, 52vw, 205px);
+    width: clamp(104px, 29vw, 116px);
   }
 
   .site-header .brand-image,
@@ -49,6 +49,11 @@ body.home-ux .site-header .brand-image {
     display: none;
   }
 
+  body.home-ux .site-header .menu-toggle,
+  .site-header .menu-toggle {
+    margin-left: auto;
+  }
+
   body.home-ux .site-header .main-nav {
     top: var(--header-height);
   }
@@ -57,7 +62,7 @@ body.home-ux .site-header .brand-image {
 @media (max-width: 520px) {
   .site-header .brand,
   body.home-ux .site-header .brand {
-    width: clamp(175px, 55vw, 195px);
+    width: clamp(102px, 30vw, 110px);
   }
 
   .site-header .brand-image,
