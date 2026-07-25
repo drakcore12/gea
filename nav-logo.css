@@ -1,18 +1,23 @@
 :root {
-  --header-height: 88px;
+  --header-height: 168px;
 }
 
-.brand {
-  width: 248px;
+.site-header .brand,
+body.home-ux .site-header .brand {
+  width: clamp(300px, 24vw, 340px);
 }
 
-.brand-image {
-  max-height: 66px;
+.site-header .brand-image,
+body.home-ux .site-header .brand-image {
+  width: 100%;
+  height: auto;
+  max-height: none;
 }
 
 @media (max-width: 980px) and (min-width: 761px) {
-  .brand {
-    width: 230px;
+  .site-header .brand,
+  body.home-ux .site-header .brand {
+    width: clamp(250px, 28vw, 280px);
   }
 
   .main-nav {
@@ -22,24 +27,42 @@
 
 @media (max-width: 760px) {
   :root {
-    --header-height: 74px;
+    --header-height: 124px;
   }
 
-  .brand {
-    width: 188px;
+  .site-header .brand,
+  body.home-ux .site-header .brand {
+    width: clamp(220px, 63vw, 250px);
   }
 
-  .brand-image {
-    max-height: 54px;
+  .site-header .brand-image,
+  body.home-ux .site-header .brand-image {
+    width: 100%;
+    max-height: none;
+  }
+
+  body.home-ux .site-header .nav-wrap {
+    min-height: var(--header-height);
+  }
+
+  body.home-ux .site-header .header-actions {
+    display: none;
+  }
+
+  body.home-ux .site-header .main-nav {
+    top: var(--header-height);
   }
 }
 
 @media (max-width: 520px) {
-  .brand {
-    width: 162px;
+  .site-header .brand,
+  body.home-ux .site-header .brand {
+    width: clamp(210px, 66vw, 238px);
   }
 
-  .brand-image {
-    max-height: 48px;
+  .site-header .brand-image,
+  body.home-ux .site-header .brand-image {
+    width: 100%;
+    max-height: none;
   }
 }
