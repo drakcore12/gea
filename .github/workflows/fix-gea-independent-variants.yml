@@ -1,20 +1,20 @@
 name: Fix independent GEA SVG variants
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/fix-gea-independent-variants.yml
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
 
 jobs:
   fix:
+    if: github.event.issue.title == 'GEA SVG INDEPENDENCE TRIGGER'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Rebuild self-contained SVG variants
@@ -64,5 +64,5 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Make GEA SVG color variants fully independent"
-            git push
+            git push origin main
           fi
