@@ -1,0 +1,106 @@
+name: Add vertical GEA imagotypes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/add-vertical-imagotypes.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate native standalone vertical SVG files
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import xml.etree.ElementTree as ET
+
+          root = Path('.')
+          source_path = root / 'assets' / 'img' / 'imagotipo-horizontal.svg'
+          source = source_path.read_text(encoding='utf-8')
+          paths = re.findall(r'<path\b[^>]*?/>', source)
+
+          if len(paths) != 4:
+              raise RuntimeError(f'Se esperaban 4 paths vectoriales; se encontraron {len(paths)}')
+
+          components = [
+              ('icon', '240', '240', '370', '360', 'matrix(1.6411764706 0 0 1.6793650794 -58.9352941200 -287.3555555600)'),
+              ('soluciones', '600', '245', '750', '110', 'matrix(1.2192982456 0 0 1.3484848485 -562.1315789500 371.3787878800)'),
+              ('gea', '600', '340', '750', '260', 'matrix(1.3443804035 0 0 1.3964757709 -665.1037464000 359.5255506600)'),
+              ('ingenieria', '240', '600', '1120', '90', 'matrix(0.8759259259 0 0 1.1285714286 -34.8574074100 502.7571428600)'),
+              ('tagline', '240', '700', '1120', '70', 'matrix(0.8485687904 0 0 1.0238095238 -12.4524469100 591.7142857100)'),
+          ]
+
+          clip_defs = ''.join(
+              f'<clipPath id="clip-{name}" clipPathUnits="userSpaceOnUse">'
+              f'<rect x="{x}" y="{y}" width="{width}" height="{height}"/>'
+              f'</clipPath>'
+              for name, x, y, width, height, _ in components
+          )
+
+          def render_svg(monochrome=None, title='Imagotipo vertical Soluciones GEA'):
+              rendered_paths = []
+              for path in paths:
+                  clean = re.sub(r'\s+id=["\'][^"\']+["\']', '', path)
+                  if monochrome:
+                      clean = re.sub(
+                          r'\bfill=["\'][^"\']+["\']',
+                          f'fill="{monochrome}"',
+                          clean,
+                      )
+                  rendered_paths.append(clean)
+
+              groups = ''.join(
+                  f'<g clip-path="url(#clip-{name})" transform="{transform}">'
+                  + ''.join(rendered_paths)
+                  + '</g>'
+                  for name, _, _, _, _, transform in components
+              )
+
+              return ''.join([
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="1278" height="1536" ',
+                  'viewBox="0 0 1278 1536" role="img">',
+                  f'<title>{title}</title>',
+                  '<desc>Imagotipo vertical vectorial nativo, independiente y sin fondo.</desc>',
+                  f'<defs>{clip_defs}</defs>',
+                  groups,
+                  '</svg>\n',
+              ])
+
+          outputs = {
+              'Soluciones_GEA_imagotipo_vertical_ultra_preciso.svg': (None, 'Imagotipo vertical Soluciones GEA'),
+              'Soluciones_GEA_imagotipo_vertical_negro.svg': ('#000000', 'Imagotipo vertical Soluciones GEA negro'),
+              'Soluciones_GEA_imagotipo_vertical_blanco.svg': ('#FFFFFF', 'Imagotipo vertical Soluciones GEA blanco'),
+              'Soluciones_GEA_imagotipo_vertical_gris.svg': ('#808080', 'Imagotipo vertical Soluciones GEA gris'),
+              'Soluciones_GEA_imagotipo_vertical_naranja.svg': ('#FD7501', 'Imagotipo vertical Soluciones GEA naranja'),
+              'Soluciones_GEA_imagotipo_vertical_verde.svg': ('#3EB025', 'Imagotipo vertical Soluciones GEA verde'),
+              'Soluciones_GEA_imagotipo_vertical_azul.svg': ('#0156DD', 'Imagotipo vertical Soluciones GEA azul'),
+          }
+
+          assets = root / 'assets' / 'img'
+          for filename, (color, title) in outputs.items():
+              content = render_svg(color, title)
+              if '<image' in content.lower() or 'href=' in content.lower():
+                  raise RuntimeError(f'{filename} contiene una referencia no permitida')
+              ET.fromstring(content)
+              (assets / filename).write_text(content, encoding='utf-8')
+              print(f'Creado: assets/img/{filename}')
+
+      - name: Commit vertical imagotypes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/add-vertical-imagotypes.yml
+          git add assets/img/Soluciones_GEA_imagotipo_vertical_*.svg
+          git commit -m "Add native standalone vertical GEA imagotypes"
+          git push
