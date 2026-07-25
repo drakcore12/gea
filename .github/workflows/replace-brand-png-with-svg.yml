@@ -1,0 +1,79 @@
+name: Replace brand PNG assets with SVG
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/replace-brand-png-with-svg.yml
+
+permissions:
+  contents: write
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace brand raster references
+        shell: python
+        run: |
+          from pathlib import Path
+
+          targets = [
+              Path('index.html'),
+              Path('404.html'),
+              Path('privacidad.html'),
+              Path('servicios/index.html'),
+              Path('servicios/fugas-de-agua-y-gas-medellin/index.html'),
+              Path('app.js'),
+              Path('home-ux.js'),
+              Path('scripts/check.js'),
+          ]
+
+          replacements = {
+              'imagotipo-horizontal-color-transparente.png': 'imagotipo-horizontal.svg',
+              'imagotipo-horizontal-negativo-transparente.png': 'Soluciones_GEA_imagotipo_horizontal_blanco.svg',
+              'isotipo-color-transparente.png': 'isotipo.svg',
+              'isotipo.jpeg': 'isotipo.svg',
+          }
+
+          changed = []
+          for path in targets:
+              text = path.read_text(encoding='utf-8')
+              updated = text
+              for old, new in replacements.items():
+                  updated = updated.replace(old, new)
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+                  changed.append(str(path))
+
+          print('Updated files:')
+          for path in changed:
+              print(f'- {path}')
+
+      - name: Validate SVG targets and JavaScript syntax
+        shell: bash
+        run: |
+          test -f assets/img/isotipo.svg
+          test -f assets/img/imagotipo-horizontal.svg
+          test -f assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg
+          node --check app.js
+          node --check home-ux.js
+          node scripts/check.js
+
+      - name: Commit website SVG migration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/replace-brand-png-with-svg.yml
+          git add index.html 404.html privacidad.html servicios/index.html servicios/fugas-de-agua-y-gas-medellin/index.html app.js home-ux.js scripts/check.js .github/workflows/replace-brand-png-with-svg.yml
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Use SVG brand assets across website"
+            git push
+          fi
