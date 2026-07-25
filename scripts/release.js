@@ -11,6 +11,9 @@ const brandAssetReplacements = Object.freeze({
   'imagotipo-horizontal-negativo-transparente.png': 'Soluciones_GEA_imagotipo_horizontal_blanco.svg',
   'isotipo-color-transparente.png': 'isotipo.svg',
   'isotipo.jpeg': 'isotipo.svg',
+  'icono_agua_transparente.png': 'icono_agua.svg',
+  'icono_gas_transparente.png': 'icono_gas.svg',
+  'icono_electricidad_transparente.png': 'icono_electricidad.svg',
 });
 
 function walk(directory) {
@@ -55,6 +58,46 @@ function replaceBrandRasterReferences(source) {
     (updated, [rasterName, svgName]) => updated.split(rasterName).join(svgName),
     source,
   );
+}
+
+function findPathElementById(svg, id) {
+  const escapedId = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`<path\\b(?=[^>]*\\bid=["']${escapedId}["'])[^>]*\\/?>`, 'i');
+  return svg.match(pattern)?.[0] || null;
+}
+
+function generateServiceIconSvgs() {
+  const assetsDirectory = path.join(root, 'assets', 'img');
+  const isotipoPath = path.join(assetsDirectory, 'isotipo.svg');
+  if (!fs.existsSync(isotipoPath)) throw new Error('No se encontró assets/img/isotipo.svg');
+
+  const isotipo = fs.readFileSync(isotipoPath, 'utf8');
+  const icons = {
+    'icono_agua.svg': { viewBox: '890 490 540 860', ids: ['agua'], title: 'Icono de agua Soluciones GEA' },
+    'icono_gas.svg': { viewBox: '120 490 530 860', ids: ['gas', 'fuego'], title: 'Icono de gas Soluciones GEA' },
+    'icono_electricidad.svg': { viewBox: '400 70 750 1290', ids: ['electricidad', 'rayo'], title: 'Icono de electricidad Soluciones GEA' },
+  };
+
+  for (const [filename, definition] of Object.entries(icons)) {
+    const elements = definition.ids.map((id) => {
+      const element = findPathElementById(isotipo, id);
+      if (!element) throw new Error(`No se encontró el path #${id} en isotipo.svg`);
+      return `  ${element}`;
+    });
+
+    const output = [
+      '<svg xmlns="http://www.w3.org/2000/svg"',
+      `  viewBox="${definition.viewBox}"`,
+      '  preserveAspectRatio="xMidYMid meet"',
+      '  role="img">',
+      `  <title>${definition.title}</title>`,
+      ...elements,
+      '</svg>',
+      '',
+    ].join('\n');
+
+    fs.writeFileSync(path.join(assetsDirectory, filename), output, 'utf8');
+  }
 }
 
 function versionLocalAsset(reference, version) {
@@ -149,6 +192,8 @@ const productionUrl = process.env.URL || 'https://soluciones-gea.netlify.app';
 const deployUrl = process.env.DEPLOY_URL || productionUrl;
 const deployedAt = new Date().toISOString();
 
+generateServiceIconSvgs();
+
 const files = walk(root);
 const htmlFiles = files.filter(
   (file) => file.endsWith('.html') && !path.basename(file).startsWith('google'),
@@ -199,4 +244,4 @@ fs.writeFileSync(
   `${JSON.stringify(buildInformation, null, 2)}\n`,
 );
 
-console.log(`Release preparado: ${version} (${context}), ${htmlFiles.length} páginas versionadas y marca migrada a SVG.`);
+console.log(`Release preparado: ${version} (${context}), ${htmlFiles.length} páginas versionadas y recursos de marca migrados a SVG.`);
