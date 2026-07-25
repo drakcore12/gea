@@ -138,6 +138,7 @@ html[data-theme='dark'] .home-ux .service-tag {
     right: clamp(22px, 3vw, 42px);
     bottom: clamp(22px, 3vw, 38px);
     z-index: 60;
+    display: block;
   }
 
   .home-ux .mobile-contact-bar a {
