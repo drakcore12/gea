@@ -1,16 +1,15 @@
 name: Replace brand PNG assets with SVG
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/replace-brand-png-with-svg.yml
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
 
 jobs:
   replace:
+    if: github.event.issue.title == 'TRIGGER SVG BRAND MIGRATION'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
