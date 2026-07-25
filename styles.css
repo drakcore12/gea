@@ -45,6 +45,11 @@ img {
   height: auto;
 }
 
+img[src*="icono-electricidad.svg"] {
+  transform: scale(1.12);
+  transform-origin: center;
+}
+
 a {
   color: inherit;
   text-decoration: none;
