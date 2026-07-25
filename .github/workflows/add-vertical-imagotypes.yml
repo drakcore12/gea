@@ -1,10 +1,8 @@
 name: Add vertical GEA imagotypes
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/add-vertical-imagotypes.yml
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
