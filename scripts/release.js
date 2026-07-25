@@ -6,6 +6,12 @@ const { execFileSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
 const excludedDirectories = new Set(['.git', 'node_modules', 'web-v2']);
+const brandAssetReplacements = Object.freeze({
+  'imagotipo-horizontal-color-transparente.png': 'imagotipo-horizontal.svg',
+  'imagotipo-horizontal-negativo-transparente.png': 'Soluciones_GEA_imagotipo_horizontal_blanco.svg',
+  'isotipo-color-transparente.png': 'isotipo.svg',
+  'isotipo.jpeg': 'isotipo.svg',
+});
 
 function walk(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -42,6 +48,13 @@ function safeToken(value, fallback) {
     .slice(0, 24);
 
   return normalized || fallback;
+}
+
+function replaceBrandRasterReferences(source) {
+  return Object.entries(brandAssetReplacements).reduce(
+    (updated, [rasterName, svgName]) => updated.split(rasterName).join(svgName),
+    source,
+  );
 }
 
 function versionLocalAsset(reference, version) {
@@ -141,14 +154,25 @@ const htmlFiles = files.filter(
   (file) => file.endsWith('.html') && !path.basename(file).startsWith('google'),
 );
 const cssFiles = files.filter((file) => file.endsWith('.css'));
+const brandReferenceFiles = [
+  path.join(root, 'app.js'),
+  path.join(root, 'home-ux.js'),
+  path.join(root, 'scripts', 'check.js'),
+].filter((file) => fs.existsSync(file));
 
 for (const file of htmlFiles) {
   let html = fs.readFileSync(file, 'utf8');
+  html = replaceBrandRasterReferences(html);
   html = injectBuildMeta(html, version);
   html = protectPreviewFromIndexing(html, context);
   html = injectHomePriorityStyles(html, file);
   html = versionHtmlAssets(html, version);
   fs.writeFileSync(file, html);
+}
+
+for (const file of brandReferenceFiles) {
+  const source = fs.readFileSync(file, 'utf8');
+  fs.writeFileSync(file, replaceBrandRasterReferences(source));
 }
 
 for (const file of cssFiles) {
@@ -175,4 +199,4 @@ fs.writeFileSync(
   `${JSON.stringify(buildInformation, null, 2)}\n`,
 );
 
-console.log(`Release preparado: ${version} (${context}), ${htmlFiles.length} páginas versionadas.`);
+console.log(`Release preparado: ${version} (${context}), ${htmlFiles.length} páginas versionadas y marca migrada a SVG.`);
