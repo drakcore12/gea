@@ -37,6 +37,16 @@
     return version ? `${path}?v=${encodeURIComponent(version)}` : path;
   }
 
+  function loadNavigationLogoStyles() {
+    if (document.querySelector('link[href*="nav-logo.css"]')) return;
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = deployedAsset('/nav-logo.css');
+    stylesheet.dataset.navigationLogo = 'true';
+    document.head.appendChild(stylesheet);
+  }
+
   function loadHomePriorityStyles() {
     if (!isHomePage() || document.querySelector('link[href*="home-priority.css"]')) return;
 
@@ -67,6 +77,8 @@
   if (metaThemeColor) {
     metaThemeColor.content = theme === 'dark' ? darkThemeColor : lightThemeColor;
   }
+
+  loadNavigationLogoStyles();
 
   window.addEventListener('DOMContentLoaded', () => {
     loadHomePriorityStyles();
