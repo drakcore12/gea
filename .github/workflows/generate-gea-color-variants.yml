@@ -18,8 +18,9 @@ jobs:
           fetch-depth: 0
 
       - name: Generate monochrome SVG variants
-        shell: python
+        shell: bash
         run: |
+          python3 <<'PY'
           from pathlib import Path
 
           folder = Path("assets/img")
@@ -52,6 +53,7 @@ jobs:
                       else f"Soluciones_GEA_imagotipo_horizontal_{name}.svg"
                   )
                   (folder / filename).write_text(output, encoding="utf-8")
+          PY
 
       - name: Commit generated SVG files
         shell: bash
@@ -63,5 +65,5 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Add GEA monochrome SVG variants"
-            git push
+            git push origin HEAD:main
           fi
