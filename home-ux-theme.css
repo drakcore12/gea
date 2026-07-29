@@ -215,11 +215,19 @@ html[data-theme='dark'] .home-ux .service-tag {
     font-size: 15px;
   }
 
+  /* En móvil, el control de tema queda a la izquierda del menú. */
   .home-ux .theme-toggle {
-    display: none;
+    display: inline-grid;
+    order: 1;
+    margin-left: auto;
+    min-width: 48px;
+    min-height: 48px;
   }
 
+  /* El menú permanece siempre como el control más a la derecha. */
   .home-ux .menu-toggle {
+    order: 2;
+    margin-left: 0;
     min-width: 48px;
     min-height: 48px;
   }
