@@ -51,9 +51,22 @@ body.home-ux .site-header .brand-image {
     display: none;
   }
 
+  /*
+   * Keep both compact controls visible on small screens. The theme control
+   * owns the single flexible margin; the menu button stays directly beside it.
+   */
+  .site-header .theme-toggle,
+  .site-header .menu-toggle {
+    flex: 0 0 42px;
+  }
+
+  .site-header .theme-toggle {
+    margin-left: auto;
+  }
+
   body.home-ux .site-header .menu-toggle,
   .site-header .menu-toggle {
-    margin-left: auto;
+    margin-left: 0;
   }
 
   body.home-ux .site-header .main-nav {
@@ -67,5 +80,10 @@ body.home-ux .site-header .brand-image {
     width: auto;
     height: 48px;
     max-height: 48px;
+  }
+
+  .site-header .theme-toggle,
+  .site-header .menu-toggle {
+    flex-basis: 40px;
   }
 }
