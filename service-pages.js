@@ -9,7 +9,7 @@
     electricoComercial: 'Hola, Soluciones GEA. Necesito diagnóstico o cotización para un servicio eléctrico.',
     aguaLimpia: 'Hola, Soluciones GEA. Quiero cotizar lavado y desinfección de un tanque de agua.',
     presionBombas: 'Hola, Soluciones GEA. Necesito diagnóstico para una bomba o un problema de presión de agua.',
-    geaCare: 'Hola, Soluciones GEA. Quiero conocer el plan GEA Care adecuado para mi negocio.',
+    geaCare: 'Hola, Soluciones GEA. Quiero conocer la membresía GEA adecuada para mi negocio. Mi establecimiento tiene aproximadamente ____ m².',
   });
 
   function setWhatsappMessages() {
