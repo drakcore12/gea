@@ -6,108 +6,95 @@
   const CAROUSEL_ICON = './assets/img/isotipo.svg';
 
   const HOME_MESSAGES = Object.freeze({
-    'care-essential': 'Hola, Soluciones GEA. Quiero información sobre el plan GEA Care Essential de $99.000 al mes. Mi negocio es: ',
-    'care-plus': 'Hola, Soluciones GEA. Quiero información sobre el plan GEA Care Plus de $189.000 al mes. Mi negocio es: ',
-    'care-premium': 'Hola, Soluciones GEA. Quiero información sobre el plan GEA Care Premium de $359.000 al mes. Mi negocio es: ',
-    'care-corporate': 'Hola, Soluciones GEA. Quiero una valoración para GEA Care Corporate. Mi negocio o número de sedes es: ',
-    'emergency-water': 'Hola, Soluciones GEA. Tengo una posible fuga de agua. Barrio o municipio: ____. Tipo de inmueble: ____. Lo que está ocurriendo: ____.',
-    'emergency-electric': 'Hola, Soluciones GEA. Tengo una falla eléctrica. Barrio o municipio: ____. Tipo de inmueble: ____. Síntoma observado: ____. ¿El negocio está detenido?: ____.',
+    'technical-visit': 'Hola, Soluciones GEA. Quiero solicitar una visita técnica individual de $90.000 COP. Mi ubicación es: ____. La novedad que necesito revisar es: ____.',
+    'gea-negocio': 'Hola, Soluciones GEA. Quiero información sobre la membresía GEA Negocio de $180.000 al mes. Mi establecimiento tiene aproximadamente ____ m² y es un/una: ____.',
+    'gea-empresa': 'Hola, Soluciones GEA. Quiero información sobre la membresía GEA Empresa de $320.000 al mes. Mi establecimiento tiene aproximadamente ____ m² y es un/una: ____.',
+    'gea-total': 'Hola, Soluciones GEA. Quiero información sobre la membresía GEA Total de $590.000 al mes. Mi establecimiento tiene aproximadamente ____ m² y es un/una: ____.',
+    'emergency-water': 'Hola, Soluciones GEA. Necesito una visita técnica por una novedad de agua. Barrio o municipio: ____. Tipo de inmueble: ____. Lo que está ocurriendo: ____.',
+    'emergency-electric': 'Hola, Soluciones GEA. Necesito una visita técnica por una novedad eléctrica. Barrio o municipio: ____. Tipo de inmueble: ____. Síntoma observado: ____.',
     'emergency-gas': 'Hola, Soluciones GEA. Necesito orientación por una posible novedad de gas. Barrio o municipio: ____. Tipo de inmueble: ____. Lo que estoy observando: ____.',
-    'not-sure': 'Hola, Soluciones GEA. No sé cuál servicio necesito. Mi ubicación es: ____. El problema que observo es: ____.',
+    'not-sure': 'Hola, Soluciones GEA. No sé cuál servicio o membresía necesito. Mi ubicación es: ____. Mi establecimiento es: ____. Lo que necesito revisar es: ____.',
   });
 
   const PLAN_DATA = Object.freeze({
     1: Object.freeze({
-      name: 'GEA Care Essential',
-      price: '$99.000 al mes',
-      key: 'care-essential',
-      reason: 'Se ajusta inicialmente a espacios de hasta 60 m² y 10 puntos críticos.',
+      name: 'GEA Negocio',
+      price: '$180.000 al mes',
+      key: 'gea-negocio',
+      reason: 'Corresponde a establecimientos de hasta 200 m².',
     }),
     2: Object.freeze({
-      name: 'GEA Care Plus',
-      price: '$189.000 al mes',
-      key: 'care-plus',
-      reason: 'Se ajusta inicialmente a espacios de hasta 120 m² y 20 puntos críticos.',
+      name: 'GEA Empresa',
+      price: '$320.000 al mes',
+      key: 'gea-empresa',
+      reason: 'Corresponde a establecimientos entre 201 y 500 m².',
     }),
     3: Object.freeze({
-      name: 'GEA Care Premium',
-      price: '$359.000 al mes',
-      key: 'care-premium',
-      reason: 'Se ajusta inicialmente a espacios de hasta 250 m² y 40 puntos críticos.',
+      name: 'GEA Total',
+      price: '$590.000 al mes',
+      key: 'gea-total',
+      reason: 'Corresponde a establecimientos entre 501 y 1.000 m².',
     }),
     4: Object.freeze({
-      name: 'GEA Care Corporate',
-      price: 'Desde $699.000 al mes',
-      key: 'care-corporate',
-      reason: 'Se recomienda valoración personalizada por tamaño, cantidad de puntos o complejidad.',
+      name: 'Valoración personalizada',
+      price: 'Confirmar alcance',
+      key: 'not-sure',
+      reason: 'Para áreas superiores a 1.000 m² o cuando no conoce el tamaño, confirmamos el alcance antes de recomendar una membresía.',
     }),
   });
 
   const PRIORITY_SERVICES = Object.freeze([
     Object.freeze({
-      title: 'GEA Care Plus',
-      badge: 'Más recomendado',
-      category: 'Prevención para negocios',
-      description: 'Dos chequeos mensuales de agua, gas y electricidad para detectar riesgos visibles y mantener un historial técnico del negocio.',
-      price: '$189.000 al mes',
-      ideal: 'Cafeterías, panaderías y restaurantes pequeños',
-      action: 'Ver Plan Plus',
-      url: './servicios/gea-care-mantenimiento-preventivo-negocios-medellin/',
+      title: 'GEA Negocio',
+      badge: 'Mejor entrada mensual',
+      category: 'Membresía preventiva',
+      description: 'Dos visitas técnicas mensuales, control de consumos, seguimiento y hasta dos correcciones menores para establecimientos de hasta 200 m².',
+      price: '$180.000 al mes',
+      ideal: 'Cafeterías, panaderías, barberías, oficinas y locales',
+      action: 'Ver membresías',
+      url: '#planes',
       icon: CAROUSEL_ICON,
       tone: 'care',
-      analytics: 'hero-carousel-care-plus',
+      analytics: 'hero-carousel-gea-negocio',
     }),
     Object.freeze({
-      title: 'GEA Fugas Express',
-      badge: 'Muy solicitado',
-      category: 'Agua y gas',
-      description: 'Diagnóstico y corrección de fugas visibles, humedad, tuberías, sanitarios, lavaplatos y posibles novedades de gas.',
-      price: 'Desde $260.000 comercial',
-      ideal: 'Hogares, restaurantes, hoteles y locales',
-      action: 'Ver Fugas Express',
-      url: './servicios/fugas-de-agua-y-gas-medellin/',
+      title: 'Visita técnica individual',
+      badge: 'Diagnóstico puntual',
+      category: 'Hasta 80 minutos',
+      description: 'Revisión técnica, diagnóstico de la novedad, riesgos visibles, recomendaciones y evidencia básica. Reparaciones y materiales se cotizan aparte.',
+      price: '$90.000 por visita',
+      ideal: 'Negocios que necesitan revisar una novedad concreta',
+      action: 'Solicitar visita',
+      url: '#visita',
       icon: CAROUSEL_ICON,
       tone: 'water',
-      analytics: 'hero-carousel-fugas',
+      analytics: 'hero-carousel-visita',
     }),
     Object.freeze({
-      title: 'GEA Cocina Segura',
-      badge: 'Prioridad comercial',
-      category: 'Restaurantes y cocinas',
-      description: 'Mantenimiento integral de puntos de gas, agua, desagües y trampas de grasa para proteger la continuidad de la cocina.',
-      price: 'Desde $300.000 comercial',
-      ideal: 'Restaurantes, cafeterías y panaderías',
-      action: 'Ver Cocina Segura',
-      url: './servicios/mantenimiento-cocinas-comerciales-medellin/',
-      icon: CAROUSEL_ICON,
-      tone: 'gas',
-      analytics: 'hero-carousel-cocina',
-    }),
-    Object.freeze({
-      title: 'GEA Agua Limpia',
-      badge: 'Mantenimiento programado',
-      category: 'Tanques de agua',
-      description: 'Lavado, desinfección y revisión hidráulica básica de tanques para conservar el sistema limpio y en mejores condiciones.',
-      price: 'Desde $380.000 comercial',
-      ideal: 'Hoteles, edificios, negocios y administraciones',
-      action: 'Ver Agua Limpia',
-      url: './servicios/lavado-de-tanques-medellin/',
-      icon: CAROUSEL_ICON,
-      tone: 'water',
-      analytics: 'hero-carousel-tanques',
-    }),
-    Object.freeze({
-      title: 'GEA Eléctrico Comercial',
-      badge: 'Alta demanda',
-      category: 'Electricidad',
-      description: 'Diagnóstico de tableros, breakers, cortos, tomas, iluminación y sobrecargas que pueden afectar la operación diaria.',
-      price: 'Desde $220.000 comercial',
-      ideal: 'Locales, restaurantes, oficinas y bodegas',
-      action: 'Ver servicio eléctrico',
-      url: './servicios/servicios-electricos-comerciales-medellin/',
+      title: 'GEA Empresa',
+      badge: 'Mayor cobertura',
+      category: '201–500 m²',
+      description: 'Dos visitas técnicas ampliadas, comparación de consumos, seguimiento y hasta cuatro correcciones menores.',
+      price: '$320.000 al mes',
+      ideal: 'Restaurantes medianos, gimnasios, hoteles y bodegas pequeñas',
+      action: 'Ver GEA Empresa',
+      url: '#planes',
       icon: CAROUSEL_ICON,
       tone: 'electric',
-      analytics: 'hero-carousel-electricidad',
+      analytics: 'hero-carousel-gea-empresa',
+    }),
+    Object.freeze({
+      title: 'GEA Total',
+      badge: 'Seguimiento intensivo',
+      category: '501–1.000 m²',
+      description: 'Cuatro visitas mensuales, historial técnico, control de consumos y hasta seis correcciones menores.',
+      price: '$590.000 al mes',
+      ideal: 'Hoteles, bodegas, restaurantes grandes y empresas',
+      action: 'Ver GEA Total',
+      url: '#planes',
+      icon: CAROUSEL_ICON,
+      tone: 'gas',
+      analytics: 'hero-carousel-gea-total',
     }),
   ]);
 
@@ -117,44 +104,28 @@
 
   function initializeHomeWhatsappLinks() {
     document.querySelectorAll('[data-home-whatsapp]').forEach((link) => {
-      const key = link.dataset.homeWhatsapp;
-      const message = HOME_MESSAGES[key];
+      const message = HOME_MESSAGES[link.dataset.homeWhatsapp];
       if (message) link.href = whatsappUrl(message);
     });
-  }
-
-  function selectedNumber(form, name) {
-    const selected = form.querySelector(`input[name="${name}"]:checked`);
-    return selected ? Number(selected.value) : null;
   }
 
   function initializePlanFinder() {
     const form = document.querySelector('[data-plan-finder]');
     const submit = form?.querySelector('[data-plan-submit]');
     const result = form?.querySelector('[data-plan-result]');
-
     if (!form || !submit || !result) return;
 
     submit.addEventListener('click', () => {
       if (!form.reportValidity()) return;
 
-      const values = [
-        selectedNumber(form, 'business'),
-        selectedNumber(form, 'area'),
-        selectedNumber(form, 'points'),
-      ];
-
-      const knownValues = values.filter((value) => Number.isInteger(value) && value > 0);
-      const level = knownValues.length ? Math.max(...knownValues) : 2;
-      const plan = PLAN_DATA[level] || PLAN_DATA[2];
-      const answers = values.join('-');
-      const message = `${HOME_MESSAGES[plan.key]}\n\nRespuestas del orientador: ${answers}. Quiero confirmar si este plan corresponde a mi establecimiento.`;
+      const selected = form.querySelector('input[name="area"]:checked');
+      const level = Number(selected?.value || 4);
+      const plan = PLAN_DATA[level] || PLAN_DATA[4];
+      const message = `${HOME_MESSAGES[plan.key]}\n\nÁrea seleccionada en el orientador: ${selected?.nextElementSibling?.textContent || 'No especificada'}. Quiero confirmar el alcance.`;
 
       result.querySelector('[data-plan-name]').textContent = plan.name;
       result.querySelector('[data-plan-price]').textContent = plan.price;
-      result.querySelector('[data-plan-reason]').textContent = knownValues.length
-        ? plan.reason
-        : 'Como marcó “No lo sé”, sugerimos confirmar directamente las condiciones del establecimiento.';
+      result.querySelector('[data-plan-reason]').textContent = plan.reason;
       result.querySelector('[data-plan-link]').href = whatsappUrl(message);
       result.hidden = false;
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -170,7 +141,7 @@
     panel.dataset.tone = PRIORITY_SERVICES[0].tone;
     panel.setAttribute('role', 'region');
     panel.setAttribute('aria-roledescription', 'carrusel');
-    panel.setAttribute('aria-label', 'Servicios destacados de Soluciones GEA');
+    panel.setAttribute('aria-label', 'Opciones comerciales de Soluciones GEA');
 
     const slides = PRIORITY_SERVICES.map((service, index) => `
       <article class="commercial-slide" data-commercial-slide data-tone="${service.tone}" aria-roledescription="diapositiva" aria-label="${index + 1} de ${PRIORITY_SERVICES.length}"${index === 0 ? '' : ' hidden'}>
@@ -181,7 +152,7 @@
         <h2>${service.title}</h2>
         <p class="commercial-slide-description">${service.description}</p>
         <div class="commercial-slide-meta">
-          <span><small>Precio de referencia</small><strong>${service.price}</strong></span>
+          <span><small>Precio</small><strong>${service.price}</strong></span>
           <span><small>Ideal para</small><strong>${service.ideal}</strong></span>
         </div>
         <a class="commercial-slide-action" data-track-event="service_carousel_click" data-analytics="${service.analytics}" href="${service.url}">${service.action} <span aria-hidden="true">→</span></a>
@@ -196,23 +167,23 @@
       <div class="commercial-carousel-head">
         <div class="commercial-carousel-brand">
           <img data-carousel-icon src="${PRIORITY_SERVICES[0].icon}" width="58" height="58" alt="">
-          <span><small>SERVICIOS DESTACADOS</small><strong>Soluciones GEA</strong></span>
+          <span><small>TARIFAS OFICIALES</small><strong>Soluciones GEA</strong></span>
         </div>
         <button class="carousel-pause" type="button" data-carousel-pause aria-pressed="false">Pausar</button>
       </div>
       <div class="commercial-carousel-stage" data-carousel-stage aria-live="off">${slides}</div>
       <div class="commercial-carousel-footer">
         <div class="carousel-controls">
-          <button class="carousel-arrow" type="button" data-carousel-previous aria-label="Servicio anterior">←</button>
-          <div class="carousel-dots" aria-label="Elegir servicio">${dots}</div>
-          <button class="carousel-arrow" type="button" data-carousel-next aria-label="Servicio siguiente">→</button>
+          <button class="carousel-arrow" type="button" data-carousel-previous aria-label="Opción anterior">←</button>
+          <div class="carousel-dots" aria-label="Elegir opción">${dots}</div>
+          <button class="carousel-arrow" type="button" data-carousel-next aria-label="Opción siguiente">→</button>
         </div>
         <div class="carousel-progress" aria-hidden="true"><span></span></div>
       </div>
     `;
 
-    const slideElements = [...panel.querySelectorAll('[data-commercial-slide]')];
-    const dotElements = [...panel.querySelectorAll('[data-carousel-dot]')];
+    const slidesEls = [...panel.querySelectorAll('[data-commercial-slide]')];
+    const dotsEls = [...panel.querySelectorAll('[data-carousel-dot]')];
     const pauseButton = panel.querySelector('[data-carousel-pause]');
     const previousButton = panel.querySelector('[data-carousel-previous]');
     const nextButton = panel.querySelector('[data-carousel-next]');
@@ -232,80 +203,41 @@
       panel.classList.remove('is-running');
     };
 
-    const restartProgress = () => {
-      panel.classList.remove('is-running');
-      void panel.offsetWidth;
-      if (!reduceMotion.matches && !userPaused && !interactionPaused && !document.hidden) {
-        panel.classList.add('is-running');
-      }
-    };
-
     const scheduleNext = () => {
       stopTimer();
       if (reduceMotion.matches || userPaused || interactionPaused || document.hidden) return;
-      restartProgress();
-      timer = window.setTimeout(() => {
-        showSlide(currentIndex + 1, false);
-      }, CAROUSEL_INTERVAL);
+      panel.classList.remove('is-running');
+      void panel.offsetWidth;
+      panel.classList.add('is-running');
+      timer = window.setTimeout(() => showSlide(currentIndex + 1, false), CAROUSEL_INTERVAL);
     };
 
-    const showSlide = (requestedIndex, manual) => {
-      const nextIndex = (requestedIndex + slideElements.length) % slideElements.length;
-      currentIndex = nextIndex;
-
-      slideElements.forEach((slide, index) => {
-        const active = index === nextIndex;
-        slide.hidden = !active;
-        slide.classList.toggle('is-entering', active && !reduceMotion.matches);
-      });
-
-      dotElements.forEach((dot, index) => {
-        dot.setAttribute('aria-current', String(index === nextIndex));
-      });
-
-      const service = PRIORITY_SERVICES[nextIndex];
+    const showSlide = (requestedIndex, manual = true) => {
+      currentIndex = (requestedIndex + slidesEls.length) % slidesEls.length;
+      slidesEls.forEach((slide, index) => { slide.hidden = index !== currentIndex; });
+      dotsEls.forEach((dot, index) => dot.setAttribute('aria-current', String(index === currentIndex)));
+      const service = PRIORITY_SERVICES[currentIndex];
       panel.dataset.tone = service.tone;
       icon.src = service.icon;
       stage.setAttribute('aria-live', manual ? 'polite' : 'off');
-
-      window.setTimeout(() => {
-        slideElements[nextIndex]?.classList.remove('is-entering');
-        stage.setAttribute('aria-live', 'off');
-      }, 420);
-
+      window.setTimeout(() => stage.setAttribute('aria-live', 'off'), 400);
       scheduleNext();
     };
 
-    previousButton.addEventListener('click', () => showSlide(currentIndex - 1, true));
-    nextButton.addEventListener('click', () => showSlide(currentIndex + 1, true));
-
-    dotElements.forEach((dot, index) => {
-      dot.addEventListener('click', () => showSlide(index, true));
-    });
+    previousButton.addEventListener('click', () => showSlide(currentIndex - 1));
+    nextButton.addEventListener('click', () => showSlide(currentIndex + 1));
+    dotsEls.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
 
     pauseButton.addEventListener('click', () => {
       userPaused = !userPaused;
       pauseButton.setAttribute('aria-pressed', String(userPaused));
       pauseButton.textContent = userPaused ? 'Reanudar' : 'Pausar';
-      if (userPaused) stopTimer();
-      else scheduleNext();
+      if (userPaused) stopTimer(); else scheduleNext();
     });
 
-    panel.addEventListener('mouseenter', () => {
-      interactionPaused = true;
-      stopTimer();
-    });
-
-    panel.addEventListener('mouseleave', () => {
-      interactionPaused = false;
-      scheduleNext();
-    });
-
-    panel.addEventListener('focusin', () => {
-      interactionPaused = true;
-      stopTimer();
-    });
-
+    panel.addEventListener('mouseenter', () => { interactionPaused = true; stopTimer(); });
+    panel.addEventListener('mouseleave', () => { interactionPaused = false; scheduleNext(); });
+    panel.addEventListener('focusin', () => { interactionPaused = true; stopTimer(); });
     panel.addEventListener('focusout', () => {
       window.setTimeout(() => {
         interactionPaused = panel.contains(document.activeElement);
@@ -314,14 +246,8 @@
     });
 
     panel.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        showSlide(currentIndex - 1, true);
-      }
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        showSlide(currentIndex + 1, true);
-      }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); showSlide(currentIndex - 1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); showSlide(currentIndex + 1); }
     });
 
     panel.addEventListener('touchstart', (event) => {
@@ -333,8 +259,7 @@
       const endX = event.changedTouches[0]?.clientX ?? touchStartX;
       const distance = endX - touchStartX;
       touchStartX = null;
-      if (Math.abs(distance) < 50) return;
-      showSlide(currentIndex + (distance < 0 ? 1 : -1), true);
+      if (Math.abs(distance) >= 50) showSlide(currentIndex + (distance < 0 ? 1 : -1));
     }, { passive: true });
 
     document.addEventListener('visibilitychange', scheduleNext);
@@ -350,9 +275,7 @@
     let footerVisible = false;
     let formFocused = false;
 
-    const updateState = () => {
-      bar.classList.toggle('is-hidden', footerVisible || formFocused);
-    };
+    const updateState = () => bar.classList.toggle('is-hidden', footerVisible || formFocused);
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
