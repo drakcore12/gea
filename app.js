@@ -360,6 +360,47 @@
     });
   }
 
+  function enhanceGeaCareMembershipCopy() {
+    const readingText = 'Lectura de servicios públicos (agua, energía y gas), registro de consumos y recomendaciones técnicas según las lecturas y hallazgos.';
+
+    document.querySelectorAll('.care-plan-card').forEach((card) => {
+      const name = card.querySelector('h3')?.textContent.trim();
+      if (!['GEA Negocio', 'GEA Empresa', 'GEA Total'].includes(name)) return;
+
+      const list = card.querySelector('ul');
+      if (!list || list.querySelector('[data-gea-readings]')) return;
+
+      const item = document.createElement('li');
+      item.dataset.geaReadings = 'true';
+      item.textContent = readingText;
+      list.appendChild(item);
+    });
+
+    const plansIntro = document.querySelector('.care-plans-section .section-heading p:not(.eyebrow)');
+    if (plansIntro && !plansIntro.textContent.includes('lectura')) {
+      plansIntro.textContent = `${plansIntro.textContent.trim()} También incluyen lectura de servicios públicos y recomendaciones técnicas.`;
+    }
+
+    document.querySelectorAll('.service-care .plan-card').forEach((card) => {
+      const name = card.querySelector('h3')?.textContent.trim();
+      if (!['GEA Negocio', 'GEA Empresa', 'GEA Total'].includes(name)) return;
+      if (card.querySelector('[data-gea-readings]')) return;
+
+      const detail = document.createElement('p');
+      detail.dataset.geaReadings = 'true';
+      detail.textContent = readingText;
+      card.appendChild(detail);
+    });
+
+    const includedList = document.querySelector('.service-care .scope-included ul');
+    if (includedList && !includedList.querySelector('[data-gea-readings]')) {
+      const item = document.createElement('li');
+      item.dataset.geaReadings = 'true';
+      item.textContent = 'Lectura de servicios públicos, registro de consumos y recomendaciones técnicas.';
+      includedList.appendChild(item);
+    }
+  }
+
   function updateFooterYear() {
     document.querySelectorAll('[data-current-year]').forEach((element) => {
       element.textContent = String(new Date().getFullYear());
@@ -374,6 +415,7 @@
     initializeMobileMenu();
     initializeLeadForm();
     initializeTrackedLinks();
+    enhanceGeaCareMembershipCopy();
     updateFooterYear();
   }
 
