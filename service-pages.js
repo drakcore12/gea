@@ -4,12 +4,11 @@
   const number = '573017605677';
   const messages = Object.freeze({
     fugas: 'Hola, Soluciones GEA. Necesito orientación para una fuga o problema de agua.',
-    cocina: 'Hola, Soluciones GEA. Quiero cotizar GEA Cocina Segura para una cocina comercial.',
+    cocina: 'Hola, Soluciones GEA. Quiero cotizar mantenimiento técnico para una cocina comercial.',
     gasConforme: 'Hola, Soluciones GEA. Quiero solicitar revisión o adecuación de una red o punto de gas.',
     electricoComercial: 'Hola, Soluciones GEA. Necesito un electricista para diagnóstico, reparación o cotización.',
     aguaLimpia: 'Hola, Soluciones GEA. Quiero cotizar lavado y desinfección de un tanque de agua.',
     presionBombas: 'Hola, Soluciones GEA. Necesito diagnóstico para una bomba o un problema de presión de agua.',
-    geaCare: 'Hola, Soluciones GEA. Quiero conocer la membresía GEA adecuada para mi negocio. Mi establecimiento tiene aproximadamente ____ m².',
   });
 
   const pillars = Object.freeze([
@@ -54,7 +53,7 @@
     if (document.querySelector('link[data-service-media]')) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/service-media.css?v=1';
+    link.href = '/service-media.css?v=2';
     link.dataset.serviceMedia = 'true';
     document.head.appendChild(link);
   }
@@ -76,7 +75,6 @@
   function enhancePillarPhoto() {
     const key = document.body.dataset.seoPillar;
     if (!key) return;
-
     const pillar = pillars.find((item) => item.key === key);
     const card = document.querySelector('.service-hero .service-meta-card');
     if (!pillar || !card || card.querySelector('[data-service-photo]')) return;
@@ -84,84 +82,35 @@
     const note = document.createElement('p');
     note.className = 'service-photo-note';
     note.textContent = 'Imagen ilustrativa. Será reemplazada progresivamente por fotografías de trabajos reales de Soluciones GEA.';
-
     card.prepend(note);
     card.prepend(createServicePhoto(pillar, true));
-
     const mark = card.querySelector('.service-mark');
     if (mark) mark.remove();
   }
 
   function enhanceServicesHubPhotos() {
     if (!document.body.classList.contains('services-hub-page')) return;
-
-    let inserted = false;
     pillars.forEach((pillar) => {
       const link = document.querySelector(`.service-hub-card > a[href="${pillar.href}"]`);
       const card = link?.closest('.service-hub-card');
-      if (!card || card.querySelector('[data-service-photo]')) return;
-
+      if (!card || card.querySelector('.service-photo')) return;
       const icon = card.querySelector('.service-hub-icon');
       const image = createServicePhoto(pillar);
       if (icon) icon.replaceWith(image);
       else card.prepend(image);
-      inserted = true;
     });
-
-    if (!inserted || document.querySelector('[data-illustrative-photo-note]')) return;
-    const grid = document.querySelector('.service-hub-grid');
-    if (!grid) return;
-
-    const note = document.createElement('p');
-    note.className = 'service-photo-note';
-    note.dataset.illustrativePhotoNote = 'true';
-    note.textContent = 'Las fotografías de Electricidad, Agua y Gas son ilustrativas y se reemplazarán por trabajos reales de Soluciones GEA.';
-    grid.insertAdjacentElement('afterend', note);
   }
 
   function enhanceHomeServiceLinks() {
     if (location.pathname !== '/' && !location.pathname.endsWith('/index.html')) return;
-
     const navLink = document.querySelector('.main-nav a[href="#servicios"]');
     if (navLink) navLink.href = '/servicios/';
-
-    const cards = document.querySelectorAll('#servicios .service-card');
-    const destinations = [
-      [pillars[2].href, 'Ver servicio de gas'],
-      [pillars[0].href, 'Ver electricista en Medellín'],
-      [pillars[1].href, 'Ver plomería y fugas de agua'],
-    ];
-
-    cards.forEach((card, index) => {
-      const link = card.querySelector(':scope > a');
-      const destination = destinations[index];
-      if (!link || !destination) return;
-      link.removeAttribute('data-whatsapp');
-      link.removeAttribute('target');
-      link.removeAttribute('rel');
-      link.href = destination[0];
-      link.innerHTML = `${destination[1]} <span aria-hidden="true">→</span>`;
-    });
-
-    const grid = document.querySelector('#servicios .service-grid');
-    if (grid && !document.querySelector('[data-services-directory]')) {
-      const wrapper = document.createElement('p');
-      wrapper.className = 'services-directory-action';
-      const link = document.createElement('a');
-      link.className = 'button button-primary';
-      link.href = '/servicios/';
-      link.dataset.servicesDirectory = 'true';
-      link.textContent = 'Ver todos los servicios';
-      wrapper.appendChild(link);
-      grid.insertAdjacentElement('afterend', wrapper);
-    }
   }
 
   function connectLegacyServicePagesToPillars() {
     const body = document.body;
     if (!body.classList.contains('service-detail-page') || body.dataset.seoPillar) return;
     if (document.querySelector('[data-seo-pillar-links]')) return;
-
     const target = document.querySelector('.service-cta');
     if (!target) return;
 
@@ -189,12 +138,20 @@
         </div>
         <div class="related-grid">${links}</div>
       </div>`;
-
     target.insertAdjacentElement('beforebegin', section);
+  }
+
+  function removeRetiredCareLinks() {
+    document.querySelectorAll('a[href*="gea-care"], a[href="#planes"]').forEach((link) => {
+      const card = link.closest('.related-card, .service-hub-card');
+      if (card) card.remove();
+      else link.remove();
+    });
   }
 
   function initialize() {
     ensureServiceMediaStyles();
+    removeRetiredCareLinks();
     setWhatsappMessages();
     enhancePillarPhoto();
     enhanceServicesHubPhotos();
