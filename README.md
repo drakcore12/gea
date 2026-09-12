@@ -1,56 +1,49 @@
-# Soluciones GEA — sitio web
+# Soluciones GEA
 
-Sitio estático de Soluciones GEA, empresa de servicios técnicos de agua, gas y electricidad en Medellín y el Área Metropolitana.
+Sitio web estático de Soluciones GEA para captación local de servicios técnicos en Medellín y el Valle de Aburrá.
 
-## Tecnología
+## Enfoque comercial actual
 
-- HTML semántico y páginas estáticas indexables.
-- CSS responsive con modo claro y oscuro.
-- JavaScript sin dependencias.
-- Despliegue en Netlify.
-- Google Analytics opcional y condicionado al consentimiento.
+La web prioriza tres intenciones de búsqueda y conversión:
+
+- `servicios/electricista-medellin/`: electricista en Medellín para hogares, negocios y empresas.
+- `servicios/plomero-fugas-agua-medellin/`: plomería y fugas de agua en Medellín.
+- `servicios/gas-medellin/`: revisión, adecuación y servicios relacionados con gas en Medellín.
+
+La oferta comercial visible ya no incluye planes GEA Care. La estrategia actual prioriza servicios puntuales, diagnóstico, reparación, instalaciones y contacto directo por llamada o WhatsApp.
 
 ## Arquitectura
 
-- `index.html`: página principal.
-- `servicios/index.html`: directorio de los siete servicios oficiales.
-- `servicios/fugas-de-agua-y-gas-medellin/`: GEA Fugas Express.
-- `servicios/mantenimiento-cocinas-comerciales-medellin/`: GEA Cocina Segura.
-- `servicios/redes-internas-de-gas-medellin/`: GEA Gas Conforme.
-- `servicios/servicios-electricos-comerciales-medellin/`: GEA Eléctrico Comercial.
-- `servicios/lavado-de-tanques-medellin/`: GEA Agua Limpia.
-- `servicios/bombas-y-presion-de-agua-medellin/`: GEA Presión y Bombas.
-- `servicios/gea-care-mantenimiento-preventivo-negocios-medellin/`: planes GEA Care.
-- `privacidad.html`: política de privacidad.
-- `404.html`: página de error.
+- HTML, CSS y JavaScript sin framework.
+- JavaScript sin dependencias.
+- Despliegue en Netlify.
+- Google Analytics opcional y condicionado al consentimiento.
+- SEO local mediante páginas por intención de servicio, datos estructurados, sitemap y enlazado interno.
 
-## Estilos y scripts
+## Páginas de servicios especializados
 
-- `styles.css`: estructura, componentes y responsive general.
-- `brand.css`: tipografía, radios, sombras, jerarquía y movimiento de marca.
-- `social.css`: tarjetas de redes sociales.
-- `theme.css`: carga la capa de marca y aplica el modo oscuro.
-- `service-pages.css`: componentes de landings, precios, planes, breadcrumbs y enlaces relacionados.
-- `theme-init.js`: aplica el tema antes del primer renderizado y enlaza el directorio desde el inicio.
-- `app.js`: tema, menú, formulario, medición y consentimiento.
-- `service-pages.js`: mensajes de WhatsApp específicos y navegación de servicios.
+- `servicios/servicios-electricos-comerciales-medellin/`: electricidad comercial.
+- `servicios/fugas-de-agua-y-gas-medellin/`: diagnóstico de fugas.
+- `servicios/redes-internas-de-gas-medellin/`: redes internas de gas.
+- `servicios/lavado-de-tanques-medellin/`: lavado de tanques.
+- `servicios/bombas-y-presion-de-agua-medellin/`: bombas y presión de agua.
+- `servicios/mantenimiento-cocinas-comerciales-medellin/`: mantenimiento técnico para cocinas comerciales.
 
-## SEO local
+## Multimedia SEO temporal
 
-Cada landing tiene título, descripción, canonical, Open Graph, un solo H1, BreadcrumbList, datos estructurados `Service`, precios públicos desde, preguntas frecuentes y enlaces internos. `sitemap.xml` incluye todas las páginas indexables.
+Las imágenes de electricidad, agua y gas ubicadas en `assets/img/seo/` son ilustrativas. Se deben reemplazar progresivamente con fotografías reales de trabajos de Soluciones GEA, conservando nombres de archivo, dimensiones optimizadas y textos alternativos descriptivos.
 
-El sitio publica únicamente información comercial. Las tarifas internas por hora, fórmulas, factores de riesgo, márgenes y reglas de redondeo no se exponen.
+## Ecommerce futuro
 
-## Reglas de marca
+La futura tienda debe mantenerse separada de la intención de servicio usando una arquitectura `/tienda/`, por ejemplo:
 
-- Nav claro: imagotipo a color.
-- Nav oscuro: imagotipo negativo.
-- Footer: imagotipo negativo transparente.
-- Azul principal: `#011949`.
-- Naranja: `#FE8601`.
-- Verde: `#57BB2D`.
-- Azul agua: `#005BE7`.
-- Manrope para títulos e interfaz; Inter para contenido.
+- `/tienda/electricidad/`
+- `/tienda/agua-y-plomeria/`
+- `/tienda/gas/`
+- `/tienda/medidores-y-contadores/`
+- `/tienda/repuestos/`
+
+Esto permitirá vender repuestos, contadores o medidores nuevos y usados, bombas, componentes y accesorios sin canibalizar las páginas SEO de servicios.
 
 ## Validación local
 
@@ -60,7 +53,3 @@ node --check theme-init.js
 node --check service-pages.js
 node scripts/check.js
 ```
-
-## Despliegue e indexación
-
-Netlify publica la raíz del repositorio desde `main`, sin comando de compilación. Después de cada publicación importante se debe comprobar `sitemap.xml`, inspeccionar las URLs en Google Search Console y solicitar indexación de las páginas prioritarias.
