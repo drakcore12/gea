@@ -8,8 +8,9 @@
   const skipButton = overlay.querySelector('[data-gea-intro-skip]');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const pageRegions = document.querySelectorAll('.site-header, main, .site-footer, .skip-link');
+  const assetVersion = '20260912-2355';
   const videoParts = Array.from({ length: 14 }, (_, index) =>
-    `/assets/video/gea-intro.mp4.part${String(index + 1).padStart(2, '0')}`,
+    `/assets/video/gea-intro.mp4.part${String(index + 1).padStart(2, '0')}?v=${assetVersion}`,
   );
   const fallbackDuration = 18000;
   const fadeDuration = 420;
@@ -75,7 +76,7 @@
 
     try {
       const responses = await Promise.all(
-        videoParts.map((url) => fetch(url, { cache: 'force-cache' })),
+        videoParts.map((url) => fetch(url, { cache: 'no-store' })),
       );
 
       if (responses.some((response) => !response.ok)) {
