@@ -59,6 +59,20 @@
     document.head.appendChild(link);
   }
 
+  function createServicePhoto(pillar, eager = false) {
+    const image = document.createElement('img');
+    image.className = 'service-photo';
+    image.src = pillar.photo;
+    image.width = 480;
+    image.height = 360;
+    image.alt = pillar.photoAlt;
+    image.decoding = 'async';
+    image.loading = eager ? 'eager' : 'lazy';
+    if (eager) image.fetchPriority = 'high';
+    image.dataset.servicePhoto = pillar.key;
+    return image;
+  }
+
   function enhancePillarPhoto() {
     const key = document.body.dataset.seoPillar;
     if (!key) return;
@@ -67,25 +81,42 @@
     const card = document.querySelector('.service-hero .service-meta-card');
     if (!pillar || !card || card.querySelector('[data-service-photo]')) return;
 
-    const image = document.createElement('img');
-    image.className = 'service-photo';
-    image.src = pillar.photo;
-    image.width = 480;
-    image.height = 360;
-    image.alt = pillar.photoAlt;
-    image.decoding = 'async';
-    image.fetchPriority = 'high';
-    image.dataset.servicePhoto = pillar.key;
-
     const note = document.createElement('p');
     note.className = 'service-photo-note';
     note.textContent = 'Imagen ilustrativa. Será reemplazada progresivamente por fotografías de trabajos reales de Soluciones GEA.';
 
     card.prepend(note);
-    card.prepend(image);
+    card.prepend(createServicePhoto(pillar, true));
 
     const mark = card.querySelector('.service-mark');
     if (mark) mark.remove();
+  }
+
+  function enhanceServicesHubPhotos() {
+    if (!document.body.classList.contains('services-hub-page')) return;
+
+    let inserted = false;
+    pillars.forEach((pillar) => {
+      const link = document.querySelector(`.service-hub-card > a[href="${pillar.href}"]`);
+      const card = link?.closest('.service-hub-card');
+      if (!card || card.querySelector('[data-service-photo]')) return;
+
+      const icon = card.querySelector('.service-hub-icon');
+      const image = createServicePhoto(pillar);
+      if (icon) icon.replaceWith(image);
+      else card.prepend(image);
+      inserted = true;
+    });
+
+    if (!inserted || document.querySelector('[data-illustrative-photo-note]')) return;
+    const grid = document.querySelector('.service-hub-grid');
+    if (!grid) return;
+
+    const note = document.createElement('p');
+    note.className = 'service-photo-note';
+    note.dataset.illustrativePhotoNote = 'true';
+    note.textContent = 'Las fotografías de Electricidad, Agua y Gas son ilustrativas y se reemplazarán por trabajos reales de Soluciones GEA.';
+    grid.insertAdjacentElement('afterend', note);
   }
 
   function enhanceHomeServiceLinks() {
@@ -166,6 +197,7 @@
     ensureServiceMediaStyles();
     setWhatsappMessages();
     enhancePillarPhoto();
+    enhanceServicesHubPhotos();
     enhanceHomeServiceLinks();
     connectLegacyServicePagesToPillars();
     window.setTimeout(setWhatsappMessages, 100);
