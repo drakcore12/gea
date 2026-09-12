@@ -1,0 +1,21 @@
+.service-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin: 0 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(1, 25, 73, 0.12);
+}
+
+.service-photo-note {
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+html[data-theme='dark'] .service-photo {
+  border-color: rgba(255, 255, 255, 0.14);
+}
