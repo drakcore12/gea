@@ -8,7 +8,7 @@
   const skipButton = overlay.querySelector('[data-gea-intro-skip]');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const pageRegions = document.querySelectorAll('.site-header, main, .site-footer, .skip-link');
-  const videoParts = Array.from({ length: 7 }, (_, index) =>
+  const videoParts = Array.from({ length: 14 }, (_, index) =>
     `/assets/video/gea-intro.mp4.part${String(index + 1).padStart(2, '0')}`,
   );
   const fallbackDuration = 18000;
