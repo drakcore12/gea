@@ -14,22 +14,31 @@
 
   const pillars = Object.freeze([
     {
+      key: 'electricidad',
       href: '/servicios/electricista-medellin/',
       title: 'Electricista en Medellín',
       description: 'Fallas, breakers, tableros, tomas, iluminación y circuitos.',
       icon: '/assets/img/icono-electricidad.svg',
+      photo: '/assets/img/seo/electricista-medellin.webp',
+      photoAlt: 'Imagen ilustrativa de un técnico electricista revisando un medidor y tablero eléctrico en Medellín',
     },
     {
+      key: 'agua',
       href: '/servicios/plomero-fugas-agua-medellin/',
       title: 'Plomero y fugas de agua',
       description: 'Fugas, humedad, tuberías, sanitarios, bombas y presión.',
       icon: '/assets/img/icono-agua.svg',
+      photo: '/assets/img/seo/plomero-fugas-agua-medellin.webp',
+      photoAlt: 'Imagen ilustrativa de un técnico revisando un medidor de agua y conexiones de plomería en Medellín',
     },
     {
+      key: 'gas',
       href: '/servicios/gas-medellin/',
       title: 'Servicio de gas en Medellín',
       description: 'Redes internas, puntos, conexiones, fugas y adecuaciones.',
       icon: '/assets/img/icono-gas.svg',
+      photo: '/assets/img/seo/gas-medellin.webp',
+      photoAlt: 'Imagen ilustrativa de un técnico revisando un medidor y conexiones de gas en Medellín',
     },
   ]);
 
@@ -39,6 +48,44 @@
       if (!message) return;
       link.href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
     });
+  }
+
+  function ensureServiceMediaStyles() {
+    if (document.querySelector('link[data-service-media]')) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/service-media.css?v=1';
+    link.dataset.serviceMedia = 'true';
+    document.head.appendChild(link);
+  }
+
+  function enhancePillarPhoto() {
+    const key = document.body.dataset.seoPillar;
+    if (!key) return;
+
+    const pillar = pillars.find((item) => item.key === key);
+    const card = document.querySelector('.service-hero .service-meta-card');
+    if (!pillar || !card || card.querySelector('[data-service-photo]')) return;
+
+    const image = document.createElement('img');
+    image.className = 'service-photo';
+    image.src = pillar.photo;
+    image.width = 480;
+    image.height = 360;
+    image.alt = pillar.photoAlt;
+    image.decoding = 'async';
+    image.fetchPriority = 'high';
+    image.dataset.servicePhoto = pillar.key;
+
+    const note = document.createElement('p');
+    note.className = 'service-photo-note';
+    note.textContent = 'Imagen ilustrativa. Será reemplazada progresivamente por fotografías de trabajos reales de Soluciones GEA.';
+
+    card.prepend(note);
+    card.prepend(image);
+
+    const mark = card.querySelector('.service-mark');
+    if (mark) mark.remove();
   }
 
   function enhanceHomeServiceLinks() {
@@ -116,7 +163,9 @@
   }
 
   function initialize() {
+    ensureServiceMediaStyles();
     setWhatsappMessages();
+    enhancePillarPhoto();
     enhanceHomeServiceLinks();
     connectLegacyServicePagesToPillars();
     window.setTimeout(setWhatsappMessages, 100);
