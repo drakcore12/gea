@@ -1,6 +1,17 @@
-# Plan de desarrollo — Soluciones GEA
+# Soluciones GEA — Project Brief
 
-Este documento registra el alcance de la nueva web de Soluciones GEA.
+## Objetivo
+
+Captar clientes locales que necesitan servicios técnicos de electricidad, plomería/agua y gas en Medellín y el Valle de Aburrá, priorizando llamadas y conversaciones por WhatsApp.
+
+## Oferta principal
+
+- Electricista en Medellín.
+- Plomería y fugas de agua en Medellín.
+- Servicios relacionados con redes, puntos y fugas de gas en Medellín.
+- Servicios especializados derivados: electricidad comercial, bombas y presión, lavado de tanques, redes internas de gas, diagnóstico de fugas y mantenimiento de cocinas comerciales.
+
+GEA Care fue retirado de la oferta comercial visible para concentrar la captación en servicios de mayor intención inmediata.
 
 ## Canales oficiales
 
@@ -9,10 +20,14 @@ Este documento registra el alcance de la nueva web de Soluciones GEA.
 - Instagram: https://www.instagram.com/solucionesgea_oficial/
 - WhatsApp y teléfono: +57 301 760 5677
 
-## Objetivo
+## SEO
 
-Convertir visitas en solicitudes de servicio por WhatsApp, llamada o formulario, comunicando soluciones profesionales de gas, electricidad y agua para Medellín y el Área Metropolitana.
+Tres páginas pilar:
 
-## Regla operativa
+- `/servicios/electricista-medellin/`
+- `/servicios/plomero-fugas-agua-medellin/`
+- `/servicios/gas-medellin/`
 
-No publicar certificaciones, tiempos de respuesta, atención 24/7, garantías, precios cerrados o cobertura que no puedan demostrarse y cumplirse.
+## Futuro ecommerce
+
+Crear una sección `/tienda/` separada de las páginas de servicios para repuestos, medidores/contadores nuevos y usados, bombas, componentes eléctricos, accesorios de agua/plomería y gas.
