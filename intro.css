@@ -1,0 +1,98 @@
+:root {
+  --gea-intro-bg: #f5f6f8;
+  --gea-intro-ink: #072957;
+  --gea-intro-surface: rgba(255, 255, 255, 0.92);
+}
+
+body.gea-intro-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+.gea-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--gea-intro-bg);
+  opacity: 1;
+  visibility: visible;
+  isolation: isolate;
+  transition: opacity 420ms ease, visibility 420ms ease;
+}
+
+.gea-intro.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gea-intro__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: var(--gea-intro-bg);
+}
+
+.gea-intro__skip {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + clamp(12px, 2vw, 24px));
+  right: calc(env(safe-area-inset-right, 0px) + clamp(12px, 2vw, 24px));
+  z-index: 2;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid rgba(7, 41, 87, 0.14);
+  border-radius: 999px;
+  background: var(--gea-intro-surface);
+  color: var(--gea-intro-ink);
+  box-shadow: 0 8px 28px rgba(7, 41, 87, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font: 700 0.875rem/1 Inter, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.gea-intro__skip:hover {
+  transform: translateY(-1px);
+  background: #ffffff;
+  box-shadow: 0 10px 32px rgba(7, 41, 87, 0.14);
+}
+
+.gea-intro__skip:focus-visible {
+  outline: 3px solid #1d6df2;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px), (orientation: portrait) {
+  .gea-intro__video {
+    width: 100vw;
+    height: auto;
+    max-height: 100dvh;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+  }
+
+  .gea-intro__skip {
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    right: calc(env(safe-area-inset-right, 0px) + 12px);
+    min-height: 42px;
+    padding: 9px 14px;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gea-intro {
+    display: none !important;
+  }
+}
