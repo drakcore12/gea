@@ -151,13 +151,17 @@
     document.body.classList.remove('gea-intro-open');
     setPageInteractive(true);
 
-    const hadFocus = overlay.contains(document.activeElement);
+    const shouldRestorePreviousFocus =
+      overlay.contains(document.activeElement) &&
+      previousFocus instanceof HTMLElement &&
+      previousFocus !== document.body &&
+      previousFocus !== document.documentElement &&
+      document.contains(previousFocus);
+
     const removeOverlay = () => {
       overlay.remove();
-      if (hadFocus) {
-        const target = previousFocus instanceof HTMLElement && previousFocus !== document.body
-          ? previousFocus : document.querySelector('.brand');
-        target?.focus({ preventScroll: true });
+      if (shouldRestorePreviousFocus) {
+        previousFocus.focus({ preventScroll: true });
       }
     };
 
