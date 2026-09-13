@@ -1,15 +1,37 @@
 /* Rotating audience context in the homepage hero. */
 .home-ux .home-hero-copy h1 {
-  max-width: 18ch;
-  line-height: .96;
+  width: min(100%, 900px);
+  max-width: none;
+  margin-inline: auto;
+  display: grid;
+  justify-items: center;
+  gap: .06em;
+  line-height: .94;
+  text-align: center;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.hero-title-main,
+.hero-title-context-line {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+.hero-title-main {
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .hero-title-context-line {
-  display: inline-block;
-  white-space: nowrap;
+  min-height: 1em;
+  line-height: 1;
 }
 
 .home-ux .home-hero-copy h1 em {
+  display: block;
+  width: 100%;
   color: var(--gea-copper-bright) !important;
   font-style: normal;
   font-weight: 800;
@@ -18,11 +40,13 @@
 .hero-context-rotator {
   display: inline-grid;
   grid-template-areas: "word";
-  min-width: 8.6ch;
-  margin-left: .08em;
-  vertical-align: baseline;
+  width: 9.6ch;
+  max-width: 100%;
+  margin: 0 auto;
+  vertical-align: middle;
   text-align: center;
   color: #ffb25b;
+  overflow: visible;
 }
 
 .hero-context-rotator::before {
@@ -35,15 +59,17 @@
 .hero-context-word {
   grid-area: word;
   display: inline-block;
+  max-width: 100%;
   font-family: Archivo, Inter, system-ui, sans-serif;
-  font-size: .78em;
+  font-size: .72em;
   font-weight: 800;
   font-style: normal;
-  letter-spacing: .055em;
+  line-height: 1;
+  letter-spacing: .045em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: #ffb25b;
-  text-shadow: 0 4px 22px rgba(254, 134, 1, .28);
-  box-shadow: inset 0 -.08em 0 rgba(254, 134, 1, .18);
+  text-shadow: 0 3px 18px rgba(254, 134, 1, .2);
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
@@ -56,31 +82,51 @@
 
 .hero-context-word.is-leaving {
   opacity: 0;
-  transform: translateY(-.18em);
+  transform: translateY(-.16em);
   filter: blur(3px);
 }
 
 .hero-context-word.is-entering {
   opacity: 0;
-  transform: translateY(.18em);
+  transform: translateY(.16em);
   filter: blur(3px);
 }
 
 @media (max-width: 760px) {
   .home-ux .home-hero-copy h1 {
-    max-width: 100%;
-    font-size: clamp(2.35rem, 10.8vw, 3.55rem);
-    line-height: .98;
+    width: 100%;
+    font-size: clamp(2.15rem, 10.8vw, 3.4rem);
+    line-height: .96;
+    gap: .1em;
+  }
+
+  .hero-title-main {
+    max-width: 11ch;
+    margin-inline: auto;
   }
 
   .hero-context-rotator {
-    min-width: 8.6ch;
+    width: 9.4ch;
+  }
+
+  .hero-context-word {
+    font-size: .7em;
+    letter-spacing: .035em;
   }
 }
 
 @media (max-width: 380px) {
   .home-ux .home-hero-copy h1 {
-    font-size: clamp(2.15rem, 10.2vw, 2.75rem);
+    font-size: clamp(1.95rem, 10.2vw, 2.6rem);
+  }
+
+  .hero-title-main {
+    max-width: 10.5ch;
+  }
+
+  .hero-context-word {
+    font-size: .68em;
+    letter-spacing: .025em;
   }
 }
 
