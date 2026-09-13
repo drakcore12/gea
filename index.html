@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="./theme-init.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./theme.css">
   <link rel="stylesheet" href="./service-pages.css">
@@ -31,105 +31,204 @@
   <link rel="stylesheet" href="./hero-video.css">
   <link rel="stylesheet" href="./nav-logo.css">
   <link rel="stylesheet" href="./intro.css">
+  <link rel="stylesheet" href="./home-redesign.css">
   <noscript><style>.gea-intro{display:none!important}</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"HomeAndConstructionBusiness","@id":"https://soluciones-gea.netlify.app/#business","name":"Soluciones GEA","url":"https://soluciones-gea.netlify.app/","telephone":"+573017605677","image":"https://soluciones-gea.netlify.app/assets/img/imagotipo-horizontal.svg","logo":"https://soluciones-gea.netlify.app/assets/img/imagotipo-horizontal.svg","description":"Servicios técnicos de electricidad, plomería, agua y gas para hogares, comercios y empresas en Medellín y el Valle de Aburrá.","address":{"@type":"PostalAddress","streetAddress":"Carrera 141 #62-86","addressLocality":"Medellín","addressRegion":"Antioquia","addressCountry":"CO"},"areaServed":["Medellín","Bello","Envigado","Itagüí","Sabaneta","La Estrella"],"sameAs":["https://www.facebook.com/profile.php?id=61591598215345","https://www.instagram.com/solucionesgea_oficial/","https://www.tiktok.com/@solucionesgea_oficial"]},{"@type":"ItemList","name":"Servicios principales de Soluciones GEA en Medellín","itemListElement":[{"@type":"ListItem","position":1,"name":"Electricista en Medellín","url":"https://soluciones-gea.netlify.app/servicios/electricista-medellin/"},{"@type":"ListItem","position":2,"name":"Plomero y fugas de agua en Medellín","url":"https://soluciones-gea.netlify.app/servicios/plomero-fugas-agua-medellin/"},{"@type":"ListItem","position":3,"name":"Servicio de gas en Medellín","url":"https://soluciones-gea.netlify.app/servicios/gas-medellin/"}]}]}</script>
 </head>
-<body class="home-ux services-hub-page">
+<body class="home-ux">
   <div class="gea-intro" data-gea-intro role="region" aria-label="Presentación de Soluciones GEA">
     <video class="gea-intro__video" muted playsinline preload="none" aria-hidden="true"></video>
     <button class="gea-intro__skip" type="button" data-gea-intro-skip aria-label="Saltar presentación">Saltar</button>
   </div>
+
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand" href="/" aria-label="Soluciones GEA, ir al inicio"><img class="brand-image" src="./assets/img/imagotipo-horizontal.svg" width="220" height="59" alt="Soluciones GEA"></a>
+      <a class="brand" href="/" aria-label="Soluciones GEA, ir al inicio">
+        <img class="brand-image" src="./assets/img/imagotipo-horizontal.svg" width="220" height="59" alt="Soluciones GEA">
+      </a>
       <nav id="main-nav" class="main-nav" aria-label="Navegación principal">
         <a href="#servicios">Servicios</a>
-        <a href="/servicios/electricista-medellin/">Electricidad</a>
-        <a href="/servicios/plomero-fugas-agua-medellin/">Agua</a>
-        <a href="/servicios/gas-medellin/">Gas</a>
+        <a href="#porque-gea">Por qué GEA</a>
         <a href="#contacto">Contacto</a>
       </nav>
-      <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar tema"><svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg><span class="sr-only">Cambiar tema</span></button>
-      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú"><svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg></button>
-      <a class="button button-header" href="tel:+573017605677">Llamar</a>
+      <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar tema">
+        <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg>
+        <span class="sr-only">Cambiar tema</span>
+      </button>
+      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú">
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
+      </button>
+      <a class="button button-primary home-nav-cta" href="#contacto">Agendar visita — $80.000</a>
     </div>
   </header>
 
   <main id="contenido">
-    <section class="service-hub-hero">
+    <section class="service-hub-hero" aria-labelledby="hero-title">
       <div class="service-hub-hero__media" data-hero-video-media aria-hidden="true">
-        <video class="service-hub-hero__video is-active" data-hero-video muted playsinline preload="auto">
-          <source src="https://www.pexels.com/download/video/31563691/" type="video/mp4">
-        </video>
-        <video class="service-hub-hero__video" data-hero-video muted playsinline preload="auto">
-          <source src="https://www.pexels.com/download/video/31563421/" type="video/mp4">
-        </video>
+        <video class="service-hub-hero__video is-active" data-hero-video muted playsinline preload="none"></video>
+        <video class="service-hub-hero__video" data-hero-video muted playsinline preload="none"></video>
       </div>
-      <div class="container">
-        <p class="eyebrow">ELECTRICIDAD · PLOMERÍA · GAS EN MEDELLÍN</p>
-        <h1>Electricista, plomero y servicio de gas en Medellín</h1>
-        <p class="lead">Atendemos fallas eléctricas, fugas de agua, problemas de tuberías, baja presión, redes internas y puntos de gas para hogares, negocios y empresas. Cuéntenos qué está pasando y le indicamos el siguiente paso.</p>
-        <p class="service-note"><strong>Cobertura:</strong> Medellín, Bello, Envigado, Itagüí, Sabaneta y La Estrella, según disponibilidad y tipo de trabajo.</p>
-      </div>
-    </section>
 
-    <section id="servicios" class="service-section">
       <div class="container">
-        <div class="section-heading"><p class="eyebrow">SERVICIOS PRINCIPALES</p><h2>Seleccione el problema que necesita resolver</h2><p>Cada área tiene una página especializada con problemas frecuentes, alcance, seguridad y contacto directo.</p></div>
-        <div class="service-hub-grid">
-          <article class="service-hub-card service-card-electric">
-            <img class="service-photo" src="/assets/img/seo/electricista-medellin.webp" width="480" height="360" alt="Imagen ilustrativa de un técnico electricista revisando un medidor y tablero eléctrico en Medellín">
-            <p class="service-badge">Electricista en Medellín</p><h2>Fallas, breakers, tableros, tomas e iluminación</h2><p>Cortos, sobrecargas, breakers que se disparan, puntos sin energía, luminarias e instalaciones eléctricas.</p><a href="/servicios/electricista-medellin/">Ver electricista en Medellín <span aria-hidden="true">→</span></a>
+        <div class="home-hero-copy">
+          <p class="eyebrow">Medellín y Valle de Aburrá</p>
+          <h1 id="hero-title">Un solo técnico para todo lo que <em>falla en casa</em></h1>
+          <p class="lead">Electricidad, agua y gas resueltos por el mismo criterio técnico: 30 años de oficio, certificación RETIE y trayectoria como contratista de EPM.</p>
+          <div class="home-hero-actions">
+            <a class="button button-primary" href="#contacto">Agendar visita técnica →</a>
+            <a class="button button-secondary" href="tel:+573017605677">Llamar: 301 760 5677</a>
+          </div>
+        </div>
+
+        <div class="gauge-panel" aria-label="Capacidades técnicas de Soluciones GEA">
+          <article class="gea-gauge gea-gauge--electric" data-gauge-angle="-30" role="img" aria-label="Electricidad, certificación RETIE, tableros, breakers y redes">
+            <div class="gauge-dial">
+              <span class="gauge-needle" aria-hidden="true"></span>
+              <span class="gauge-hub" aria-hidden="true"></span>
+              <div class="gauge-display"><span class="gauge-reading">RETIE</span><span class="gauge-subreading">CERTIFICACIÓN</span></div>
+            </div>
+            <div class="gauge-caption"><strong>Electricidad</strong><span>Tableros, breakers, redes</span></div>
           </article>
-          <article class="service-hub-card service-card-water">
-            <img class="service-photo" src="/assets/img/seo/plomero-fugas-agua-medellin.webp" width="480" height="360" alt="Imagen ilustrativa de un técnico revisando un medidor de agua y conexiones de plomería en Medellín">
-            <p class="service-badge">Plomero en Medellín</p><h2>Fugas de agua, humedad, tuberías y presión</h2><p>Griferías, sanitarios, lavamanos, conexiones, tuberías, baja presión, bombas y pérdidas de agua.</p><a href="/servicios/plomero-fugas-agua-medellin/">Ver plomería y fugas <span aria-hidden="true">→</span></a>
+
+          <article class="gea-gauge gea-gauge--water" data-gauge-angle="0" role="img" aria-label="Agua, legalización EPM, fugas, tuberías y presión">
+            <div class="gauge-dial">
+              <span class="gauge-needle" aria-hidden="true"></span>
+              <span class="gauge-hub" aria-hidden="true"></span>
+              <div class="gauge-display"><span class="gauge-reading">EPM</span><span class="gauge-subreading">LEGALIZACIÓN</span></div>
+            </div>
+            <div class="gauge-caption"><strong>Agua</strong><span>Fugas, tuberías, presión</span></div>
           </article>
-          <article class="service-hub-card service-card-gas">
-            <img class="service-photo" src="/assets/img/seo/gas-medellin.webp" width="480" height="360" alt="Imagen ilustrativa de un técnico revisando un medidor y conexiones de gas en Medellín">
-            <p class="service-badge">Gas en Medellín</p><h2>Redes internas, puntos, conexiones y fugas</h2><p>Revisión de puntos, llaves, reguladores, conexiones, calentadores, cubiertas y adecuaciones de gas.</p><a href="/servicios/gas-medellin/">Ver servicio de gas <span aria-hidden="true">→</span></a>
+
+          <article class="gea-gauge gea-gauge--gas" data-gauge-angle="32" role="img" aria-label="Gas, legalización Vanti, puntos, reguladores y redes">
+            <div class="gauge-dial">
+              <span class="gauge-needle" aria-hidden="true"></span>
+              <span class="gauge-hub" aria-hidden="true"></span>
+              <div class="gauge-display"><span class="gauge-reading">VANTI</span><span class="gauge-subreading">LEGALIZACIÓN</span></div>
+            </div>
+            <div class="gauge-caption"><strong>Gas</strong><span>Puntos, reguladores, redes</span></div>
           </article>
         </div>
-        <p class="service-photo-note">Las fotografías son ilustrativas y serán reemplazadas progresivamente por imágenes de trabajos reales de Soluciones GEA.</p>
-        <div class="hero-actions"><a class="button button-primary" href="/servicios/">Ver todos los servicios</a></div>
+
+        <div class="counter-strip" aria-label="Datos de Soluciones GEA">
+          <div class="counter-item"><strong class="counter-value" data-counter-target="30">30</strong><span class="counter-label">años de experiencia</span></div>
+          <div class="counter-item"><strong class="counter-value" data-counter-target="80000">80.000</strong><span class="counter-label">visita técnica (COP)</span></div>
+          <div class="counter-item"><strong class="counter-value" data-counter-target="100" data-counter-suffix="+">100+</strong><span class="counter-label">trabajos realizados</span></div>
+        </div>
       </div>
     </section>
 
-    <section class="service-section section-soft">
-      <div class="container content-grid">
-        <div class="section-heading section-heading-left"><p class="eyebrow">VISITA TÉCNICA</p><h2>Primero diagnosticamos, después cotizamos</h2><p>Cuando no está claro qué falla, podemos realizar una visita de inspección y diagnóstico antes de autorizar reparaciones, materiales o trabajos adicionales.</p></div>
-        <ul class="feature-list"><li>Agua y plomería</li><li>Electricidad</li><li>Gas</li><li>Hogares y negocios</li><li>Diagnóstico y recomendaciones</li><li>Reparaciones cotizadas aparte</li></ul>
-      </div>
-    </section>
-
-    <section id="cobertura" class="service-section">
-      <div class="container content-grid">
-        <div class="section-heading section-heading-left"><p class="eyebrow">ZONA DE SERVICIO</p><h2>Medellín y Valle de Aburrá</h2><p>Prestamos servicios técnicos según agenda, ubicación y alcance del trabajo.</p></div>
-        <ul class="feature-list"><li>Medellín</li><li>Bello</li><li>Envigado</li><li>Itagüí</li><li>Sabaneta</li><li>La Estrella</li></ul>
-      </div>
-    </section>
-
-    <section id="contacto" class="section section-soft">
+    <section class="home-section price-section" aria-labelledby="price-title">
       <div class="container">
-        <div class="section-heading"><p class="eyebrow">CONTACTO</p><h2>Describa el problema y le respondemos por WhatsApp</h2><p>También puede llamar directamente al 301 760 5677.</p></div>
+        <div class="price-plate">
+          <p class="price-kicker">TARIFA ÚNICA · DIAGNÓSTICO</p>
+          <h2 class="price-value" id="price-title">$80.000</h2>
+          <p class="price-copy">Un solo precio para electricidad, agua o gas. Revisamos, explicamos qué está pasando y cotizamos la reparación — usted decide si continuar.</p>
+          <div class="price-tags" aria-label="Incluye">
+            <span class="price-tag">✓ Diagnóstico incluido</span>
+            <span class="price-tag">✓ Cotización sin compromiso</span>
+            <span class="price-tag">✓ Instalaciones y emergencias, aparte</span>
+          </div>
+        </div>
+        <div class="emergency-banner"><span class="emergency-dot" aria-hidden="true"></span><span><strong>Servicio de emergencias</strong> — atención prioritaria todos los días de 6:00 a.m. a 6:00 p.m.</span></div>
+      </div>
+    </section>
+
+    <section id="servicios" class="home-section services-section" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Servicios</p>
+          <h2 id="services-title">Un mismo criterio técnico para electricidad, agua y gas</h2>
+        </div>
+        <div class="service-hub-grid">
+          <article class="home-service-card service-card-electric">
+            <img class="home-service-icon" src="/assets/img/icono-electricidad.svg" width="48" height="48" alt="" aria-hidden="true">
+            <h3>Electricidad</h3>
+            <p>Cortos, sobrecargas, breakers, puntos sin energía e instalaciones certificadas RETIE.</p>
+            <a href="/servicios/electricista-medellin/">Ver más →</a>
+          </article>
+          <article class="home-service-card home-service-card--water service-card-water">
+            <img class="home-service-icon" src="/assets/img/icono-agua.svg" width="48" height="48" alt="" aria-hidden="true">
+            <h3>Agua</h3>
+            <p>Fugas, humedad, tuberías, baja presión, bombas y conexiones.</p>
+            <a href="/servicios/plomero-fugas-agua-medellin/">Ver más →</a>
+          </article>
+          <article class="home-service-card home-service-card--gas service-card-gas">
+            <img class="home-service-icon" src="/assets/img/icono-gas.svg" width="48" height="48" alt="" aria-hidden="true">
+            <h3>Gas</h3>
+            <p>Puntos, llaves, reguladores, calentadores y legalización ante Vanti.</p>
+            <a href="/servicios/gas-medellin/">Ver más →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="confianza" class="home-section credentials-section" aria-labelledby="credentials-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Confianza técnica</p>
+          <h2 id="credentials-title">Experiencia, certificación y trayectoria</h2>
+        </div>
+        <div class="credentials-shell">
+          <span class="credential-rail credential-rail--left" aria-hidden="true"></span>
+          <div class="credentials-grid">
+            <div class="credential-item"><strong class="credential-number">30</strong><span class="credential-label">años de experiencia</span></div>
+            <div class="credential-item"><strong class="credential-number">~100</strong><span class="credential-label">trabajos realizados</span></div>
+            <div class="credential-item"><span class="retie-seal" aria-hidden="true">RETIE</span><span class="credential-label">instalaciones eléctricas certificadas</span></div>
+            <div class="credential-item"><div class="brand-plates" aria-label="EPM y Vanti"><span class="nominal-plate">EPM</span><span class="nominal-plate">VANTI</span></div><span class="credential-label">legalización de instalaciones</span></div>
+          </div>
+          <span class="credential-rail credential-rail--right" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="porque-gea" class="home-section origin-story" aria-labelledby="origin-title">
+      <div class="container">
+        <div class="origin-card">
+          <p class="origin-kicker" id="origin-title">Por qué existe Soluciones GEA</p>
+          <blockquote class="origin-quote">“Somos una empresa nueva, pero no un técnico nuevo. Fundamos GEA para ofrecer, de forma directa y a un precio claro, el mismo nivel de exigencia que durante 30 años se le exigió como contratista de EPM.”</blockquote>
+          <p class="origin-signature">— Equipo Soluciones GEA</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="home-section home-contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-heading">
+          <h2 id="contact-title">Describa el problema y le respondemos por WhatsApp</h2>
+          <p>También puede llamar directamente al 301 760 5677.</p>
+        </div>
+
+        <div class="schedule-grid" aria-label="Horarios de atención">
+          <div class="schedule-card"><strong>6:00 a.m. – 6:00 p.m.</strong><span>Horario de atención regular</span></div>
+          <div class="schedule-card"><strong>Emergencias</strong><span>Prioridad, mismo horario</span></div>
+        </div>
+
         <form class="contact-form" id="lead-form" novalidate>
           <label for="nombre">Nombre<input id="nombre" required name="nombre" autocomplete="name" maxlength="80"></label>
           <label for="telefono">Teléfono<input id="telefono" required type="tel" name="telefono" autocomplete="tel" inputmode="tel" maxlength="20" pattern="[0-9+() -]{7,20}"></label>
-          <label for="servicio">¿Qué necesita?<select id="servicio" required name="servicio"><option value="">Seleccione una opción</option><option>Electricidad</option><option>Agua / plomería</option><option>Gas</option><option>Otro servicio técnico</option></select></label>
+          <label for="servicio">¿Qué necesita?<select id="servicio" required name="servicio"><option value="">Seleccione una opción</option><option>Electricidad</option><option>Agua / plomería</option><option>Gas</option><option>Emergencia</option><option>Otro</option></select></label>
           <label for="detalle">Cuéntenos qué está pasando<textarea id="detalle" required name="detalle" maxlength="1000" rows="5"></textarea></label>
           <button class="button button-primary button-large" type="button" data-lead-submit>Enviar solicitud por WhatsApp</button>
           <p class="form-note">Al enviar, se abrirá WhatsApp con la información que ingresó. Consulte nuestra <a href="/privacidad.html">política de privacidad</a>.</p>
         </form>
       </div>
     </section>
-
-    <section class="service-cta"><div class="container service-cta-grid"><div><p class="eyebrow eyebrow-light">¿ALGO FALLÓ?</p><h2>Llame o escriba a Soluciones GEA</h2><p>Electricidad, plomería, agua y gas para hogares, negocios y empresas.</p></div><div class="hero-actions"><a class="button button-accent" href="tel:+573017605677">Llamar ahora</a><a class="button button-secondary" data-whatsapp="electricoComercial" href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">WhatsApp</a></div></div></section>
   </main>
 
-  <footer class="site-footer"><div class="container footer-grid"><a class="footer-brand-plate" href="/" aria-label="Volver al inicio"><img src="/assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg" width="190" height="51" alt="Soluciones GEA" loading="lazy" decoding="async"></a><p>Soluciones integrales, resultados que perduran.</p><div class="footer-actions"><p>© <span data-current-year></span> Soluciones GEA. Medellín, Colombia.<br><a href="/privacidad.html">Privacidad</a></p></div></div></footer>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>© <span data-current-year></span> Soluciones GEA. Medellín, Colombia.</p>
+      <p>Soluciones integrales, resultados que perduran.</p>
+      <p><a href="/privacidad.html">Privacidad</a></p>
+    </div>
+  </footer>
+
   <script src="/intro.js" defer></script>
   <script src="/hero-video.js" defer></script>
+  <script src="/home-redesign.js" defer></script>
   <script src="/app.js" defer></script>
 </body>
 </html>
