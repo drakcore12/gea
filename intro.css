@@ -73,18 +73,11 @@ body.gea-intro-open {
   place-items: center;
 }
 
-.gea-intro__logo,
-.gea-intro__water-fill {
+.gea-intro__logo {
   grid-area: 1 / 1;
   display: block;
   width: clamp(150px, 15vw, 205px);
   height: auto;
-}
-
-.gea-intro__water-fill {
-  position: relative;
-  z-index: 0;
-  pointer-events: none;
 }
 
 .gea-intro__logo {
@@ -249,8 +242,7 @@ body.gea-intro-open {
     padding: max(28px, env(safe-area-inset-top)) 22px max(28px, env(safe-area-inset-bottom));
   }
 
-  .gea-intro__logo,
-  .gea-intro__water-fill {
+  .gea-intro__logo {
     width: clamp(142px, 42vw, 190px);
   }
 
@@ -284,8 +276,8 @@ body.gea-intro-open {
   .gea-intro__skip {
     top: calc(env(safe-area-inset-top, 0px) + 12px);
     right: calc(env(safe-area-inset-right, 0px) + 12px);
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -294,8 +286,7 @@ body.gea-intro-open {
     height: 100dvh;
   }
 
-  .gea-intro__logo,
-  .gea-intro__water-fill {
+  .gea-intro__logo {
     width: clamp(110px, 18vh, 150px);
   }
 
@@ -317,3 +308,48 @@ body.gea-intro-open {
     display: none !important;
   }
 }
+
+/* Effects surround the official artwork; its geometry and colors stay intact. */
+.gea-intro__waves { position: absolute; inset: 0; display: grid; place-items: center; }
+.gea-intro__waves i {
+  grid-area: 1 / 1;
+  width: min(65vw, 440px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(8, 42, 88, .09);
+  border-radius: 50%;
+  opacity: 0;
+  animation: gea-intro-wave 2.8s ease-out both;
+}
+.gea-intro__waves i:nth-child(2) { animation-delay: .24s; }
+.gea-intro__waves i:nth-child(3) { animation-delay: .48s; }
+@keyframes gea-intro-wave {
+  0% { opacity: 0; transform: scale(.55); }
+  25% { opacity: .7; }
+  100% { opacity: 0; transform: scale(1.45); }
+}
+.gea-intro__headline strong { animation: gea-intro-line 8s ease both; }
+@keyframes gea-intro-line {
+  0%, 46% { opacity: 0; transform: translateY(12px); }
+  55%, 100% { opacity: 1; transform: translateY(0); }
+}
+.gea-intro__service-bars span:nth-child(2) { animation-delay: .14s; }
+.gea-intro__service-bars span:nth-child(3) { animation-delay: .28s; }
+.gea-intro__sound {
+  position: absolute;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid rgba(8, 42, 88, .15);
+  border-radius: 24px;
+  background: var(--gea-intro-bg);
+  color: var(--gea-intro-ink);
+  font: 500 14px/1.2 Inter, system-ui, sans-serif;
+  cursor: pointer;
+}
+.gea-intro__sound svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.gea-intro__sound:hover { background: #f1f5fa; }
+.gea-intro__sound:focus-visible { outline: 3px solid #1d6df2; outline-offset: 3px; }
