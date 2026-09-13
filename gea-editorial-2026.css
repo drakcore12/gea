@@ -50,6 +50,7 @@
 
 /* ---------- Institutional field: blueprint atmosphere, not cards ---------- */
 .gauge-section {
+  position: relative;
   isolation: isolate;
 }
 
@@ -57,7 +58,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   opacity: .52;
   background-image:
@@ -66,6 +67,11 @@
   background-size: 56px 56px;
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+
+.gauge-section > .container {
+  position: relative;
+  z-index: 1;
 }
 
 .gauge-section > .container::before {
