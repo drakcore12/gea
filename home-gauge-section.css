@@ -1,4 +1,4 @@
-/* Gauges live in their own technical band below the video hero. */
+/* Technical reference band below the video hero. */
 .home-ux .service-hub-hero {
   min-height: min(680px, calc(100svh - 70px));
   padding: clamp(82px, 9vw, 118px) 0 clamp(58px, 6vw, 78px);
@@ -8,9 +8,9 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(34px, 4.5vw, 54px) 0;
+  padding: clamp(30px, 4vw, 48px) 0;
   background:
-    radial-gradient(circle at 50% 0%, rgba(0, 91, 231, .15), transparent 36%),
+    radial-gradient(circle at 50% 0%, rgba(0, 91, 231, .14), transparent 34%),
     linear-gradient(180deg, #071c3e 0%, #011949 100%);
 }
 
@@ -50,145 +50,128 @@
   display: none;
 }
 
-.gauge-section .gea-gauge {
-  min-height: 154px;
+.institution-card {
+  --institution-color: var(--gea-copper);
+  position: relative;
+  min-height: 132px;
   display: grid;
-  grid-template-columns: 52px 108px minmax(0, 1fr);
+  grid-template-columns: minmax(92px, 118px) minmax(0, 1fr);
   align-items: center;
-  justify-items: stretch;
-  gap: 15px;
-  padding: 18px;
-  text-align: left;
+  gap: 18px;
+  padding: 18px 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.16);
   border-radius: 20px;
-  background:
-    linear-gradient(135deg, rgba(10, 45, 103, .88), rgba(1, 20, 50, .9));
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.12),
-    0 18px 34px rgba(0,0,0,.16);
+  color: #fff;
+  background: linear-gradient(135deg, rgba(10,45,103,.88), rgba(1,20,50,.92));
+  box-shadow: inset 0 1px rgba(255,255,255,.1), 0 18px 34px rgba(0,0,0,.16);
 }
 
-.gauge-section .gea-gauge::after {
+.institution-card--epm { --institution-color: var(--gea-water); }
+.institution-card--vanti { --institution-color: var(--gea-gas); }
+
+.institution-card::after {
   content: '';
   position: absolute;
-  left: 18px;
-  right: 18px;
+  left: 20px;
+  right: 20px;
   bottom: 0;
   height: 2px;
   border-radius: 999px;
   opacity: .72;
-  background: var(--gauge-color);
+  background: var(--institution-color);
   transform: scaleX(.28);
   transform-origin: left;
   transition: transform .5s cubic-bezier(.2,.9,.2,1), opacity .3s ease;
 }
 
-.gauge-section .gea-gauge:hover::after {
+.institution-card:hover::after {
   transform: scaleX(1);
   opacity: 1;
 }
 
-.gauge-service-mark {
-  width: 52px;
-  height: 52px;
+.institution-mark {
+  min-height: 74px;
   display: grid;
   place-items: center;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--institution-color) 42%, rgba(255,255,255,.18));
   border-radius: 16px;
-  border: 1px solid color-mix(in srgb, var(--gauge-color) 45%, rgba(255,255,255,.16));
-  background: color-mix(in srgb, var(--gauge-color) 10%, rgba(255,255,255,.045));
-  box-shadow: inset 0 1px rgba(255,255,255,.08), 0 0 20px color-mix(in srgb, var(--gauge-color) 12%, transparent);
+  background: color-mix(in srgb, var(--institution-color) 9%, rgba(255,255,255,.04));
+  box-shadow: inset 0 1px rgba(255,255,255,.07), 0 0 22px color-mix(in srgb, var(--institution-color) 12%, transparent);
+  color: #fff;
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .045em;
+  text-align: center;
 }
 
-.gauge-service-mark img {
-  width: 31px;
-  height: 31px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: .95;
+.institution-mark--retie {
+  border-radius: 999px;
+  aspect-ratio: 1;
+  width: 74px;
+  min-height: 74px;
+  justify-self: center;
+  font-size: .82rem;
+  box-shadow:
+    inset 0 0 0 4px rgba(254,134,1,.08),
+    inset 0 1px rgba(255,255,255,.08),
+    0 0 22px rgba(254,134,1,.12);
 }
 
-.gauge-section .gauge-dial {
-  width: 108px;
-  height: 108px;
+.institution-mark--epm {
+  font-size: 1.35rem;
+  letter-spacing: -.035em;
+  text-transform: lowercase;
 }
 
-.gauge-section .gauge-dial::after {
-  inset: 11px;
+.institution-mark--vanti {
+  font-size: 1.08rem;
+  letter-spacing: .015em;
+  text-transform: lowercase;
 }
 
-.gauge-section .gauge-needle {
-  height: 40px;
-}
-
-.gauge-section .gauge-hub {
-  width: 11px;
-  height: 11px;
-}
-
-.gauge-section .gauge-reading {
-  font-size: .78rem;
-  letter-spacing: .06em;
-}
-
-.gauge-section .gauge-subreading {
-  font-size: .46rem;
-  letter-spacing: .07em;
-}
-
-.gauge-section .gauge-caption {
-  margin-top: 0;
+.institution-copy {
+  min-width: 0;
   display: grid;
-  justify-items: start;
-  align-content: center;
   gap: 5px;
   text-align: left;
 }
 
-.gauge-section .gauge-caption strong {
-  font-size: 1rem;
-  line-height: 1.15;
-}
-
-.gauge-section .gauge-caption > span:not(.gauge-institution) {
-  max-width: 20ch;
-  font-size: .76rem;
-  line-height: 1.35;
-}
-
-.gauge-institution {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 4px 8px;
-  border: 1px solid color-mix(in srgb, var(--gauge-color) 45%, rgba(255,255,255,.18));
-  border-radius: 999px;
+.institution-copy strong {
   color: #fff;
-  background: color-mix(in srgb, var(--gauge-color) 14%, rgba(255,255,255,.04));
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.institution-copy span {
+  color: rgba(255,255,255,.7);
+  font-size: .76rem;
+  line-height: 1.4;
+}
+
+.institution-copy small {
+  width: fit-content;
+  margin-top: 3px;
+  padding: 4px 7px;
+  border: 1px solid color-mix(in srgb, var(--institution-color) 38%, rgba(255,255,255,.16));
+  border-radius: 999px;
+  color: rgba(255,255,255,.76);
   font-family: "Space Mono", ui-monospace, monospace;
-  font-size: .6rem;
-  font-weight: 700;
-  letter-spacing: .075em;
-  line-height: 1;
+  font-size: .56rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
-.gauge-section .gea-gauge--water .gauge-service-mark,
-.gauge-section .gea-gauge--water .gauge-institution {
-  --gauge-color: var(--gea-water);
-}
-
-.gauge-section .gea-gauge--gas .gauge-service-mark,
-.gauge-section .gea-gauge--gas .gauge-institution {
-  --gauge-color: var(--gea-gas);
-}
-
-@media (max-width: 1040px) {
+@media (max-width: 980px) {
   .gauge-section .gauge-panel {
     grid-template-columns: 1fr;
     width: min(720px, 100%);
   }
 
-  .gauge-section .gea-gauge {
-    grid-template-columns: 58px 116px minmax(0, 1fr);
-    min-height: 150px;
+  .institution-card {
+    grid-template-columns: 110px minmax(0, 1fr);
   }
 }
 
@@ -199,82 +182,55 @@
   }
 
   .gauge-section {
-    padding: 28px 0 34px;
+    padding: 26px 0 32px;
   }
 
   .gauge-section .gauge-panel {
-    width: 100%;
     gap: 10px;
   }
 
-  .gauge-section .gea-gauge {
-    grid-template-columns: 46px 92px minmax(0, 1fr);
-    gap: 12px;
-    min-height: 128px;
-    padding: 14px;
+  .institution-card {
+    min-height: 112px;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 16px;
     border-radius: 18px;
   }
 
-  .gauge-service-mark {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
+  .institution-mark {
+    min-height: 62px;
+    padding: 10px;
   }
 
-  .gauge-service-mark img {
-    width: 27px;
-    height: 27px;
+  .institution-mark--retie {
+    width: 62px;
+    min-height: 62px;
+    font-size: .72rem;
   }
 
-  .gauge-section .gauge-dial {
-    width: 92px;
-    height: 92px;
-  }
-
-  .gauge-section .gauge-needle {
-    height: 34px;
-  }
-
-  .gauge-section .gauge-caption strong {
-    font-size: .95rem;
-  }
-
-  .gauge-section .gauge-caption > span:not(.gauge-institution) {
-    font-size: .7rem;
-  }
+  .institution-mark--epm { font-size: 1.15rem; }
+  .institution-mark--vanti { font-size: .98rem; }
 }
 
 @media (max-width: 430px) {
-  .gauge-section .gea-gauge {
-    grid-template-columns: 42px 82px minmax(0, 1fr);
-    gap: 9px;
+  .institution-card {
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 11px;
     padding: 12px;
   }
 
-  .gauge-service-mark {
-    width: 42px;
-    height: 42px;
+  .institution-mark {
+    min-height: 54px;
+    border-radius: 14px;
   }
 
-  .gauge-service-mark img {
-    width: 24px;
-    height: 24px;
+  .institution-mark--retie {
+    width: 54px;
+    min-height: 54px;
+    border-radius: 50%;
+    font-size: .64rem;
   }
 
-  .gauge-section .gauge-dial {
-    width: 82px;
-    height: 82px;
-  }
-
-  .gauge-section .gauge-needle {
-    height: 30px;
-  }
-
-  .gauge-section .gauge-reading {
-    font-size: .66rem;
-  }
-
-  .gauge-section .gauge-subreading {
-    display: none;
-  }
+  .institution-copy strong { font-size: .94rem; }
+  .institution-copy span { font-size: .7rem; }
 }
