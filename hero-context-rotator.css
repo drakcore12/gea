@@ -1,15 +1,32 @@
 /* Rotating audience context in the homepage hero. */
+.home-ux .home-hero-copy h1 {
+  max-width: 18ch;
+  line-height: .96;
+}
+
+.hero-title-context-line {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.home-ux .home-hero-copy h1 em {
+  color: var(--gea-copper-bright) !important;
+  font-style: normal;
+  font-weight: 800;
+}
+
 .hero-context-rotator {
   display: inline-grid;
   grid-template-areas: "word";
-  min-width: 8.2ch;
-  margin-left: .06em;
+  min-width: 8.6ch;
+  margin-left: .08em;
   vertical-align: baseline;
-  text-align: left;
+  text-align: center;
+  color: #ffb25b;
 }
 
 .hero-context-rotator::before {
-  content: "industria";
+  content: "INDUSTRIA";
   grid-area: word;
   visibility: hidden;
   pointer-events: none;
@@ -18,6 +35,15 @@
 .hero-context-word {
   grid-area: word;
   display: inline-block;
+  font-family: Archivo, Inter, system-ui, sans-serif;
+  font-size: .78em;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+  color: #ffb25b;
+  text-shadow: 0 4px 22px rgba(254, 134, 1, .28);
+  box-shadow: inset 0 -.08em 0 rgba(254, 134, 1, .18);
   opacity: 1;
   transform: translateY(0);
   filter: blur(0);
@@ -30,19 +56,31 @@
 
 .hero-context-word.is-leaving {
   opacity: 0;
-  transform: translateY(-.22em);
+  transform: translateY(-.18em);
   filter: blur(3px);
 }
 
 .hero-context-word.is-entering {
   opacity: 0;
-  transform: translateY(.22em);
+  transform: translateY(.18em);
   filter: blur(3px);
 }
 
 @media (max-width: 760px) {
+  .home-ux .home-hero-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.35rem, 10.8vw, 3.55rem);
+    line-height: .98;
+  }
+
   .hero-context-rotator {
-    min-width: 8.05ch;
+    min-width: 8.6ch;
+  }
+}
+
+@media (max-width: 380px) {
+  .home-ux .home-hero-copy h1 {
+    font-size: clamp(2.15rem, 10.2vw, 2.75rem);
   }
 }
 
