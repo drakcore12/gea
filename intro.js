@@ -10,9 +10,12 @@
   const introDuration = 8000;
   const fadeDuration = 420;
   const introTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
-  const introLogoAsset = introTheme === 'dark'
+  const gateLogoAsset = introTheme === 'dark'
     ? '/assets/img/Soluciones_GEA_isotipo_blanco.svg'
     : '/assets/img/Soluciones_GEA_isotipo_azul.svg';
+  const animatedLogoAsset = introTheme === 'dark'
+    ? '/assets/img/Soluciones_GEA_imagotipo_vertical_blanco.svg'
+    : '/assets/img/Soluciones_GEA_imagotipo_vertical_azul.svg';
   let isClosing = false;
   let hasStarted = false;
   let introTimer = null;
@@ -130,8 +133,6 @@
     hasStarted = true;
     startedAt = performance.now();
 
-    // La llamada ocurre directamente dentro del gesto del usuario. Esto permite
-    // que Chrome/Safari autoricen el audio sin depender de autoplay con sonido.
     void playSoundtrack();
 
     overlay.classList.add('is-playing');
@@ -167,7 +168,7 @@
         <div class="gea-intro__logo-wrap">
           <img
             class="gea-intro__logo"
-            src="${introLogoAsset}"
+            src="${animatedLogoAsset}"
             alt=""
             width="360"
             height="360"
@@ -201,7 +202,7 @@
       <div class="gea-intro__gate-content">
         <img
           class="gea-intro__gate-logo"
-          src="${introLogoAsset}"
+          src="${gateLogoAsset}"
           alt="Soluciones GEA"
           width="220"
           height="220"
