@@ -57,6 +57,27 @@
     document.head.appendChild(script);
   }
 
+  function preloadEditorialStyles() {
+    if (!isHomePage() || document.querySelector('link[data-gea-editorial-preload]')) return;
+
+    const preload = document.createElement('link');
+    preload.rel = 'preload';
+    preload.as = 'style';
+    preload.href = deployedAsset('/gea-editorial-2026.css');
+    preload.dataset.geaEditorialPreload = 'true';
+    document.head.appendChild(preload);
+  }
+
+  function loadEditorialStyles() {
+    if (!isHomePage() || document.querySelector('link[data-gea-editorial-styles]')) return;
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = deployedAsset('/gea-editorial-2026.css');
+    stylesheet.dataset.geaEditorialStyles = 'true';
+    document.head.appendChild(stylesheet);
+  }
+
   function loadHomeMotionSystem() {
     if (!isHomePage()) return;
 
@@ -75,6 +96,9 @@
       script.dataset.geaMotionScript = 'true';
       document.head.appendChild(script);
     }
+
+    // This is appended after the motion stylesheet so it remains the final visual authority.
+    loadEditorialStyles();
   }
 
   const theme = storedTheme() || scheduledTheme();
@@ -90,6 +114,7 @@
 
   loadNavigationLogoStyles();
   loadFloatingWhatsapp();
+  preloadEditorialStyles();
 
   window.addEventListener('DOMContentLoaded', () => {
     loadHomeMotionSystem();
