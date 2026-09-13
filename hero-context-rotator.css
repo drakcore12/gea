@@ -1,0 +1,54 @@
+/* Rotating audience context in the homepage hero. */
+.hero-context-rotator {
+  display: inline-grid;
+  grid-template-areas: "word";
+  min-width: 8.2ch;
+  margin-left: .06em;
+  vertical-align: baseline;
+  text-align: left;
+}
+
+.hero-context-rotator::before {
+  content: "industria";
+  grid-area: word;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hero-context-word {
+  grid-area: word;
+  display: inline-block;
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity .28s ease,
+    transform .42s cubic-bezier(.2,.85,.25,1),
+    filter .28s ease;
+  will-change: opacity, transform, filter;
+}
+
+.hero-context-word.is-leaving {
+  opacity: 0;
+  transform: translateY(-.22em);
+  filter: blur(3px);
+}
+
+.hero-context-word.is-entering {
+  opacity: 0;
+  transform: translateY(.22em);
+  filter: blur(3px);
+}
+
+@media (max-width: 760px) {
+  .hero-context-rotator {
+    min-width: 8.05ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-context-word {
+    transition: none;
+    will-change: auto;
+  }
+}
