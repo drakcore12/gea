@@ -39,11 +39,14 @@
     );
 
     heroTitle.textContent = '';
-    heroTitle.append(document.createTextNode('Un solo técnico '));
+
+    const mainLine = document.createElement('span');
+    mainLine.className = 'hero-title-main';
+    mainLine.textContent = 'Un solo técnico para tu';
+    heroTitle.appendChild(mainLine);
 
     const contextLine = document.createElement('span');
     contextLine.className = 'hero-title-context-line';
-    contextLine.append(document.createTextNode('para tu '));
 
     heroContextEm.textContent = '';
 
