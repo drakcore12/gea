@@ -1,7 +1,10 @@
 :root {
-  --gea-intro-bg: #f5f6f8;
-  --gea-intro-ink: #072957;
-  --gea-intro-surface: rgba(255, 255, 255, 0.92);
+  --gea-intro-bg: #ffffff;
+  --gea-intro-ink: #082a58;
+  --gea-intro-green: #45b62a;
+  --gea-intro-orange: #ff7a00;
+  --gea-intro-blue: #1674df;
+  --gea-intro-surface: rgba(255, 255, 255, 0.94);
 }
 
 body.gea-intro-open {
@@ -34,26 +37,145 @@ body.gea-intro-open {
 }
 
 .gea-intro__video {
+  display: none !important;
+}
+
+.gea-intro__stage {
+  position: relative;
+  width: min(92vw, 1100px);
+  height: min(78dvh, 650px);
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  color: var(--gea-intro-ink);
+  text-align: center;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  pointer-events: none;
+}
+
+.gea-intro__logo-scene,
+.gea-intro__message-scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  will-change: opacity, transform;
+}
+
+.gea-intro__logo-scene {
+  opacity: 0;
+  animation: gea-intro-logo 8s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+.gea-intro__logo-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.gea-intro__logo {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  background: var(--gea-intro-bg);
+  width: clamp(150px, 15vw, 205px);
+  height: auto;
+  transform: translateZ(0);
+  filter: none;
+}
+
+.gea-intro__logo-wrap::after,
+.gea-intro__message-card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -34px;
+  width: 150%;
+  max-width: 360px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(8, 42, 88, 0.11) 0%, rgba(8, 42, 88, 0.045) 42%, rgba(8, 42, 88, 0) 74%);
+  transform: translateX(-50%);
+  filter: blur(5px);
+  opacity: .65;
+}
+
+.gea-intro__message-scene {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: gea-intro-message 8s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+.gea-intro__message-card {
+  position: relative;
+  width: min(90vw, 760px);
+  display: grid;
+  justify-items: center;
+  gap: clamp(18px, 2.2vw, 26px);
+}
+
+.gea-intro__headline {
+  margin: 0;
+  color: var(--gea-intro-ink);
+  font-size: clamp(1.8rem, 3.3vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+.gea-intro__headline strong {
+  display: block;
+  font-weight: 700;
+}
+
+.gea-intro__services {
+  width: min(78vw, 560px);
+  display: grid;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: gea-intro-services 8s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+.gea-intro__service-bars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.gea-intro__service-bars span {
+  display: block;
+  height: 4px;
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: gea-intro-bar 8s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+.gea-intro__service-bars span:nth-child(1) { background: var(--gea-intro-green); }
+.gea-intro__service-bars span:nth-child(2) { background: var(--gea-intro-orange); }
+.gea-intro__service-bars span:nth-child(3) { background: var(--gea-intro-blue); }
+
+.gea-intro__service-label {
+  margin: 0;
+  color: var(--gea-intro-ink);
+  font-size: clamp(.9rem, 1.45vw, 1.2rem);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.018em;
 }
 
 .gea-intro__skip {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + clamp(12px, 2vw, 24px));
   right: calc(env(safe-area-inset-right, 0px) + clamp(12px, 2vw, 24px));
-  z-index: 2;
+  z-index: 3;
   min-height: 44px;
   padding: 10px 16px;
-  border: 1px solid rgba(7, 41, 87, 0.14);
+  border: 1px solid rgba(8, 42, 88, 0.12);
   border-radius: 999px;
   background: var(--gea-intro-surface);
   color: var(--gea-intro-ink);
-  box-shadow: 0 8px 28px rgba(7, 41, 87, 0.1);
+  box-shadow: 0 8px 28px rgba(8, 42, 88, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   font: 700 0.875rem/1 Inter, system-ui, sans-serif;
@@ -65,7 +187,7 @@ body.gea-intro-open {
 .gea-intro__skip:hover {
   transform: translateY(-1px);
   background: #ffffff;
-  box-shadow: 0 10px 32px rgba(7, 41, 87, 0.14);
+  box-shadow: 0 10px 32px rgba(8, 42, 88, 0.12);
 }
 
 .gea-intro__skip:focus-visible {
@@ -73,13 +195,65 @@ body.gea-intro-open {
   outline-offset: 3px;
 }
 
+@keyframes gea-intro-logo {
+  0%, 5% { opacity: 0; transform: translateY(10px) scale(.975); }
+  11%, 28% { opacity: 1; transform: translateY(0) scale(1); }
+  36%, 100% { opacity: 0; transform: translateY(-6px) scale(1.012); }
+}
+
+@keyframes gea-intro-message {
+  0%, 41% { opacity: 0; transform: translateY(10px); }
+  49%, 94% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gea-intro-services {
+  0%, 65% { opacity: 0; transform: translateY(8px); }
+  73%, 100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gea-intro-bar {
+  0%, 65% { transform: scaleX(0); opacity: 0; }
+  73%, 100% { transform: scaleX(1); opacity: 1; }
+}
+
 @media (max-width: 700px), (orientation: portrait) {
-  .gea-intro__video {
+  .gea-intro__stage {
     width: 100vw;
-    height: auto;
-    max-height: 100dvh;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
+    height: 100dvh;
+    min-height: 0;
+    padding: max(28px, env(safe-area-inset-top)) 22px max(28px, env(safe-area-inset-bottom));
+  }
+
+  .gea-intro__logo {
+    width: clamp(142px, 42vw, 190px);
+  }
+
+  .gea-intro__message-card {
+    width: min(88vw, 560px);
+    gap: 20px;
+  }
+
+  .gea-intro__headline {
+    font-size: clamp(1.75rem, 8vw, 2.7rem);
+    line-height: 1.07;
+  }
+
+  .gea-intro__services {
+    width: min(82vw, 450px);
+    gap: 12px;
+  }
+
+  .gea-intro__service-bars {
+    gap: 10px;
+  }
+
+  .gea-intro__service-bars span {
+    height: 3px;
+  }
+
+  .gea-intro__service-label {
+    font-size: clamp(.9rem, 4.2vw, 1.05rem);
   }
 
   .gea-intro__skip {
@@ -88,6 +262,28 @@ body.gea-intro-open {
     min-height: 42px;
     padding: 9px 14px;
     font-size: 0.8125rem;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .gea-intro__stage {
+    height: 100dvh;
+  }
+
+  .gea-intro__logo {
+    width: clamp(110px, 18vh, 150px);
+  }
+
+  .gea-intro__headline {
+    font-size: clamp(1.35rem, 5vh, 2rem);
+  }
+
+  .gea-intro__message-card {
+    gap: 14px;
+  }
+
+  .gea-intro__services {
+    gap: 9px;
   }
 }
 
