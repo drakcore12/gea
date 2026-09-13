@@ -15,6 +15,8 @@
   let soundtrack = null;
   let startedAt = 0;
   let soundRequest = 0;
+  let soundEnabled = true;
+  let soundUnlockArmed = false;
   const previousFocus = document.activeElement;
 
   function updateSoundButton(enabled) {
@@ -24,22 +26,68 @@
     soundButton.querySelector('span').textContent = enabled ? 'Silenciar' : 'Activar sonido';
   }
 
-  async function toggleSound() {
+  function removeSoundUnlockListeners() {
+    if (!soundUnlockArmed) return;
+    soundUnlockArmed = false;
+    document.removeEventListener('pointerdown', unlockSoundOnInteraction, true);
+    document.removeEventListener('keydown', unlockSoundOnInteraction, true);
+  }
+
+  function armSoundUnlock() {
+    if (soundUnlockArmed || isClosing || !soundEnabled) return;
+    soundUnlockArmed = true;
+    document.addEventListener('pointerdown', unlockSoundOnInteraction, true);
+    document.addEventListener('keydown', unlockSoundOnInteraction, true);
+  }
+
+  async function playSoundtrack({ rearmOnFailure = true } = {}) {
+    if (isClosing || !soundEnabled || !soundtrack) return false;
+
     const request = ++soundRequest;
-    if (!soundtrack.paused) {
+    soundtrack.currentTime = Math.min(Math.max((performance.now() - startedAt) / 1000, 0), 7.99);
+
+    try {
+      await soundtrack.play();
+      if (isClosing || request !== soundRequest || !soundEnabled) {
+        soundtrack.pause();
+        return false;
+      }
+      removeSoundUnlockListeners();
+      updateSoundButton(true);
+      return true;
+    } catch {
+      if (!isClosing && soundEnabled) {
+        // El control permanece activo porque el usuario ya expresó la intención
+        // de escuchar la intro; esperamos la primera interacción permitida.
+        updateSoundButton(true);
+        if (rearmOnFailure) armSoundUnlock();
+      }
+      return false;
+    }
+  }
+
+  async function unlockSoundOnInteraction(event) {
+    if (!soundUnlockArmed || isClosing || !soundEnabled) return;
+    if (event.target === soundButton || event.target === skipButton || soundButton?.contains(event.target) || skipButton?.contains(event.target)) return;
+    if (event.type === 'keydown' && !['Enter', ' '].includes(event.key)) return;
+
+    removeSoundUnlockListeners();
+    await playSoundtrack();
+  }
+
+  async function toggleSound() {
+    soundEnabled = !soundEnabled;
+    soundRequest += 1;
+
+    if (!soundEnabled) {
+      removeSoundUnlockListeners();
       soundtrack.pause();
       updateSoundButton(false);
       return;
     }
-    // Seek to the visual timeline even when sound is enabled halfway through.
-    soundtrack.currentTime = Math.min((performance.now() - startedAt) / 1000, 7.99);
-    try {
-      await soundtrack.play();
-      if (isClosing || request !== soundRequest) { soundtrack.pause(); return; }
-      updateSoundButton(true);
-    } catch {
-      if (!isClosing) updateSoundButton(false);
-    }
+
+    updateSoundButton(true);
+    await playSoundtrack();
   }
 
   function onKeyDown(event) {
@@ -62,6 +110,7 @@
 
     window.clearTimeout(introTimer);
     soundRequest += 1;
+    removeSoundUnlockListeners();
     soundtrack?.pause();
     document.removeEventListener('keydown', onKeyDown);
     document.removeEventListener('visibilitychange', onVisibilityChange);
@@ -141,14 +190,18 @@
     overlay.insertBefore(stage, skipButton || null);
     soundtrack = new Audio('/assets/audio/gea-intro.m4a');
     soundtrack.preload = 'auto';
+    soundtrack.autoplay = true;
     soundtrack.volume = 0.75;
     soundButton = document.createElement('button');
     soundButton.type = 'button';
     soundButton.className = 'gea-intro__sound';
-    soundButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z M15 8a6 6 0 0 1 0 8 M18 5a10 10 0 0 1 0 14"/></svg><span>Activar sonido</span>';
-    updateSoundButton(false);
+    soundButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z M15 8a6 6 0 0 1 0 8 M18 5a10 10 0 0 1 0 14"/></svg><span>Silenciar</span>';
+    updateSoundButton(true);
     soundButton.addEventListener('click', toggleSound);
-    soundtrack.addEventListener('ended', () => updateSoundButton(false));
+    soundtrack.addEventListener('ended', () => {
+      soundEnabled = false;
+      updateSoundButton(false);
+    });
     overlay.append(soundButton);
   }
 
@@ -162,6 +215,8 @@
   setPageInteractive(false);
 
   startedAt = performance.now();
+  void playSoundtrack();
+
   skipButton?.focus({ preventScroll: true });
   skipButton?.addEventListener('click', () => finishIntro());
 
