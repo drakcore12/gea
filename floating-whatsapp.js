@@ -47,6 +47,10 @@
     ensureStylesheet();
     document.body.classList.add('has-floating-whatsapp');
 
+    const shell = document.createElement('div');
+    shell.className = 'floating-whatsapp-shell';
+    shell.dataset.floatingWhatsappShell = 'true';
+
     const link = document.createElement('a');
     link.className = 'floating-whatsapp';
     link.dataset.floatingWhatsapp = 'true';
@@ -67,7 +71,8 @@
     label.textContent = 'Escríbenos por WhatsApp';
 
     link.append(iconWrap, label);
-    document.body.appendChild(link);
+    shell.appendChild(link);
+    document.body.appendChild(shell);
   }
 
   if (document.readyState === 'loading') {
