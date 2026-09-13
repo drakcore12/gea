@@ -40,6 +40,48 @@
     document.head.appendChild(link);
   }
 
+  function ensureAmbientStyles() {
+    if (document.querySelector('link[data-gea-intro-ambient-styles]')) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/intro-ambient.css';
+    link.dataset.geaIntroAmbientStyles = 'true';
+    document.head.appendChild(link);
+  }
+
+  function ambientMarkup() {
+    if (introTheme === 'dark') {
+      return `
+        <div class="gea-intro__ambient gea-intro__ambient--night" aria-hidden="true">
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+          <span class="gea-intro__star"></span>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="gea-intro__ambient gea-intro__ambient--day" aria-hidden="true">
+        <span class="gea-intro__sun"></span>
+        <span class="gea-intro__cloud gea-intro__cloud--one"></span>
+        <span class="gea-intro__cloud gea-intro__cloud--two"></span>
+        <span class="gea-intro__cloud gea-intro__cloud--three"></span>
+      </div>
+    `;
+  }
+
   function updateSoundButton(enabled) {
     if (!soundButton) return;
     soundButton.setAttribute('aria-pressed', String(enabled));
@@ -145,6 +187,7 @@
 
   function buildIntro() {
     ensureGateStyles();
+    ensureAmbientStyles();
 
     const legacyVideo = overlay.querySelector('video');
     legacyVideo?.remove();
@@ -163,6 +206,7 @@
     stage.className = 'gea-intro__stage';
     stage.setAttribute('aria-hidden', 'true');
     stage.innerHTML = `
+      ${ambientMarkup()}
       <div class="gea-intro__waves"><i></i><i></i><i></i></div>
       <div class="gea-intro__logo-scene">
         <div class="gea-intro__logo-wrap">
@@ -199,6 +243,7 @@
     gate = document.createElement('div');
     gate.className = 'gea-intro__gate';
     gate.innerHTML = `
+      ${ambientMarkup()}
       <div class="gea-intro__gate-content">
         <img
           class="gea-intro__gate-logo"
