@@ -1,236 +1,786 @@
-/* Technical reference band below the video hero. */
+/* Soluciones GEA — editorial engineering layer.
+   Deliberately avoids SaaS-card tropes, decorative ribbons, pills and repeated separators. */
+
+/* ---------- Hero: typography + evidence, not glass cards ---------- */
 .home-ux .service-hub-hero {
   min-height: min(680px, calc(100svh - 70px));
-  padding: clamp(82px, 9vw, 118px) 0 clamp(58px, 6vw, 78px);
+  padding: clamp(82px, 9vw, 118px) 0 clamp(54px, 6vw, 76px);
 }
 
+.home-ux .service-hub-hero::before {
+  background: linear-gradient(180deg, rgba(1, 25, 73, .36) 0%, rgba(1, 25, 73, .58) 56%, rgba(1, 25, 73, .88) 100%);
+}
+
+.home-ux .home-nav-cta,
+.home-ux .button {
+  border-radius: 7px;
+}
+
+.home-ux .counter-strip {
+  width: min(960px, 100%);
+  margin: clamp(36px, 5vw, 54px) auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.home-ux .counter-item {
+  min-height: 0;
+  display: grid;
+  place-items: start center;
+  align-content: start;
+  gap: 7px;
+  padding: 0 clamp(8px, 2vw, 24px);
+  text-align: center;
+}
+
+.home-ux .counter-item + .counter-item {
+  border: 0;
+}
+
+.home-ux .counter-value {
+  color: #fff;
+  font-size: clamp(2rem, 4.2vw, 3.6rem);
+  line-height: .95;
+  font-weight: 700;
+  letter-spacing: -.045em;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-ux .counter-label {
+  max-width: 18ch;
+  color: rgba(255,255,255,.68);
+  font-size: clamp(.66rem, 1.05vw, .78rem);
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+/* ---------- Institutional references: open field, no cards ---------- */
 .gauge-section {
   position: relative;
-  isolation: isolate;
+  padding: clamp(58px, 7vw, 92px) 0;
   overflow: hidden;
-  padding: clamp(30px, 4vw, 48px) 0;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(0, 91, 231, .14), transparent 34%),
-    linear-gradient(180deg, #071c3e 0%, #011949 100%);
+  color: #fff;
+  background: #011949;
 }
 
-.gauge-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: min(720px, 72vw);
-  height: 2px;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg,
-    transparent,
-    var(--gea-copper) 18%,
-    var(--gea-water) 50%,
-    var(--gea-gas) 82%,
-    transparent);
-  opacity: .78;
+.gauge-section::before,
+.gauge-section .gauge-panel::before {
+  display: none !important;
 }
 
 .gauge-section > .container {
-  position: relative;
-  z-index: 1;
   width: min(1180px, calc(100% - 32px));
   margin-inline: auto;
 }
 
 .gauge-section .gauge-panel {
   width: 100%;
-  margin: 0 auto;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.gauge-section .gauge-panel::before {
-  display: none;
+  gap: clamp(30px, 4vw, 64px);
 }
 
 .institution-card {
   --institution-color: var(--gea-copper);
   position: relative;
-  min-height: 132px;
+  min-height: 0;
   display: grid;
-  grid-template-columns: minmax(92px, 118px) minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
-  padding: 18px 20px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: 20px;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  gap: 22px;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
   color: #fff;
-  background: linear-gradient(135deg, rgba(10,45,103,.88), rgba(1,20,50,.92));
-  box-shadow: inset 0 1px rgba(255,255,255,.1), 0 18px 34px rgba(0,0,0,.16);
+  background: transparent;
+  box-shadow: none;
 }
 
 .institution-card--epm { --institution-color: var(--gea-water); }
 .institution-card--vanti { --institution-color: var(--gea-gas); }
 
 .institution-card::after {
-  content: '';
-  position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 0;
-  height: 2px;
-  border-radius: 999px;
-  opacity: .72;
-  background: var(--institution-color);
-  transform: scaleX(.28);
-  transform-origin: left;
-  transition: transform .5s cubic-bezier(.2,.9,.2,1), opacity .3s ease;
-}
-
-.institution-card:hover::after {
-  transform: scaleX(1);
-  opacity: 1;
+  display: none;
 }
 
 .institution-mark {
-  min-height: 74px;
-  display: grid;
-  place-items: center;
-  padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--institution-color) 42%, rgba(255,255,255,.18));
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--institution-color) 9%, rgba(255,255,255,.04));
-  box-shadow: inset 0 1px rgba(255,255,255,.07), 0 0 22px color-mix(in srgb, var(--institution-color) 12%, transparent);
-  color: #fff;
-  font-family: "Space Mono", ui-monospace, monospace;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: .045em;
-  text-align: center;
+  min-height: 0;
+  display: block;
+  width: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--institution-color);
+  font-family: Archivo, Inter, system-ui, sans-serif;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 800;
+  line-height: .9;
+  letter-spacing: -.055em;
+  text-align: left;
 }
 
 .institution-mark--retie {
-  border-radius: 999px;
-  aspect-ratio: 1;
-  width: 74px;
-  min-height: 74px;
-  justify-self: center;
-  font-size: .82rem;
-  box-shadow:
-    inset 0 0 0 4px rgba(254,134,1,.08),
-    inset 0 1px rgba(255,255,255,.08),
-    0 0 22px rgba(254,134,1,.12);
+  width: auto;
+  min-height: 0;
+  aspect-ratio: auto;
+  justify-self: start;
+  font-size: clamp(1.7rem, 3.5vw, 3rem);
+  letter-spacing: -.04em;
 }
 
-.institution-mark--epm {
-  font-size: 1.35rem;
-  letter-spacing: -.035em;
-  text-transform: lowercase;
-}
-
+.institution-mark--epm,
 .institution-mark--vanti {
-  font-size: 1.08rem;
-  letter-spacing: .015em;
+  font-size: clamp(2.3rem, 4.6vw, 4rem);
   text-transform: lowercase;
 }
 
 .institution-copy {
-  min-width: 0;
   display: grid;
-  gap: 5px;
+  gap: 9px;
+  align-content: start;
   text-align: left;
 }
 
 .institution-copy strong {
   color: #fff;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.35rem, 2.1vw, 1.8rem);
+  line-height: 1.08;
+  letter-spacing: -.025em;
 }
 
 .institution-copy span {
-  color: rgba(255,255,255,.7);
-  font-size: .76rem;
-  line-height: 1.4;
+  max-width: 32ch;
+  color: rgba(255,255,255,.69);
+  font-size: .9rem;
+  line-height: 1.58;
 }
 
 .institution-copy small {
-  width: fit-content;
-  margin-top: 3px;
-  padding: 4px 7px;
-  border: 1px solid color-mix(in srgb, var(--institution-color) 38%, rgba(255,255,255,.16));
-  border-radius: 999px;
-  color: rgba(255,255,255,.76);
+  width: auto;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--institution-color);
+  background: transparent;
   font-family: "Space Mono", ui-monospace, monospace;
-  font-size: .56rem;
+  font-size: .61rem;
+  font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
 }
 
+/* ---------- Global section rhythm: editorial, left-aligned ---------- */
+.home-ux .home-section {
+  padding: clamp(76px, 9vw, 124px) 0;
+}
+
+.home-ux .home-section .section-heading {
+  width: min(920px, 100%);
+  margin: 0 0 clamp(42px, 5vw, 64px);
+  text-align: left;
+}
+
+.home-ux .home-section .section-heading h2 {
+  max-width: 19ch;
+  margin: 0;
+  font-size: clamp(2.25rem, 4.7vw, 4.15rem);
+  line-height: .98;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.home-ux .services-section .section-heading .eyebrow,
+.home-ux .credentials-section .section-heading .eyebrow {
+  display: none;
+}
+
+/* ---------- Visit price: technical work order, not pricing card ---------- */
+.home-ux .price-section {
+  background: #fff;
+}
+
+.home-ux .price-plate {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(260px, .82fr) minmax(320px, 1.18fr);
+  grid-template-areas:
+    "kicker copy"
+    "price copy"
+    "price tags";
+  column-gap: clamp(44px, 7vw, 96px);
+  align-items: end;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.home-ux .price-plate::before,
+.home-ux .price-plate::after {
+  display: none;
+}
+
+.home-ux .price-kicker {
+  grid-area: kicker;
+  align-self: end;
+  margin: 0 0 10px;
+  color: var(--gea-blue-2);
+  font-family: Archivo, Inter, system-ui, sans-serif;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.home-ux .price-value {
+  grid-area: price;
+  margin: 0;
+  color: var(--gea-blue);
+  font-size: clamp(5.2rem, 11vw, 9.5rem);
+  line-height: .78;
+  letter-spacing: -.07em;
+}
+
+.home-ux .price-copy {
+  grid-area: copy;
+  width: auto;
+  max-width: 650px;
+  margin: 0;
+  align-self: end;
+  color: var(--gea-muted);
+  font-size: clamp(1.05rem, 1.7vw, 1.22rem);
+  line-height: 1.65;
+}
+
+.home-ux .price-tags {
+  grid-area: tags;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 28px 0 0;
+}
+
+.home-ux .price-tag {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #30435b;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.home-ux .emergency-banner {
+  width: min(1120px, 100%);
+  margin: clamp(42px, 5vw, 62px) auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 22px;
+  text-align: left;
+  border-radius: 0;
+  color: #fff;
+  background: var(--gea-blue);
+  box-shadow: none;
+}
+
+.home-ux .emergency-dot {
+  display: none;
+}
+
+/* ---------- Services: three technical chapters, not three cards ---------- */
+.home-ux .services-section {
+  background: var(--gea-paper);
+}
+
+.home-ux .service-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(34px, 5vw, 72px);
+}
+
+.home-ux .home-service-card {
+  --service-color: var(--gea-copper);
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  transition: none;
+}
+
+.home-ux .home-service-card--water { --service-color: var(--gea-water); }
+.home-ux .home-service-card--gas { --service-color: var(--gea-gas); }
+
+.home-ux .home-service-card::before {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0 0 clamp(46px, 6vw, 76px);
+  display: block;
+  transform: none;
+  background: none;
+  color: var(--service-color);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-size: .74rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: .06em;
+  opacity: .45;
+  transition: opacity .45s ease, letter-spacing .45s ease;
+}
+
+.home-ux .home-service-card:nth-child(1)::before { content: "01 / ELECTRICIDAD"; }
+.home-ux .home-service-card:nth-child(2)::before { content: "02 / AGUA"; }
+.home-ux .home-service-card:nth-child(3)::before { content: "03 / GAS"; }
+
+.home-ux .home-service-card.is-energized::before {
+  transform: none;
+  opacity: 1;
+  letter-spacing: .09em;
+}
+
+.home-ux .home-service-card:hover {
+  transform: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.home-ux .home-service-icon {
+  display: none;
+}
+
+.home-ux .home-service-card h3 {
+  margin: 0;
+  color: var(--gea-blue);
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(2rem, 3.3vw, 3.05rem);
+  line-height: 1;
+  letter-spacing: -.035em;
+}
+
+.home-ux .home-service-card p {
+  max-width: 32ch;
+  margin: 18px 0 28px;
+  color: var(--gea-muted);
+  font-size: .98rem;
+  line-height: 1.65;
+}
+
+.home-ux .home-service-card a {
+  width: fit-content;
+  margin-top: auto;
+  color: var(--gea-blue);
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .22s ease, color .22s ease;
+}
+
+.home-ux .home-service-card a:hover,
+.home-ux .home-service-card a:focus-visible {
+  color: var(--service-color);
+  transform: translateX(4px);
+}
+
+/* ---------- Evidence: metrics presented as evidence, not dashboard tiles ---------- */
+.home-ux .credentials-section {
+  background: var(--gea-blue);
+  color: #fff;
+}
+
+.home-ux .credentials-section .section-heading h2,
+.home-ux .credentials-section .section-heading p {
+  color: #fff;
+}
+
+.home-ux .credentials-shell {
+  display: block;
+}
+
+.home-ux .credential-rail {
+  display: none;
+}
+
+.home-ux .credentials-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.home-ux .credential-item,
+.home-ux .credential-item + .credential-item {
+  min-height: 0;
+  display: grid;
+  place-items: start;
+  align-content: start;
+  gap: 12px;
+  padding: 0;
+  text-align: left;
+  border: 0;
+}
+
+.home-ux .credential-number {
+  color: #fff;
+  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  line-height: .82;
+  letter-spacing: -.055em;
+}
+
+.home-ux .credential-label {
+  max-width: 20ch;
+  color: rgba(255,255,255,.66);
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.home-ux .retie-seal {
+  width: auto;
+  height: auto;
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #fff;
+  font-family: Archivo, Inter, system-ui, sans-serif;
+  font-size: clamp(2.1rem, 4vw, 3.6rem);
+  font-weight: 800;
+  line-height: .85;
+  letter-spacing: -.045em;
+  box-shadow: none;
+  transform: none;
+}
+
+.home-ux .brand-plates {
+  display: flex;
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+.home-ux .nominal-plate {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #fff;
+  background: transparent;
+  font-family: Archivo, Inter, system-ui, sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 800;
+  line-height: .9;
+  letter-spacing: -.04em;
+}
+
+/* ---------- Origin: editorial spread, no decorative sandwich lines ---------- */
+.home-ux .origin-story {
+  background: #fff;
+}
+
+.home-ux .origin-card {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, .42fr) minmax(0, 1.58fr);
+  column-gap: clamp(42px, 7vw, 96px);
+  align-items: start;
+  text-align: left;
+}
+
+.home-ux .origin-card::before,
+.home-ux .origin-card::after {
+  display: none;
+}
+
+.home-ux .origin-kicker {
+  margin: 6px 0 0;
+  color: var(--gea-blue-2);
+  font-family: Archivo, Inter, system-ui, sans-serif;
+  font-size: .88rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.home-ux .origin-quote {
+  margin: 0;
+  color: var(--gea-blue);
+  font-size: clamp(2rem, 4.3vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.home-ux .origin-signature {
+  grid-column: 2;
+  margin: 26px 0 0;
+  color: var(--gea-muted);
+  font-weight: 700;
+}
+
+/* ---------- Contact: form as workspace, not a floating card ---------- */
+.home-ux .home-contact {
+  background: var(--gea-paper);
+}
+
+.home-ux .schedule-grid {
+  width: 100%;
+  margin: 0 0 clamp(34px, 4vw, 52px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 42px;
+}
+
+.home-ux .schedule-card {
+  min-width: min(100%, 260px);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+
+.home-ux .schedule-card strong {
+  display: block;
+  color: var(--gea-blue);
+  font-size: 1.08rem;
+}
+
+.home-ux .schedule-card span {
+  display: block;
+  margin-top: 4px;
+  color: var(--gea-muted);
+  font-size: .82rem;
+}
+
+.home-ux .home-contact .contact-form {
+  width: min(980px, 100%);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-ux .home-contact .contact-form::before {
+  display: none;
+}
+
+.home-ux .home-contact input,
+.home-ux .home-contact select,
+.home-ux .home-contact textarea {
+  border-radius: 5px;
+  background: rgba(255,255,255,.72);
+}
+
+/* ---------- Footer: no decorative tricolor cap ---------- */
+.home-ux .site-footer::before {
+  display: none;
+}
+
+.home-ux .site-footer {
+  background: var(--gea-blue);
+}
+
+/* ---------- Dark theme ---------- */
+html[data-theme="dark"] .home-ux .price-section,
+html[data-theme="dark"] .home-ux .origin-story {
+  background: #041630;
+}
+
+html[data-theme="dark"] .home-ux .services-section,
+html[data-theme="dark"] .home-ux .home-contact {
+  background: #061a39;
+}
+
+html[data-theme="dark"] .home-ux .price-value,
+html[data-theme="dark"] .home-ux .home-service-card h3,
+html[data-theme="dark"] .home-ux .home-service-card a,
+html[data-theme="dark"] .home-ux .origin-quote,
+html[data-theme="dark"] .home-ux .schedule-card strong {
+  color: #fff;
+}
+
+html[data-theme="dark"] .home-ux .price-tag {
+  color: #d6e0ef;
+}
+
+html[data-theme="dark"] .home-ux .home-contact input,
+html[data-theme="dark"] .home-ux .home-contact select,
+html[data-theme="dark"] .home-ux .home-contact textarea {
+  background: #071f45;
+  color: #fff;
+  border-color: rgba(255,255,255,.14);
+}
+
+/* ---------- Responsive ---------- */
 @media (max-width: 980px) {
   .gauge-section .gauge-panel {
     grid-template-columns: 1fr;
-    width: min(720px, 100%);
+    gap: 32px;
+    width: min(760px, 100%);
   }
 
   .institution-card {
-    grid-template-columns: 110px minmax(0, 1fr);
+    grid-template-columns: minmax(120px, .35fr) 1fr;
+    grid-template-rows: auto;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .institution-copy span {
+    max-width: 48ch;
+  }
+
+  .home-ux .price-plate {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "kicker"
+      "price"
+      "copy"
+      "tags";
+    row-gap: 20px;
+  }
+
+  .home-ux .price-copy {
+    margin-top: 10px;
+  }
+
+  .home-ux .price-tags {
+    margin-top: 8px;
+  }
+
+  .home-ux .credentials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 34px;
   }
 }
 
 @media (max-width: 760px) {
   .home-ux .service-hub-hero {
     min-height: auto;
-    padding: 78px 0 48px;
+    padding: 78px 0 46px;
+  }
+
+  .home-ux .counter-strip {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 34px;
+  }
+
+  .home-ux .counter-item {
+    padding-inline: 5px;
   }
 
   .gauge-section {
-    padding: 26px 0 32px;
+    padding: 48px 0 56px;
   }
 
-  .gauge-section .gauge-panel {
+  .institution-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .institution-mark,
+  .institution-mark--retie,
+  .institution-mark--epm,
+  .institution-mark--vanti {
+    font-size: 1.55rem;
+  }
+
+  .home-ux .home-section {
+    padding: 68px 0;
+  }
+
+  .home-ux .service-hub-grid {
+    grid-template-columns: 1fr;
+    gap: 62px;
+  }
+
+  .home-ux .home-service-card {
+    min-height: 0;
+  }
+
+  .home-ux .home-service-card::before {
+    margin-bottom: 26px;
+  }
+
+  .home-ux .price-tags {
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 
-  .institution-card {
-    min-height: 112px;
-    grid-template-columns: 88px minmax(0, 1fr);
-    gap: 14px;
-    padding: 14px 16px;
-    border-radius: 18px;
+  .home-ux .emergency-banner {
+    align-items: flex-start;
+    padding: 17px 18px;
   }
 
-  .institution-mark {
-    min-height: 62px;
-    padding: 10px;
+  .home-ux .origin-card {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
   }
 
-  .institution-mark--retie {
-    width: 62px;
-    min-height: 62px;
-    font-size: .72rem;
+  .home-ux .origin-signature {
+    grid-column: 1;
+    margin-top: 0;
   }
-
-  .institution-mark--epm { font-size: 1.15rem; }
-  .institution-mark--vanti { font-size: .98rem; }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 520px) {
+  .home-ux .counter-value {
+    font-size: clamp(1.6rem, 9vw, 2.35rem);
+  }
+
+  .home-ux .counter-label {
+    font-size: .58rem;
+  }
+
   .institution-card {
-    grid-template-columns: 74px minmax(0, 1fr);
-    gap: 11px;
-    padding: 12px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .institution-mark {
-    min-height: 54px;
-    border-radius: 14px;
+  .institution-copy span {
+    font-size: .82rem;
   }
 
-  .institution-mark--retie {
-    width: 54px;
-    min-height: 54px;
-    border-radius: 50%;
-    font-size: .64rem;
+  .home-ux .credentials-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 42px 20px;
   }
 
-  .institution-copy strong { font-size: .94rem; }
-  .institution-copy span { font-size: .7rem; }
+  .home-ux .credential-number {
+    font-size: 3.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-ux .home-service-card::before,
+  .home-ux .home-service-card a {
+    transition: none !important;
+  }
 }
