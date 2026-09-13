@@ -127,9 +127,12 @@
 .gea-intro__star:nth-child(8)  { top: 23%; left: 15%; width: 2px; height: 2px; animation-delay: .4s; }
 .gea-intro__star:nth-child(9)  { top: 25%; left: 42%; animation-delay: 1.1s; }
 .gea-intro__star:nth-child(10) { top: 22%; left: 76%; animation-delay: 3.1s; }
+.gea-intro__star:nth-child(11) { top: 4%;  left: 52%; width: 2px; height: 2px; animation-delay: 3.7s; }
+.gea-intro__star:nth-child(12) { top: 17%; left: 91%; animation-delay: 1.9s; }
+.gea-intro__star:nth-child(13) { top: 27%; left: 59%; width: 2px; height: 2px; animation-delay: 2.6s; }
 
-/* Menos elementos: se eliminan las estrellas que antes bajaban hacia logo y texto. */
-.gea-intro__star:nth-child(n+11) {
+/* Se conservan algunas estrellas adicionales, pero todas permanecen arriba. */
+.gea-intro__star:nth-child(n+14) {
   display: none;
 }
 
@@ -137,7 +140,8 @@
 .gea-intro__star:nth-child(2),
 .gea-intro__star:nth-child(5),
 .gea-intro__star:nth-child(7),
-.gea-intro__star:nth-child(10) {
+.gea-intro__star:nth-child(10),
+.gea-intro__star:nth-child(12) {
   width: 13px;
   height: 13px;
   border-radius: 0;
@@ -164,6 +168,12 @@
   height: 17px;
   opacity: 0.72;
   filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.42));
+}
+
+.gea-intro__star:nth-child(12) {
+  width: 10px;
+  height: 10px;
+  opacity: 0.52;
 }
 
 @keyframes gea-sun-breathe {
@@ -243,6 +253,11 @@
     height: 14px;
   }
 
+  .gea-intro__star:nth-child(12) {
+    width: 9px;
+    height: 9px;
+  }
+
   .gea-intro__star:nth-child(4),
   .gea-intro__star:nth-child(9) {
     display: none;
@@ -263,7 +278,9 @@
 
   .gea-intro__star:nth-child(8),
   .gea-intro__star:nth-child(9),
-  .gea-intro__star:nth-child(10) {
+  .gea-intro__star:nth-child(10),
+  .gea-intro__star:nth-child(12),
+  .gea-intro__star:nth-child(13) {
     display: none;
   }
 }
