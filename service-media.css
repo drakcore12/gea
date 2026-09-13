@@ -30,7 +30,7 @@ html[data-theme='dark'] .service-photo {
   background-color: #07172f !important;
   background-image:
     linear-gradient(90deg, rgba(4, 18, 42, .72) 0%, rgba(4, 18, 42, .52) 48%, rgba(4, 18, 42, .30) 100%),
-    url('/assets/img/hero-medellin-gea.webp') !important;
+    url('/assets/img/hero-medellin-gea.jpg') !important;
   background-size: cover !important;
   background-position: center 48% !important;
   background-repeat: no-repeat !important;
@@ -88,6 +88,6 @@ html[data-theme='dark'] .service-photo {
     background-position: 46% center !important;
     background-image:
       linear-gradient(180deg, rgba(4, 18, 42, .50) 0%, rgba(4, 18, 42, .70) 58%, rgba(4, 18, 42, .82) 100%),
-      url('/assets/img/hero-medellin-gea.webp') !important;
+      url('/assets/img/hero-medellin-gea.jpg') !important;
   }
 }

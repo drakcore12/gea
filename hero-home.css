@@ -7,7 +7,7 @@
   padding: clamp(76px, 9vw, 118px) 0 clamp(86px, 10vw, 126px);
   background:
     linear-gradient(90deg, rgba(4, 18, 42, .72) 0%, rgba(4, 18, 42, .52) 48%, rgba(4, 18, 42, .30) 100%),
-    url('/assets/img/hero-medellin-gea.webp') center 48% / cover no-repeat;
+    url('/assets/img/hero-medellin-gea.jpg') center 48% / cover no-repeat;
   color: #fff;
 }
 
