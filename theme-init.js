@@ -78,6 +78,16 @@
     document.head.appendChild(stylesheet);
   }
 
+  function loadServiceIconSizing() {
+    if (!isHomePage() || document.querySelector('link[data-service-icon-sizing]')) return;
+
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = deployedAsset('/service-icon-sizing.css');
+    stylesheet.dataset.serviceIconSizing = 'true';
+    document.head.appendChild(stylesheet);
+  }
+
   function loadHomeMotionSystem() {
     if (!isHomePage()) return;
 
@@ -91,6 +101,8 @@
       stylesheet.dataset.geaMotionStyles = 'true';
       document.head.appendChild(stylesheet);
     }
+
+    loadServiceIconSizing();
 
     if (!document.querySelector('script[data-gea-motion-script]')) {
       const script = document.createElement('script');
