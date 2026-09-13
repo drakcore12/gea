@@ -11,8 +11,12 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: #07172f;
+  background:
+    #07172f
+    url('/assets/video/hero-poster.webp?v=20260913b')
+    center center / cover no-repeat;
   pointer-events: none;
+  contain: paint;
 }
 
 .home-ux .service-hub-hero__video {
@@ -24,13 +28,18 @@
   object-position: center center;
   opacity: 0;
   transform: scale(1.012);
-  background: #07172f;
+  background: transparent;
   transition: opacity 700ms ease;
   will-change: opacity;
+  backface-visibility: hidden;
 }
 
 .home-ux .service-hub-hero__video.is-active {
   opacity: 1;
+}
+
+.home-ux .service-hub-hero__media.is-static .service-hub-hero__video {
+  display: none;
 }
 
 .home-ux .service-hub-hero::before {
