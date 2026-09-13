@@ -26,6 +26,29 @@
     document.head.appendChild(link);
   }
 
+  function ensureServiceIconStyles() {
+    if (document.querySelector('link[data-service-icon-sizing]')) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/service-icon-sizing.css?v=frame-v2';
+    link.dataset.serviceIconSizing = 'true';
+    document.head.appendChild(link);
+  }
+
+  function normalizeServiceIconFrames() {
+    document.querySelectorAll('.home-service-card .home-service-icon').forEach((icon) => {
+      if (icon.parentElement?.classList.contains('home-service-icon-frame')) return;
+
+      const frame = document.createElement('span');
+      frame.className = 'home-service-icon-frame';
+      frame.setAttribute('aria-hidden', 'true');
+
+      icon.parentNode?.insertBefore(frame, icon);
+      frame.appendChild(icon);
+    });
+  }
+
   function initializeHeroContextRotator() {
     if (heroRotatorStarted || !heroTitle || !heroContextEm) return;
     heroRotatorStarted = true;
@@ -177,5 +200,7 @@
   }
 
   ensureHeroContextStyles();
+  ensureServiceIconStyles();
+  normalizeServiceIconFrames();
   waitForIntro();
 })();
