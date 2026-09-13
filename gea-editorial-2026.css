@@ -1407,3 +1407,37 @@ html[data-theme="dark"] .home-ux .home-contact input, html[data-theme="dark"] .h
   .home-ux .gea-contact-actions { flex-direction: column; }
   .home-ux .gea-contact-actions .button { width: 100%; }
 }
+
+/* Iconos originales junto a la numeración de cada especialidad. */
+.home-ux .home-service-card .home-service-icon {
+  position: absolute;
+  top: clamp(26px, 4vw, 42px);
+  left: 0;
+  display: block;
+  width: 60px;
+  height: 60px;
+  padding: 8px;
+  margin: 0;
+  box-sizing: border-box;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--service-color);
+  border-radius: 12px;
+}
+
+.home-ux .home-service-card::before {
+  padding-top: 74px;
+  box-sizing: content-box;
+}
+
+@media (max-width: 760px) {
+  .home-ux .home-service-card .home-service-icon {
+    top: 28px;
+    width: 50px;
+    height: 50px;
+    padding: 6px;
+    border-radius: 10px;
+  }
+  .home-ux .home-service-card::before { padding-top: 64px; }
+  .home-ux .home-service-card a { white-space: normal; overflow-wrap: anywhere; }
+}
