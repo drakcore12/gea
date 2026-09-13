@@ -1299,38 +1299,40 @@ html[data-theme="dark"] .home-ux .home-contact textarea:focus {
 /* ---------- Small mobile ---------- */
 @media (max-width: 520px) {
   .home-ux .counter-strip {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    width: min(330px, 100%);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    margin-top: 22px;
   }
 
   .home-ux .counter-item {
-    grid-template-columns: 94px minmax(0, 1fr);
-    grid-template-areas:
-      "code value"
-      "code label";
-    place-items: start;
-    gap: 2px 12px;
-    padding: 9px 0;
-    text-align: left;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "code" "value" "label";
+    place-items: start center;
+    gap: 7px;
+    padding: 8px 0 0;
+    text-align: center;
+    min-width: 0;
   }
 
   .home-ux .counter-item::before {
     grid-area: code;
-    align-self: center;
     margin: 0;
-    font-size: .48rem;
+    font-size: .5rem;
+    letter-spacing: .04em;
   }
 
   .home-ux .counter-value {
     grid-area: value;
-    font-size: 1.8rem;
+    font-size: clamp(1.35rem, 6vw, 1.8rem);
+    white-space: nowrap;
   }
 
   .home-ux .counter-label {
     grid-area: label;
-    max-width: none;
-    font-size: .62rem;
+    max-width: 13ch;
+    font-size: .7rem;
+    line-height: 1.4;
   }
 
   .institution-card {

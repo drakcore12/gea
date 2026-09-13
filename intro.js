@@ -258,14 +258,14 @@
           decoding="sync"
         >
         <div class="gea-intro__gate-actions">
-        <button class="gea-intro__start" type="button" data-gea-intro-enter>Entrar a la página</button>
-        <button class="gea-intro__start gea-intro__watch" type="button" data-gea-intro-start>
+        <button class="gea-intro__start" type="button" data-gea-intro-start>
           <span>Ver presentación</span>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M5 12h14"></path>
             <path d="m14 7 5 5-5 5"></path>
           </svg>
         </button>
+        <button class="gea-intro__start gea-intro__secondary" type="button" data-gea-intro-enter>Entrar a la página</button>
         </div>
       </div>
     `;
@@ -323,7 +323,7 @@
   document.body.classList.add('gea-intro-open');
   setPageInteractive(false);
 
-  gate?.querySelector('[data-gea-intro-enter]')?.focus({ preventScroll: true });
+  startButton?.focus({ preventScroll: true });
 
   document.addEventListener('keydown', onKeyDown);
   document.addEventListener('visibilitychange', onVisibilityChange);
