@@ -35,14 +35,14 @@
 
     heroTitle.setAttribute(
       'aria-label',
-      'Un solo técnico para tu casa, negocio o industria',
+      'Una sola empresa para todo lo que falla en tu casa, negocio o industria',
     );
 
     heroTitle.textContent = '';
 
     const mainLine = document.createElement('span');
     mainLine.className = 'hero-title-main';
-    mainLine.textContent = 'Un solo técnico para tu';
+    mainLine.textContent = 'Una sola empresa para todo lo que falla en tu';
     heroTitle.appendChild(mainLine);
 
     const contextLine = document.createElement('span');
