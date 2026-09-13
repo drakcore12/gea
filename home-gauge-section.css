@@ -1,0 +1,54 @@
+/* Gauges live in their own technical band below the video hero. */
+.home-ux .service-hub-hero {
+  min-height: min(680px, calc(100svh - 70px));
+  padding: clamp(82px, 9vw, 118px) 0 clamp(58px, 6vw, 78px);
+}
+
+.gauge-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(48px, 6vw, 76px) 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0, 91, 231, .15), transparent 36%),
+    linear-gradient(180deg, #071c3e 0%, #011949 100%);
+}
+
+.gauge-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(720px, 72vw);
+  height: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg,
+    transparent,
+    var(--gea-copper) 18%,
+    var(--gea-water) 50%,
+    var(--gea-gas) 82%,
+    transparent);
+  opacity: .78;
+}
+
+.gauge-section > .container {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.gauge-section .gauge-panel {
+  margin: 0 auto;
+}
+
+@media (max-width: 760px) {
+  .home-ux .service-hub-hero {
+    min-height: auto;
+    padding: 78px 0 48px;
+  }
+
+  .gauge-section {
+    padding: 34px 0 44px;
+  }
+}
