@@ -81,6 +81,9 @@
   function loadHomeMotionSystem() {
     if (!isHomePage()) return;
 
+    // Editorial defines geometry. Motion loads after it and only animates that geometry.
+    loadEditorialStyles();
+
     if (!document.querySelector('link[data-gea-motion-styles]')) {
       const stylesheet = document.createElement('link');
       stylesheet.rel = 'stylesheet';
@@ -96,9 +99,6 @@
       script.dataset.geaMotionScript = 'true';
       document.head.appendChild(script);
     }
-
-    // This is appended after the motion stylesheet so it remains the final visual authority.
-    loadEditorialStyles();
   }
 
   const theme = storedTheme() || scheduledTheme();
