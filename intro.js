@@ -12,10 +12,10 @@
   const introTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
   const gateLogoAsset = introTheme === 'dark'
     ? '/assets/img/Soluciones_GEA_isotipo_blanco.svg'
-    : '/assets/img/Soluciones_GEA_isotipo_azul.svg';
+    : '/assets/img/isotipo.svg';
   const animatedLogoAsset = introTheme === 'dark'
     ? '/assets/img/Soluciones_GEA_imagotipo_vertical_blanco.svg'
-    : '/assets/img/Soluciones_GEA_imagotipo_vertical_azul.svg';
+    : '/assets/img/Soluciones_GEA_imagotipo_vertical_ultra_preciso.svg';
   let isClosing = false;
   let hasStarted = false;
   let introTimer = null;
