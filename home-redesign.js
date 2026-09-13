@@ -35,11 +35,17 @@
 
     heroTitle.setAttribute(
       'aria-label',
-      'Un solo técnico para todo lo que falla en casa, negocio e industria',
+      'Un solo técnico para tu casa, negocio o industria',
     );
 
+    heroTitle.textContent = '';
+    heroTitle.append(document.createTextNode('Un solo técnico '));
+
+    const contextLine = document.createElement('span');
+    contextLine.className = 'hero-title-context-line';
+    contextLine.append(document.createTextNode('para tu '));
+
     heroContextEm.textContent = '';
-    heroContextEm.append(document.createTextNode('falla en '));
 
     const rotator = document.createElement('span');
     rotator.className = 'hero-context-rotator';
@@ -51,6 +57,8 @@
     word.textContent = contexts[0];
     rotator.appendChild(word);
     heroContextEm.appendChild(rotator);
+    contextLine.appendChild(heroContextEm);
+    heroTitle.appendChild(contextLine);
 
     if (reducedMotion) return;
 
