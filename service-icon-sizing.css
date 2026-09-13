@@ -61,6 +61,24 @@
   box-sizing: border-box !important;
 }
 
+/* Normalize the service numbers (01, 02, 03).
+   Fraunces uses proportional digit widths by default, so force tabular figures
+   and an identical content box for each two-digit number. */
+.home-ux .home-service-card::before {
+  display: grid !important;
+  place-items: center;
+  width: 2.15ch !important;
+  min-width: 2.15ch !important;
+  max-width: 2.15ch !important;
+  height: 1em !important;
+  min-height: 1em !important;
+  max-height: 1em !important;
+  line-height: 1 !important;
+  text-align: center;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
 @media (max-width: 760px) {
   .home-ux .home-service-icon-frame {
     top: 28px;
@@ -89,5 +107,14 @@
     min-height: 50px !important;
     max-width: 50px !important;
     max-height: 50px !important;
+  }
+
+  .home-ux .home-service-card::before {
+    width: 2.15ch !important;
+    min-width: 2.15ch !important;
+    max-width: 2.15ch !important;
+    height: 1em !important;
+    min-height: 1em !important;
+    max-height: 1em !important;
   }
 }
