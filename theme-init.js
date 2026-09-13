@@ -77,6 +77,26 @@
     document.head.appendChild(script);
   }
 
+  function loadHomeMotionSystem() {
+    if (!isHomePage()) return;
+
+    if (!document.querySelector('link[data-gea-motion-styles]')) {
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = deployedAsset('/gea-motion.css');
+      stylesheet.dataset.geaMotionStyles = 'true';
+      document.head.appendChild(stylesheet);
+    }
+
+    if (!document.querySelector('script[data-gea-motion-script]')) {
+      const script = document.createElement('script');
+      script.src = deployedAsset('/gea-motion.js');
+      script.defer = true;
+      script.dataset.geaMotionScript = 'true';
+      document.head.appendChild(script);
+    }
+  }
+
   const theme = storedTheme() || scheduledTheme();
   root.classList.remove('no-js');
   root.classList.add('js');
@@ -94,5 +114,6 @@
   window.addEventListener('DOMContentLoaded', () => {
     loadHomePriorityStyles();
     loadHomeServiceEnhancements();
+    loadHomeMotionSystem();
   }, { once: true });
 })();
