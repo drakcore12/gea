@@ -168,3 +168,14 @@ html[data-theme="dark"] .gea-intro__sound:hover {
     border-radius: 13px;
   }
 }
+/* Dos caminos visibles: acceso directo y presentación opcional. */
+.gea-intro__gate-actions { display: grid; gap: 12px; width: min(100%, 290px); }
+.gea-intro__gate-actions .gea-intro__start { width: 100%; min-width: 0; }
+.gea-intro__gate-actions .gea-intro__watch { background: transparent; color: var(--gea-intro-ink); border: 1px solid currentColor; box-shadow: none; }
+.gea-intro__gate-actions .gea-intro__watch:hover { background: rgba(22,116,223,.08); }
+html[data-theme="dark"] .gea-intro__gate-actions .gea-intro__watch { color: #fff; }
+@media (max-height: 520px) and (orientation: landscape) {
+  .gea-intro__gate-content { gap: 10px; }
+  .gea-intro__gate-actions { gap: 8px; }
+  .gea-intro__gate-actions .gea-intro__start { min-height: 44px; }
+}

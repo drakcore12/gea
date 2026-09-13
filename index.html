@@ -65,7 +65,7 @@
       <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú">
         <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg>
       </button>
-      <a class="button button-primary home-nav-cta" href="#contacto">Agendar visita — $80.000</a>
+      <a class="button button-primary home-nav-cta" href="#contacto">Solicitar visita — $80.000</a>
     </div>
   </header>
 
@@ -80,13 +80,47 @@
         <div class="home-hero-copy">
           <p class="eyebrow">Medellín y Valle de Aburrá</p>
           <h1 id="hero-title">Un solo técnico para todo lo que <em>falla en casa</em></h1>
-          <p class="lead">Electricidad, agua y gas resueltos por el mismo criterio técnico: 30 años de oficio, certificación RETIE y trayectoria como contratista de EPM.</p>
+          <p class="lead">Gas, electricidad y agua resueltos por el mismo criterio técnico: 30 años de oficio, certificación RETIE y trayectoria como contratista de EPM.</p>
+          <div class="gea-contact-actions">
+            <a class="button gea-hero-primary" href="https://wa.me/573017605677?text=Hola%2C%20GEA.%20Quiero%20consultar%20un%20servicio.">Consultar por WhatsApp</a>
+            <a class="button gea-hero-secondary" href="tel:+573017605677">Llamar al 301 760 5677</a>
+          </div>
+          <p class="gea-hero-hours">Hogares y negocios · Atención de 6:00 a.m. a 6:00 p.m.</p>
         </div>
 
         <div class="counter-strip" aria-label="Datos de Soluciones GEA">
           <div class="counter-item"><strong class="counter-value" data-counter-target="30">30</strong><span class="counter-label">años de experiencia</span></div>
           <div class="counter-item"><strong class="counter-value" data-counter-target="80000">80.000</strong><span class="counter-label">visita técnica (COP)</span></div>
           <div class="counter-item"><strong class="counter-value" data-counter-target="100" data-counter-suffix="+">100+</strong><span class="counter-label">trabajos realizados</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios" class="home-section services-section" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Servicios</p>
+          <h2 id="services-title">¿Qué necesitas resolver?</h2>
+        </div>
+        <div class="service-hub-grid">
+          <article class="home-service-card service-card-electric">
+            <img class="home-service-icon" src="/assets/img/icono-electricidad.svg" width="48" height="48" alt="" aria-hidden="true">
+            <h3>Electricidad</h3>
+            <p>Cortos, sobrecargas, breakers, puntos sin energía e instalaciones certificadas RETIE.</p>
+            <a href="/servicios/electricista-medellin/">Ver servicios eléctricos →</a>
+          </article>
+          <article class="home-service-card home-service-card--water service-card-water">
+            <img class="home-service-icon" src="/assets/img/icono-agua.svg" width="48" height="48" alt="" aria-hidden="true">
+            <h3>Agua</h3>
+            <p>Fugas, humedad, tuberías, baja presión, bombas y conexiones.</p>
+            <a href="/servicios/plomero-fugas-agua-medellin/">Ver servicios de plomería →</a>
+          </article>
+          <article class="home-service-card home-service-card--gas service-card-gas">
+            <img class="home-service-icon" src="/assets/img/icono-gas.svg" width="48" height="48" alt="" aria-hidden="true">
+            <h3>Gas</h3>
+            <p>Puntos, llaves, reguladores, calentadores y legalización ante Vanti.</p>
+            <a href="/servicios/gas-medellin/">Ver servicios de gas →</a>
+          </article>
         </div>
       </div>
     </section>
@@ -128,35 +162,6 @@
       </div>
     </section>
 
-    <section id="servicios" class="home-section services-section" aria-labelledby="services-title">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">Servicios</p>
-          <h2 id="services-title">Un mismo criterio técnico para electricidad, agua y gas</h2>
-        </div>
-        <div class="service-hub-grid">
-          <article class="home-service-card service-card-electric">
-            <img class="home-service-icon" src="/assets/img/icono-electricidad.svg" width="48" height="48" alt="" aria-hidden="true">
-            <h3>Electricidad</h3>
-            <p>Cortos, sobrecargas, breakers, puntos sin energía e instalaciones certificadas RETIE.</p>
-            <a href="/servicios/electricista-medellin/">Ver más →</a>
-          </article>
-          <article class="home-service-card home-service-card--water service-card-water">
-            <img class="home-service-icon" src="/assets/img/icono-agua.svg" width="48" height="48" alt="" aria-hidden="true">
-            <h3>Agua</h3>
-            <p>Fugas, humedad, tuberías, baja presión, bombas y conexiones.</p>
-            <a href="/servicios/plomero-fugas-agua-medellin/">Ver más →</a>
-          </article>
-          <article class="home-service-card home-service-card--gas service-card-gas">
-            <img class="home-service-icon" src="/assets/img/icono-gas.svg" width="48" height="48" alt="" aria-hidden="true">
-            <h3>Gas</h3>
-            <p>Puntos, llaves, reguladores, calentadores y legalización ante Vanti.</p>
-            <a href="/servicios/gas-medellin/">Ver más →</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section id="confianza" class="home-section credentials-section" aria-labelledby="credentials-title">
       <div class="container">
         <div class="section-heading">
@@ -186,11 +191,34 @@
       </div>
     </section>
 
+    <section id="como-funciona" class="home-section gea-service-process" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-heading"><p class="eyebrow">Así te atendemos</p><h2 id="process-title">Claro desde el primer contacto</h2></div>
+        <ol class="gea-process-grid">
+          <li><span aria-hidden="true">01</span><h3>Cuéntanos qué pasa</h3><p>Describe el problema y comparte tu barrio o municipio por llamada o WhatsApp.</p></li>
+          <li><span aria-hidden="true">02</span><h3>Coordinamos la visita</h3><p>Confirmamos cobertura, disponibilidad y el valor que corresponde a tu solicitud.</p></li>
+          <li><span aria-hidden="true">03</span><h3>Diagnóstico y cotización</h3><p>Revisamos la falla y explicamos el trabajo propuesto. Tú decides si lo autorizas.</p></li>
+          <li><span aria-hidden="true">04</span><h3>Trabajo autorizado</h3><p>Realizamos lo acordado y te explicamos la intervención y las recomendaciones.</p></li>
+        </ol>
+        <a class="button button-primary" href="#contacto">Solicitar una visita</a>
+      </div>
+    </section>
+
+    <section id="cobertura" class="home-section gea-service-faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-heading"><p class="eyebrow">Antes de solicitar</p><h2 id="faq-title">Resolvemos tus dudas</h2></div>
+        <details><summary>¿Qué incluye la visita de $80.000?</summary><p>Incluye revisión, diagnóstico y cotización. La reparación, los materiales, las instalaciones y la atención de emergencias se cotizan aparte. Confirmamos el alcance antes de coordinar.</p></details>
+        <details><summary>¿Atienden mi barrio o municipio?</summary><p>Atendemos Medellín y el Valle de Aburrá. Comparte tu ubicación para confirmar cobertura y disponibilidad antes de programar la visita.</p></details>
+        <details><summary>¿Puedo consultar si no sé qué está fallando?</summary><p>Sí. Cuéntanos qué notas y dónde ocurre; te orientamos sobre el servicio que corresponde. No necesitas conocer el nombre técnico.</p></details>
+        <details><summary>¿Atienden hogares, negocios y emergencias?</summary><p>Atendemos hogares y negocios. El horario regular y de atención prioritaria de emergencias es de 6:00 a.m. a 6:00 p.m.; consulta disponibilidad.</p></details>
+      </div>
+    </section>
+
     <section id="contacto" class="home-section home-contact" aria-labelledby="contact-title">
       <div class="container">
         <div class="section-heading">
-          <h2 id="contact-title">Describa el problema y le respondemos por WhatsApp</h2>
-          <p>También puede llamar directamente al 301 760 5677.</p>
+          <h2 id="contact-title">Cuéntanos qué necesitas</h2>
+          <p>Escríbenos por WhatsApp o <a href="tel:+573017605677">llama al 301 760 5677</a>. Confirma tu barrio o municipio para coordinar la visita.</p>
         </div>
 
         <div class="schedule-grid" aria-label="Horarios de atención">
