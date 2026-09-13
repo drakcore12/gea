@@ -1,0 +1,561 @@
+/* Soluciones GEA — motion language
+   Unique, restrained motion per homepage block. No generic fade-in system. */
+
+:root {
+  --gea-motion-blue: var(--blue, #011949);
+  --gea-motion-blue-2: var(--blue-2, #0a2d67);
+  --gea-motion-orange: var(--orange, #fe8601);
+  --gea-motion-green: var(--green, #57bb2d);
+  --gea-motion-water: var(--water, #005be7);
+  --gea-motion-ease: cubic-bezier(.2, .82, .25, 1);
+  --gea-motion-spring: cubic-bezier(.2, 1.35, .38, 1);
+}
+
+/* Header — a restrained three-service current trace. */
+.home-ux .site-header {
+  position: relative;
+}
+
+.home-ux .gea-header-trace {
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: min(460px, 52vw);
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) scaleX(.08);
+  transform-origin: center;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gea-motion-orange) 18%,
+    var(--gea-motion-water) 50%,
+    var(--gea-motion-green) 82%,
+    transparent 100%);
+  filter: saturate(.95);
+}
+
+html.gea-motion-enabled .home-ux .gea-header-trace {
+  animation: gea-header-trace-on 1.15s var(--gea-motion-ease) .08s forwards;
+}
+
+@keyframes gea-header-trace-on {
+  0% { opacity: 0; transform: translateX(-50%) scaleX(.08); }
+  42% { opacity: .92; }
+  100% { opacity: .46; transform: translateX(-50%) scaleX(1); }
+}
+
+/* Desktop scroll spine — current follows scroll when supported. */
+.home-ux .gea-scroll-spine {
+  position: fixed;
+  left: clamp(10px, 1.35vw, 22px);
+  top: 112px;
+  bottom: 94px;
+  width: 1px;
+  z-index: 28;
+  pointer-events: none;
+  background: rgba(1, 25, 73, .12);
+}
+
+html[data-theme='dark'] .home-ux .gea-scroll-spine {
+  background: rgba(255, 255, 255, .12);
+}
+
+.home-ux .gea-scroll-spine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: scaleY(.12);
+  transform-origin: top;
+  background: linear-gradient(180deg,
+    var(--gea-motion-orange),
+    var(--gea-motion-water) 52%,
+    var(--gea-motion-green));
+  box-shadow: 0 0 9px rgba(0, 91, 231, .26);
+}
+
+.home-ux .gea-scroll-spine::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid rgba(0, 91, 231, .5);
+  box-shadow: 0 0 0 4px rgba(0, 91, 231, .08), 0 0 14px rgba(0, 91, 231, .42);
+}
+
+@supports (animation-timeline: scroll()) {
+  .home-ux .gea-scroll-spine::before {
+    animation: gea-spine-fill linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0% 100%;
+  }
+
+  .home-ux .gea-scroll-spine::after {
+    animation: gea-spine-pulse linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0% 100%;
+  }
+}
+
+@keyframes gea-spine-fill {
+  from { transform: scaleY(.02); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes gea-spine-pulse {
+  from { top: 1%; }
+  to { top: 99%; }
+}
+
+/* Hero — electrical "power-on", no geometric movement of the layout. */
+.home-ux [data-gea-motion='hero-power'] h1,
+.home-ux [data-gea-motion='hero-power'] .eyebrow,
+.home-ux [data-gea-motion='hero-power'] .lead,
+.home-ux [data-gea-motion='hero-power'] .service-note {
+  backface-visibility: hidden;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='hero-power'].is-gea-visible h1 {
+  animation: gea-hero-power-title .82s linear both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='hero-power'].is-gea-visible .eyebrow {
+  animation: gea-hero-power-small .68s linear .08s both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='hero-power'].is-gea-visible .lead {
+  animation: gea-hero-power-stabilize .86s var(--gea-motion-ease) .18s both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='hero-power'].is-gea-visible .service-note {
+  animation: gea-note-charge .95s var(--gea-motion-ease) .32s both;
+}
+
+@keyframes gea-hero-power-title {
+  0%, 7% { opacity: .18; filter: brightness(.72); }
+  9%, 14% { opacity: .96; filter: brightness(1.12); }
+  16%, 22% { opacity: .38; }
+  24%, 31% { opacity: 1; filter: brightness(1.18); }
+  33%, 39% { opacity: .72; }
+  42%, 100% { opacity: 1; filter: brightness(1); }
+}
+
+@keyframes gea-hero-power-small {
+  0%, 12% { opacity: .25; }
+  15%, 27% { opacity: 1; }
+  30%, 42% { opacity: .55; }
+  46%, 100% { opacity: 1; }
+}
+
+@keyframes gea-hero-power-stabilize {
+  from { opacity: .55; filter: blur(1.4px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+@keyframes gea-note-charge {
+  0% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+  45% { box-shadow: 0 0 0 1px rgba(255,255,255,.34), 0 0 24px rgba(0,91,231,.18); }
+  100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+}
+
+/* Services heading — symmetric three-color circuit line. */
+.home-ux [data-gea-motion='services-heading'] {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.home-ux [data-gea-motion='services-heading']::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(210px, 58vw);
+  height: 3px;
+  border-radius: 999px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  background: linear-gradient(90deg,
+    var(--gea-motion-orange) 0 31%,
+    transparent 31% 34%,
+    var(--gea-motion-water) 34% 66%,
+    transparent 66% 69%,
+    var(--gea-motion-green) 69% 100%);
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='services-heading'].is-gea-visible::after {
+  animation: gea-circuit-line 1s var(--gea-motion-ease) forwards;
+}
+
+@keyframes gea-circuit-line {
+  0% { opacity: 0; transform: translateX(-50%) scaleX(0); }
+  34% { opacity: 1; }
+  100% { opacity: .9; transform: translateX(-50%) scaleX(1); }
+}
+
+/* Service cards — same geometry, three different physical metaphors. */
+.home-ux .service-hub-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .2s ease, box-shadow .24s ease, border-color .24s ease;
+}
+
+.home-ux .service-hub-card::before {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.home-ux .service-card-electric::before { background: var(--gea-motion-orange); }
+.home-ux .service-card-water::before { background: var(--gea-motion-water); }
+.home-ux .service-card-gas::before { background: var(--gea-motion-green); }
+
+html.gea-motion-enabled .home-ux [data-gea-motion='services-grid'].is-gea-visible .service-hub-card::before {
+  animation: gea-breaker-line .72s var(--gea-motion-spring) forwards;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='services-grid'].is-gea-visible .service-hub-card:nth-child(2)::before { animation-delay: .14s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='services-grid'].is-gea-visible .service-hub-card:nth-child(3)::before { animation-delay: .28s; }
+
+@keyframes gea-breaker-line {
+  0% { transform: translateX(-50%) scaleX(0); }
+  72% { transform: translateX(-50%) scaleX(1.04); }
+  100% { transform: translateX(-50%) scaleX(1); }
+}
+
+.home-ux .service-card-electric::after,
+.home-ux .service-card-water::after,
+.home-ux .service-card-gas::after {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.home-ux .service-card-electric::after {
+  width: 34%;
+  left: -38%;
+  right: auto;
+  background: linear-gradient(105deg, transparent, rgba(254,134,1,.18), rgba(255,255,255,.28), transparent);
+  transform: skewX(-12deg);
+}
+
+.home-ux .service-card-water::after {
+  inset: 50% auto auto 50%;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(0,91,231,.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(.2);
+}
+
+.home-ux .service-card-gas::after {
+  inset: 0;
+  background: radial-gradient(circle at 50% 112%, rgba(87,187,45,.23), transparent 43%);
+  transform: scaleY(.65);
+  transform-origin: bottom;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='services-grid'].is-gea-visible .service-card-electric::after {
+  animation: gea-electric-spark .9s ease .12s both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='services-grid'].is-gea-visible .service-card-water::after {
+  animation: gea-water-ripple 1.05s var(--gea-motion-ease) .28s both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='services-grid'].is-gea-visible .service-card-gas::after {
+  animation: gea-gas-breathe 1.15s ease-out .42s both;
+}
+
+@keyframes gea-electric-spark {
+  0% { opacity: 0; left: -38%; }
+  18% { opacity: .95; }
+  100% { opacity: 0; left: 110%; }
+}
+
+@keyframes gea-water-ripple {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.2); }
+  20% { opacity: .7; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(10); }
+}
+
+@keyframes gea-gas-breathe {
+  0% { opacity: 0; transform: scaleY(.65); }
+  48% { opacity: .82; transform: scaleY(1.04); }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-ux .service-hub-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .home-ux .service-card-electric:hover { box-shadow: 0 18px 42px rgba(254,134,1,.12); }
+  .home-ux .service-card-water:hover { box-shadow: 0 18px 42px rgba(0,91,231,.12); }
+  .home-ux .service-card-gas:hover { box-shadow: 0 18px 42px rgba(87,187,45,.12); }
+}
+
+/* Technical visit — diagnostic scanner across the block. */
+.home-ux [data-gea-motion='diagnostic-scan'] {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-ux [data-gea-motion='diagnostic-scan']::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  top: -8%;
+  height: 2px;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0,91,231,.18) 16%,
+    rgba(0,91,231,.9) 50%,
+    rgba(0,91,231,.18) 84%,
+    transparent);
+  box-shadow: 0 0 14px rgba(0,91,231,.28);
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible::after {
+  animation: gea-diagnostic-scan 1.25s var(--gea-motion-ease) forwards;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible .feature-list li {
+  animation: gea-diagnostic-lock .42s ease both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible .feature-list li:nth-child(2) { animation-delay: .08s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible .feature-list li:nth-child(3) { animation-delay: .16s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible .feature-list li:nth-child(4) { animation-delay: .24s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible .feature-list li:nth-child(5) { animation-delay: .32s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='diagnostic-scan'].is-gea-visible .feature-list li:nth-child(6) { animation-delay: .40s; }
+
+@keyframes gea-diagnostic-scan {
+  0% { top: -8%; opacity: 0; }
+  12% { opacity: .8; }
+  82% { opacity: .72; }
+  100% { top: 108%; opacity: 0; }
+}
+
+@keyframes gea-diagnostic-lock {
+  0% { filter: saturate(.35); }
+  56% { filter: saturate(1.3) brightness(1.05); }
+  100% { filter: saturate(1) brightness(1); }
+}
+
+/* Coverage — route pulse travels through location items without moving layout. */
+.home-ux [data-gea-motion='coverage-route'] .feature-list li {
+  position: relative;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='coverage-route'].is-gea-visible .feature-list li {
+  animation: gea-route-stop .64s var(--gea-motion-ease) both;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='coverage-route'].is-gea-visible .feature-list li:nth-child(2) { animation-delay: .09s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='coverage-route'].is-gea-visible .feature-list li:nth-child(3) { animation-delay: .18s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='coverage-route'].is-gea-visible .feature-list li:nth-child(4) { animation-delay: .27s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='coverage-route'].is-gea-visible .feature-list li:nth-child(5) { animation-delay: .36s; }
+html.gea-motion-enabled .home-ux [data-gea-motion='coverage-route'].is-gea-visible .feature-list li:nth-child(6) { animation-delay: .45s; }
+
+@keyframes gea-route-stop {
+  0% { box-shadow: inset 0 0 0 0 rgba(0,91,231,0); }
+  52% { box-shadow: inset 4px 0 0 var(--gea-motion-water), 0 0 0 1px rgba(0,91,231,.08); }
+  100% { box-shadow: inset 2px 0 0 rgba(0,91,231,.48); }
+}
+
+/* Contact — signal acquisition: border resolves around the form, fields answer on focus. */
+.home-ux [data-gea-motion='contact-signal'] .contact-form {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-ux [data-gea-motion='contact-signal'] .contact-form::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(120deg,
+    rgba(254,134,1,.72),
+    rgba(0,91,231,.62),
+    rgba(87,187,45,.66),
+    rgba(254,134,1,.72));
+  background-size: 260% 100%;
+  padding: 1px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='contact-signal'].is-gea-visible .contact-form::before {
+  animation: gea-contact-acquire 1.4s var(--gea-motion-ease) both;
+}
+
+.home-ux [data-gea-motion='contact-signal'] input,
+.home-ux [data-gea-motion='contact-signal'] select,
+.home-ux [data-gea-motion='contact-signal'] textarea {
+  transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.home-ux [data-gea-motion='contact-signal'] input:focus,
+.home-ux [data-gea-motion='contact-signal'] select:focus,
+.home-ux [data-gea-motion='contact-signal'] textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(0,91,231,.11), 0 8px 24px rgba(1,25,73,.06);
+}
+
+@keyframes gea-contact-acquire {
+  0% { opacity: 0; background-position: 100% 50%; }
+  30% { opacity: .92; }
+  100% { opacity: .34; background-position: 0 50%; }
+}
+
+/* Final CTA — one contained charge passes behind the content. */
+.home-ux [data-gea-motion='cta-charge'] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.home-ux [data-gea-motion='cta-charge']::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -35%;
+  bottom: -35%;
+  left: -34%;
+  width: 28%;
+  opacity: 0;
+  pointer-events: none;
+  transform: skewX(-16deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), rgba(255,255,255,.04), transparent);
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='cta-charge'].is-gea-visible::before {
+  animation: gea-cta-charge 1.15s ease-out both;
+}
+
+@keyframes gea-cta-charge {
+  0% { left: -34%; opacity: 0; }
+  18% { opacity: .95; }
+  100% { left: 112%; opacity: 0; }
+}
+
+/* Footer — quiet tricolor closure, mirrors the header trace. */
+.home-ux [data-gea-motion='footer-settle'] {
+  position: relative;
+}
+
+.home-ux [data-gea-motion='footer-settle']::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  width: min(260px, 64vw);
+  height: 2px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  background: linear-gradient(90deg,
+    var(--gea-motion-orange) 0 32%,
+    transparent 32% 34%,
+    var(--gea-motion-water) 34% 66%,
+    transparent 66% 68%,
+    var(--gea-motion-green) 68% 100%);
+}
+
+html.gea-motion-enabled .home-ux [data-gea-motion='footer-settle'].is-gea-visible::before {
+  animation: gea-footer-settle .9s var(--gea-motion-ease) forwards;
+}
+
+@keyframes gea-footer-settle {
+  from { opacity: 0; transform: translateX(-50%) scaleX(0); }
+  to { opacity: .72; transform: translateX(-50%) scaleX(1); }
+}
+
+/* Floating WhatsApp — availability sonar, deliberately infrequent. */
+.home-ux .floating-whatsapp[data-floating-whatsapp] .floating-whatsapp__icon-wrap {
+  position: relative;
+}
+
+.home-ux .floating-whatsapp[data-floating-whatsapp] .floating-whatsapp__icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(255,255,255,.56);
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  animation: gea-whatsapp-sonar 5.2s ease-out 1.4s infinite;
+}
+
+@keyframes gea-whatsapp-sonar {
+  0%, 72%, 100% { opacity: 0; transform: scale(.92); }
+  76% { opacity: .62; transform: scale(1); }
+  90% { opacity: 0; transform: scale(1.55); }
+}
+
+/* Dark mode: preserve the same motion language, only rebalance luminance. */
+html[data-theme='dark'] .home-ux [data-gea-motion='contact-signal'] input:focus,
+html[data-theme='dark'] .home-ux [data-gea-motion='contact-signal'] select:focus,
+html[data-theme='dark'] .home-ux [data-gea-motion='contact-signal'] textarea:focus {
+  box-shadow: 0 0 0 3px rgba(0,91,231,.18), 0 8px 24px rgba(0,0,0,.18);
+}
+
+@media (max-width: 1050px) {
+  .home-ux .gea-scroll-spine { display: none; }
+}
+
+@media (max-width: 760px) {
+  .home-ux [data-gea-motion='services-heading'] { padding-bottom: 14px; }
+  .home-ux [data-gea-motion='services-heading']::after { width: min(180px, 62vw); }
+  .home-ux .service-hub-card::before { height: 2px; }
+  .home-ux [data-gea-motion='diagnostic-scan']::after { box-shadow: 0 0 9px rgba(0,91,231,.22); }
+  .home-ux [data-gea-motion='footer-settle']::before { top: -13px; }
+}
+
+/* Accessibility: motion is enhancement, never a requirement. */
+@media (prefers-reduced-motion: reduce) {
+  .home-ux .gea-header-trace,
+  .home-ux .gea-scroll-spine,
+  .home-ux [data-gea-motion]::before,
+  .home-ux [data-gea-motion]::after,
+  .home-ux [data-gea-motion] *,
+  .home-ux .service-hub-card::before,
+  .home-ux .service-hub-card::after,
+  .home-ux .floating-whatsapp[data-floating-whatsapp] .floating-whatsapp__icon-wrap::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .home-ux .gea-header-trace,
+  .home-ux [data-gea-motion='services-heading']::after,
+  .home-ux [data-gea-motion='footer-settle']::before {
+    opacity: .55;
+    transform: translateX(-50%) scaleX(1);
+  }
+}
