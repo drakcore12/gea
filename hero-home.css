@@ -1,13 +1,11 @@
-/* Fallback del hero. Las reglas activas también viven en service-media.css para evitar fallos de carga. */
+/* Fallback del hero. El fondo visual lo gestiona hero-video.css. */
 .home-ux .service-hub-hero {
   position: relative;
   min-height: clamp(520px, 67vh, 680px);
   display: flex;
   align-items: center;
   padding: clamp(76px, 9vw, 118px) 0 clamp(86px, 10vw, 126px);
-  background:
-    linear-gradient(90deg, rgba(4, 18, 42, .72) 0%, rgba(4, 18, 42, .52) 48%, rgba(4, 18, 42, .30) 100%),
-    url('/assets/img/hero-medellin-gea.jpg') center 48% / cover no-repeat;
+  background: #07172f;
   color: #fff;
 }
 
@@ -20,27 +18,27 @@
   max-width: 800px;
   color: #fff;
   text-shadow:
-    0 2px 5px rgba(0, 0, 0, .56),
-    0 10px 30px rgba(0, 0, 0, .38);
+    0 2px 5px rgba(0,0,0,.50),
+    0 10px 30px rgba(0,0,0,.32);
 }
 
 .home-ux .service-hub-hero .eyebrow {
   color: #dfeaff;
-  text-shadow: 0 1px 7px rgba(0, 0, 0, .48);
+  text-shadow: 0 1px 7px rgba(0,0,0,.42);
 }
 
 .home-ux .service-hub-hero .lead {
   max-width: 760px;
   color: rgba(255,255,255,.92);
   text-shadow:
-    0 1px 3px rgba(0, 0, 0, .52),
-    0 6px 18px rgba(0, 0, 0, .30);
+    0 1px 3px rgba(0,0,0,.46),
+    0 6px 18px rgba(0,0,0,.26);
 }
 
 .home-ux .service-hub-hero .service-note {
   max-width: 820px;
   color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, .42);
+  text-shadow: 0 1px 3px rgba(0,0,0,.38);
   background: rgba(2, 17, 40, .58);
   border-color: rgba(255,255,255,.22);
   backdrop-filter: blur(8px);
@@ -65,6 +63,5 @@
   .home-ux .service-hub-hero {
     min-height: 610px;
     padding: 72px 0 88px;
-    background-position: 46% center;
   }
 }
