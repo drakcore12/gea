@@ -33,7 +33,7 @@
   line-height: 1;
   letter-spacing: -0.01em;
   cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
 }
 
 .gea-intro__start svg {
@@ -64,6 +64,68 @@
 .gea-intro__start:focus-visible {
   outline: 3px solid #1674df;
   outline-offset: 4px;
+}
+
+html[data-theme="dark"] .gea-intro {
+  --gea-intro-bg: #011949;
+  --gea-intro-ink: #ffffff;
+  --gea-intro-surface: rgba(6, 31, 74, 0.94);
+  background: #011949;
+}
+
+html[data-theme="dark"] .gea-intro__gate {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.08), transparent 36%),
+    #011949;
+}
+
+html[data-theme="dark"] .gea-intro__gate-logo {
+  filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.26));
+}
+
+html[data-theme="dark"] .gea-intro__start {
+  border-color: rgba(255, 255, 255, 0.76);
+  background: #ffffff;
+  color: #011949;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme="dark"] .gea-intro__start:hover {
+  background: #f2f6fb;
+  color: #011949;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.30), inset 0 1px 0 #ffffff;
+}
+
+html[data-theme="dark"] .gea-intro__start:focus-visible {
+  outline-color: #ffffff;
+}
+
+html[data-theme="dark"] .gea-intro__headline,
+html[data-theme="dark"] .gea-intro__service-label {
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .gea-intro__waves i {
+  border-color: rgba(255, 255, 255, 0.13);
+}
+
+html[data-theme="dark"] .gea-intro__logo-wrap::after,
+html[data-theme="dark"] .gea-intro__message-card::after {
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.28) 0%, rgba(0, 0, 0, 0.11) 42%, rgba(0, 0, 0, 0) 74%);
+}
+
+html[data-theme="dark"] .gea-intro__skip,
+html[data-theme="dark"] .gea-intro__sound {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(5, 30, 72, 0.86);
+  color: #ffffff;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.20);
+}
+
+html[data-theme="dark"] .gea-intro__skip:hover,
+html[data-theme="dark"] .gea-intro__sound:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.26);
 }
 
 @media (max-width: 700px), (orientation: portrait) {
