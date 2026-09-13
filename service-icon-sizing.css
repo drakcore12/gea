@@ -1,0 +1,14 @@
+/* Optical sizing for service icons.
+   Water and gas use narrower vertical SVG silhouettes than electricity, so they
+   need a larger internal render area while keeping the same 60/50px frame. */
+.home-ux .home-service-card--water .home-service-icon,
+.home-ux .home-service-card--gas .home-service-icon {
+  padding: 2px;
+}
+
+@media (max-width: 760px) {
+  .home-ux .home-service-card--water .home-service-icon,
+  .home-ux .home-service-card--gas .home-service-icon {
+    padding: 1px;
+  }
+}
