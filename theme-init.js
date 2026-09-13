@@ -47,6 +47,16 @@
     document.head.appendChild(stylesheet);
   }
 
+  function loadFloatingWhatsapp() {
+    if (document.querySelector('script[data-floating-whatsapp-script]')) return;
+
+    const script = document.createElement('script');
+    script.src = deployedAsset('/floating-whatsapp.js');
+    script.defer = true;
+    script.dataset.floatingWhatsappScript = 'true';
+    document.head.appendChild(script);
+  }
+
   function loadHomePriorityStyles() {
     if (!isHomePage() || document.querySelector('link[href*="home-priority.css"]')) return;
 
@@ -79,6 +89,7 @@
   }
 
   loadNavigationLogoStyles();
+  loadFloatingWhatsapp();
 
   window.addEventListener('DOMContentLoaded', () => {
     loadHomePriorityStyles();
