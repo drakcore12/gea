@@ -57,26 +57,6 @@
     document.head.appendChild(script);
   }
 
-  function loadHomePriorityStyles() {
-    if (!isHomePage() || document.querySelector('link[href*="home-priority.css"]')) return;
-
-    const stylesheet = document.createElement('link');
-    stylesheet.rel = 'stylesheet';
-    stylesheet.href = deployedAsset('/home-priority.css');
-    stylesheet.dataset.homePriority = 'true';
-    document.head.appendChild(stylesheet);
-  }
-
-  function loadHomeServiceEnhancements() {
-    if (!isHomePage() || document.querySelector('script[data-service-pages]')) return;
-
-    const script = document.createElement('script');
-    script.src = deployedAsset('/service-pages.js');
-    script.defer = true;
-    script.dataset.servicePages = 'true';
-    document.head.appendChild(script);
-  }
-
   function loadHomeMotionSystem() {
     if (!isHomePage()) return;
 
@@ -112,8 +92,6 @@
   loadFloatingWhatsapp();
 
   window.addEventListener('DOMContentLoaded', () => {
-    loadHomePriorityStyles();
-    loadHomeServiceEnhancements();
     loadHomeMotionSystem();
   }, { once: true });
 })();
