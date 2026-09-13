@@ -5,114 +5,13 @@
   if (!body?.classList.contains('home-ux')) return;
 
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
-  const gauges = Array.from(document.querySelectorAll('[data-gauge-angle]'));
   const counters = Array.from(document.querySelectorAll('[data-counter-target]'));
   const serviceCards = Array.from(document.querySelectorAll('.home-service-card'));
   const contactForm = document.querySelector('.home-contact .contact-form');
 
-  const gaugeMeta = Object.freeze({
-    electric: Object.freeze({ icon: '/assets/img/icono-electricidad.svg', institution: 'RETIE' }),
-    water: Object.freeze({ icon: '/assets/img/icono-agua.svg', institution: 'EPM' }),
-    gas: Object.freeze({ icon: '/assets/img/icono-gas.svg', institution: 'VANTI' }),
-  });
-
-  let gaugesStarted = false;
   let countersStarted = false;
 
   const formatNumber = (value) => new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(value);
-
-  function gaugeType(gauge) {
-    if (gauge.classList.contains('gea-gauge--water')) return 'water';
-    if (gauge.classList.contains('gea-gauge--gas')) return 'gas';
-    return 'electric';
-  }
-
-  function enhanceGaugeCards() {
-    gauges.forEach((gauge) => {
-      if (gauge.dataset.gaugeLayout === 'horizontal') return;
-
-      const type = gaugeType(gauge);
-      const meta = gaugeMeta[type];
-      const caption = gauge.querySelector('.gauge-caption');
-
-      const mark = document.createElement('div');
-      mark.className = 'gauge-service-mark';
-      mark.setAttribute('aria-hidden', 'true');
-
-      const icon = document.createElement('img');
-      icon.src = meta.icon;
-      icon.alt = '';
-      icon.width = 31;
-      icon.height = 31;
-      mark.appendChild(icon);
-
-      if (caption && !caption.querySelector('.gauge-institution')) {
-        const institution = document.createElement('span');
-        institution.className = `gauge-institution gauge-institution--${type}`;
-        institution.textContent = meta.institution;
-        caption.prepend(institution);
-      }
-
-      gauge.prepend(mark);
-      gauge.dataset.gaugeLayout = 'horizontal';
-    });
-  }
-
-  function setGaugeFinal(needle, angle) {
-    needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-  }
-
-  function animateGauge(gauge, index) {
-    const needle = gauge.querySelector('.gauge-needle');
-    if (!needle) return;
-    const angle = Number(gauge.dataset.gaugeAngle || 0);
-
-    if (reducedMotion || typeof needle.animate !== 'function') {
-      setGaugeFinal(needle, angle);
-      return;
-    }
-
-    const animation = needle.animate(
-      [
-        { transform: 'translateX(-50%) rotate(-92deg)' },
-        { transform: `translateX(-50%) rotate(${angle + (angle >= 0 ? 4 : -4)}deg)`, offset: 0.82 },
-        { transform: `translateX(-50%) rotate(${angle}deg)` },
-      ],
-      {
-        duration: 1600,
-        delay: 150 + index * 250,
-        easing: 'cubic-bezier(.2,1.4,.4,1)',
-        fill: 'forwards',
-      },
-    );
-
-    animation.addEventListener('finish', () => setGaugeFinal(needle, angle), { once: true });
-
-    if (window.matchMedia?.('(hover:hover) and (pointer:fine)').matches) {
-      gauge.addEventListener('pointermove', (event) => {
-        const rect = gauge.getBoundingClientRect();
-        const ratio = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - 0.5) * 2));
-        const hoverAngle = angle + ratio * 5;
-        needle.animate(
-          [{ transform: needle.style.transform || `translateX(-50%) rotate(${angle}deg)` }, { transform: `translateX(-50%) rotate(${hoverAngle}deg)` }],
-          { duration: 180, easing: 'ease-out', fill: 'forwards' },
-        );
-      });
-
-      gauge.addEventListener('pointerleave', () => {
-        needle.animate(
-          [{ transform: getComputedStyle(needle).transform }, { transform: `translateX(-50%) rotate(${angle}deg)` }],
-          { duration: 420, easing: 'cubic-bezier(.2,1.2,.35,1)', fill: 'forwards' },
-        );
-      });
-    }
-  }
-
-  function startGauges() {
-    if (gaugesStarted) return;
-    gaugesStarted = true;
-    gauges.forEach(animateGauge);
-  }
 
   function setCounter(counter, value) {
     const suffix = counter.dataset.counterSuffix || '';
@@ -181,7 +80,6 @@
   }
 
   function initializePageMotion() {
-    startGauges();
     observeOnce(document.querySelector('.counter-strip'), startCounters, 0.6);
     observeOnce(document.querySelector('#servicios .service-hub-grid'), activateServiceCards, 0.3);
     observeOnce(contactForm, () => contactForm?.classList.add('is-signal-live'), 0.35);
@@ -201,6 +99,5 @@
     observer.observe(body, { attributes: true, attributeFilter: ['class'] });
   }
 
-  enhanceGaugeCards();
   waitForIntro();
 })();
