@@ -20,7 +20,7 @@ html[data-theme='dark'] .service-photo {
   border-color: rgba(255, 255, 255, 0.14);
 }
 
-/* Hero principal de Medellín: reglas directas para evitar fallos de @import/caché. */
+/* Hero principal de Medellín: el fondo visual lo gestiona hero-video.css. */
 .home-ux .service-hub-hero {
   position: relative;
   min-height: clamp(520px, 67vh, 680px);
@@ -28,12 +28,7 @@ html[data-theme='dark'] .service-photo {
   align-items: center;
   padding: clamp(76px, 9vw, 118px) 0 clamp(86px, 10vw, 126px);
   background-color: #07172f !important;
-  background-image:
-    linear-gradient(90deg, rgba(4, 18, 42, .72) 0%, rgba(4, 18, 42, .52) 48%, rgba(4, 18, 42, .30) 100%),
-    url('/assets/img/hero-medellin-gea.jpg') !important;
-  background-size: cover !important;
-  background-position: center 48% !important;
-  background-repeat: no-repeat !important;
+  background-image: none !important;
   color: #fff;
 }
 
@@ -91,9 +86,6 @@ html[data-theme='dark'] .service-photo {
   .home-ux .service-hub-hero {
     min-height: 610px;
     padding: 72px 0 88px;
-    background-position: 46% center !important;
-    background-image:
-      linear-gradient(180deg, rgba(4, 18, 42, .50) 0%, rgba(4, 18, 42, .70) 58%, rgba(4, 18, 42, .82) 100%),
-      url('/assets/img/hero-medellin-gea.jpg') !important;
+    background-image: none !important;
   }
 }
