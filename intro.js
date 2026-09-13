@@ -21,6 +21,16 @@
   let soundEnabled = true;
   const previousFocus = document.activeElement;
 
+  function ensureGateStyles() {
+    if (document.querySelector('link[data-gea-intro-gate-styles]')) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/intro-gate-refresh.css';
+    link.dataset.geaIntroGateStyles = 'true';
+    document.head.appendChild(link);
+  }
+
   function updateSoundButton(enabled) {
     if (!soundButton) return;
     soundButton.setAttribute('aria-pressed', String(enabled));
@@ -127,6 +137,8 @@
   }
 
   function buildIntro() {
+    ensureGateStyles();
+
     const legacyVideo = overlay.querySelector('video');
     legacyVideo?.remove();
 
@@ -149,7 +161,7 @@
         <div class="gea-intro__logo-wrap">
           <img
             class="gea-intro__logo"
-            src="/assets/img/Soluciones_GEA_imagotipo_vertical_ultra_preciso.svg"
+            src="/assets/img/Soluciones_GEA_isotipo_azul.svg"
             alt=""
             width="360"
             height="360"
@@ -183,15 +195,18 @@
       <div class="gea-intro__gate-content">
         <img
           class="gea-intro__gate-logo"
-          src="/assets/img/Soluciones_GEA_imagotipo_vertical_ultra_preciso.svg"
+          src="/assets/img/Soluciones_GEA_isotipo_azul.svg"
           alt="Soluciones GEA"
-          width="280"
-          height="280"
+          width="220"
+          height="220"
           decoding="sync"
         >
-        <p class="gea-intro__gate-copy">Ingeniería para tu hogar y negocio</p>
         <button class="gea-intro__start" type="button" data-gea-intro-start>
-          Comenzar
+          <span>Comenzar</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 12h14"></path>
+            <path d="m14 7 5 5-5 5"></path>
+          </svg>
         </button>
       </div>
     `;
