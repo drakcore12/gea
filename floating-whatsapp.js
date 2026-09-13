@@ -58,11 +58,15 @@
     link.setAttribute('aria-label', 'Escríbenos por WhatsApp');
     link.title = 'Escríbenos por WhatsApp';
 
+    const iconWrap = document.createElement('span');
+    iconWrap.className = 'floating-whatsapp__icon-wrap';
+    iconWrap.appendChild(createWhatsappIcon());
+
     const label = document.createElement('span');
     label.className = 'floating-whatsapp__label';
     label.textContent = 'Escríbenos por WhatsApp';
 
-    link.append(createWhatsappIcon(), label);
+    link.append(iconWrap, label);
     document.body.appendChild(link);
   }
 
