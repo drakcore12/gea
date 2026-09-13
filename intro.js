@@ -9,6 +9,10 @@
   const pageRegions = document.querySelectorAll('.site-header, main, .site-footer, .skip-link');
   const introDuration = 8000;
   const fadeDuration = 420;
+  const introTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  const introLogoAsset = introTheme === 'dark'
+    ? '/assets/img/Soluciones_GEA_isotipo_blanco.svg'
+    : '/assets/img/Soluciones_GEA_isotipo_azul.svg';
   let isClosing = false;
   let hasStarted = false;
   let introTimer = null;
@@ -20,6 +24,8 @@
   let soundRequest = 0;
   let soundEnabled = true;
   const previousFocus = document.activeElement;
+
+  overlay.dataset.introTheme = introTheme;
 
   function ensureGateStyles() {
     if (document.querySelector('link[data-gea-intro-gate-styles]')) return;
@@ -161,7 +167,7 @@
         <div class="gea-intro__logo-wrap">
           <img
             class="gea-intro__logo"
-            src="/assets/img/Soluciones_GEA_isotipo_azul.svg"
+            src="${introLogoAsset}"
             alt=""
             width="360"
             height="360"
@@ -195,7 +201,7 @@
       <div class="gea-intro__gate-content">
         <img
           class="gea-intro__gate-logo"
-          src="/assets/img/Soluciones_GEA_isotipo_azul.svg"
+          src="${introLogoAsset}"
           alt="Soluciones GEA"
           width="220"
           height="220"
