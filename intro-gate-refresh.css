@@ -173,7 +173,19 @@ html[data-theme="dark"] .gea-intro__sound:hover {
 .gea-intro__gate-actions .gea-intro__start { width: 100%; min-width: 0; }
 .gea-intro__gate-actions .gea-intro__secondary { background: transparent; color: var(--gea-intro-ink); border: 1px solid currentColor; box-shadow: none; }
 .gea-intro__gate-actions .gea-intro__secondary:hover { background: rgba(22,116,223,.08); }
-html[data-theme="dark"] .gea-intro__gate-actions .gea-intro__secondary { color: #fff; }
+html[data-theme="dark"] .gea-intro__gate-actions .gea-intro__secondary {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.76);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .gea-intro__gate-actions .gea-intro__secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: none;
+}
 @media (max-height: 520px) and (orientation: landscape) {
   .gea-intro__gate-content { gap: 10px; }
   .gea-intro__gate-actions { gap: 8px; }
