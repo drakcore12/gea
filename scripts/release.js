@@ -159,7 +159,7 @@ const shortCommit = safeToken(commit.slice(0, 12), 'local');
 const deployId = safeToken(process.env.DEPLOY_ID, '');
 const version = deployId ? `${shortCommit}-${deployId.slice(0, 8)}` : shortCommit;
 const context = safeToken(process.env.CONTEXT, 'local');
-const productionUrl = process.env.URL || 'https://soluciones-gea.netlify.app';
+const productionUrl = process.env.URL || 'https://solucionesgea.com';
 const deployUrl = process.env.DEPLOY_URL || productionUrl;
 const deployedAt = new Date().toISOString();
 

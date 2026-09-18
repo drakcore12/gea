@@ -15,7 +15,7 @@ GEA Care fue retirado de la oferta comercial visible para concentrar la captaci√
 
 ## Canales oficiales
 
-- Sitio: https://soluciones-gea.netlify.app/
+- Sitio: https://solucionesgea.com/
 - Facebook: https://www.facebook.com/profile.php?id=61591598215345
 - Instagram: https://www.instagram.com/solucionesgea_oficial/
 - WhatsApp y tel√©fono: +57 301 760 5677

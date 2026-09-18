@@ -9,6 +9,18 @@
   pretty_urls = true
 
 [[redirects]]
+  from = "https://www.solucionesgea.com/*"
+  to = "https://solucionesgea.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://soluciones-gea.netlify.app/*"
+  to = "https://solucionesgea.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/privacidad"
   to = "/privacidad.html"
   status = 200

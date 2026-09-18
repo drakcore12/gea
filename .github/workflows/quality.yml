@@ -36,7 +36,7 @@ jobs:
         env:
           COMMIT_REF: ${{ github.sha }}
           CONTEXT: production
-          URL: https://soluciones-gea.netlify.app
+          URL: https://solucionesgea.com
         run: node scripts/release.js
 
       - name: Validate versioned release

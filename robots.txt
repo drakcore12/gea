@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://soluciones-gea.netlify.app/sitemap.xml
+Sitemap: https://solucionesgea.com/sitemap.xml
