@@ -238,6 +238,21 @@
   62% { opacity: 0.56; transform: scale(0.96); }
 }
 
+
+/* Desktop: el ambiente debe cubrir el viewport completo, no el stage limitado.
+   El contenido central conserva sus dimensiones; solo se extiende el lienzo visual. */
+@media (min-width: 701px) and (orientation: landscape) {
+  .gea-intro__stage > .gea-intro__ambient {
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    transform: translate(-50%, -50%);
+  }
+}
+
 @media (max-width: 700px), (orientation: portrait) {
   .gea-intro__sun {
     top: max(54px, 9vh);
