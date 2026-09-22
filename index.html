@@ -21,7 +21,235 @@
   <title>Electricista, Plomero y Gas en Medellín | Soluciones GEA</title>
   <link rel="icon" href="./assets/img/isotipo-color-transparente.ico" sizes="any"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/isotipo.svg">
   <!-- Critical mobile intro path: discover the LCP asset immediately and paint the gate without waiting for the full site CSS. -->
-  <link rel="stylesheet" href="./intro-critical.css">
+  <style data-gea-critical-intro>:root {
+  --gea-intro-bg: #ffffff;
+  --gea-intro-ink: #082a58;
+}
+
+.gea-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--gea-intro-bg);
+  isolation: isolate;
+}
+
+/* While the gate owns the viewport, keep the page behind it out of paint/LCP/CLS.
+   visibility preserves layout, so revealing the page later does not move geometry. */
+body[data-gea-intro-active] > :not(.gea-intro) {
+  visibility: hidden;
+}
+
+
+body[data-gea-intro-active] > :not(.gea-intro),
+body[data-gea-intro-active] > :not(.gea-intro) * {
+  animation-play-state: paused !important;
+}
+
+.gea-intro__gate {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: max(28px, env(safe-area-inset-top)) 24px max(28px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 45%, rgba(22, 116, 223, 0.055), transparent 34%),
+    var(--gea-intro-bg);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 320ms ease, visibility 320ms ease, transform 320ms cubic-bezier(.22, .8, .3, 1);
+}
+
+.gea-intro__gate-content {
+  width: min(86vw, 380px);
+  display: grid;
+  justify-items: center;
+  gap: 30px;
+  text-align: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.gea-intro__gate-logo {
+  display: block;
+  width: clamp(138px, 16vw, 178px);
+  height: auto;
+  filter: drop-shadow(0 20px 38px rgba(8, 42, 88, 0.12));
+}
+
+.gea-intro__gate-actions {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 290px);
+}
+
+.gea-intro__start {
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 0 24px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #082a58 0%, #0b356f 100%);
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(8, 42, 88, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  font: 800 15px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.gea-intro__start svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gea-intro__secondary {
+  background: transparent;
+  color: var(--gea-intro-ink);
+  border: 1px solid currentColor;
+  box-shadow: none;
+}
+
+.gea-intro__gate.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.015);
+  pointer-events: none;
+}
+
+.gea-intro__start:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0b356f 0%, #10427f 100%);
+  box-shadow: 0 18px 34px rgba(8, 42, 88, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.gea-intro__start:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.gea-intro__start:focus-visible {
+  outline: 3px solid #1674df;
+  outline-offset: 4px;
+}
+
+.gea-intro__secondary:hover {
+  background: rgba(22, 116, 223, 0.08);
+}
+
+/* The standalone skip button must never appear on the gate.
+   It becomes visible only after JS moves it into the playing controls. */
+.gea-intro:not(.is-playing) > .gea-intro__skip {
+  display: none !important;
+}
+
+html[data-theme="dark"] .gea-intro {
+  --gea-intro-bg: #011949;
+  --gea-intro-ink: #ffffff;
+  background: #011949;
+}
+
+html[data-theme="dark"] .gea-intro__gate {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.08), transparent 36%),
+    #011949;
+}
+
+html[data-theme="dark"] .gea-intro__gate-logo {
+  filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.26));
+}
+
+html[data-theme="dark"] .gea-intro__gate-logo path {
+  fill: #ffffff;
+}
+
+html[data-theme="dark"] .gea-intro__start {
+  border-color: rgba(255, 255, 255, 0.76);
+  background: #ffffff;
+  color: #011949;
+}
+
+html[data-theme="dark"] .gea-intro__secondary {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.76);
+}
+
+html[data-theme="dark"] .gea-intro__secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+@media (max-width: 700px), (orientation: portrait) {
+  .gea-intro__gate-content {
+    width: min(84vw, 340px);
+    gap: 26px;
+  }
+
+  .gea-intro__gate-logo {
+    width: clamp(136px, 39vw, 166px);
+  }
+
+  .gea-intro__start {
+    min-height: 52px;
+    border-radius: 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .gea-intro__gate-content {
+    grid-template-columns: 1fr;
+    width: min(70vw, 320px);
+    gap: 10px;
+    align-items: center;
+  }
+
+  .gea-intro__gate-logo {
+    grid-row: auto;
+    width: min(24vh, 116px);
+  }
+
+  .gea-intro__gate-actions {
+    gap: 8px;
+  }
+
+  .gea-intro__start {
+    min-height: 44px;
+    border-radius: 13px;
+  }
+}
+
+/* No JavaScript: never trap the visitor behind an intro that cannot run. */
+.no-js .gea-intro {
+  display: none !important;
+}
+
+html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
+  visibility: visible !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gea-intro {
+    display: none !important;
+  }
+}
+</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script>
