@@ -114,7 +114,10 @@ function injectHomePriorityStyles(html, file) {
   if (/home-priority\.css/i.test(html)) return html;
 
   const marker = /(<link\s+rel=["']stylesheet["']\s+href=["'][^"']*home-ux-theme\.css[^"']*["']\s*>)/i;
-  const stylesheet = '  <link rel="stylesheet" href="./home-priority.css">';
+  const stylesheet = [
+    '  <link rel="preload" as="style" href="./home-priority.css" data-gea-deferred-style>',
+    '  <noscript><link rel="stylesheet" href="./home-priority.css"></noscript>',
+  ].join('\n');
 
   if (marker.test(html)) return html.replace(marker, `$1\n${stylesheet}`);
   return html.replace(/<\/head>/i, `${stylesheet}\n</head>`);

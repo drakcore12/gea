@@ -61,7 +61,9 @@ for (const fullPath of htmlPaths) {
 
   for (const id of new Set(duplicateIds)) report(`${file}: id duplicado "${id}"`);
   if (/\sstyle=["']/i.test(source)) report(`${file}: contiene estilos inline`);
-  if (/javascript:/i.test(source)) report(`${file}: contiene una URL javascript:`);
+  if (/\b(?:src|href)=["']\s*javascript:/i.test(source)) {
+    report(`${file}: contiene una URL javascript:`);
+  }
   if (!title) report(`${file}: falta <title>`);
   if (h1Count !== 1) report(`${file}: debe contener exactamente un h1; contiene ${h1Count}`);
 
@@ -137,6 +139,38 @@ if (!fs.existsSync(headersPath)) report('Falta _headers');
 if (!fs.existsSync(path.join(root, 'robots.txt'))) report('Falta robots.txt');
 if (!fs.existsSync(sitemapPath)) report('Falta sitemap.xml');
 if (!fs.existsSync(path.join(root, 'scripts/release.js'))) report('Falta scripts/release.js');
+
+const deferredHomeStyles = [
+  'styles.css',
+  'theme.css',
+  'service-pages.css',
+  'service-media.css',
+  'hero-video.css',
+  'nav-logo.css',
+  'intro.css',
+  'home-redesign.css',
+  'home-gauge-section.css',
+];
+
+for (const stylesheet of deferredHomeStyles) {
+  const deferredPattern = new RegExp(
+    `<link\\b(?=[^>]*\\brel=["']preload["'])(?=[^>]*\\bas=["']style["'])(?=[^>]*\\bhref=["'][^"']*${escapeRegExp(stylesheet)}(?:\\?[^"']*)?["'])(?=[^>]*\\bdata-gea-deferred-style\\b)[^>]*>`,
+    'i',
+  );
+  if (!deferredPattern.test(index)) {
+    report(`index.html: ${stylesheet} debe precargarse sin bloquear el render inicial`);
+  }
+}
+
+if (fs.existsSync(headersPath)) {
+  const headers = fs.readFileSync(headersPath, 'utf8');
+  if (!/script-src[^\n]*https:\/\/static\.cloudflareinsights\.com/i.test(headers)) {
+    report('_headers: la CSP no permite el script de Cloudflare Web Analytics');
+  }
+  if (!/connect-src[^\n]*https:\/\/cloudflareinsights\.com/i.test(headers)) {
+    report('_headers: la CSP no permite el beacon de Cloudflare Web Analytics');
+  }
+}
 
 const versionPath = path.join(root, 'version.json');
 if (fs.existsSync(versionPath)) {

@@ -37,6 +37,19 @@
     return version ? `${path}?v=${encodeURIComponent(version)}` : path;
   }
 
+  let deferredStylesActivated = false;
+
+  function activateDeferredStyles() {
+    if (deferredStylesActivated) return;
+    deferredStylesActivated = true;
+
+    document.querySelectorAll('link[data-gea-deferred-style]').forEach((link) => {
+      link.rel = 'stylesheet';
+      link.removeAttribute('as');
+      link.removeAttribute('fetchpriority');
+    });
+  }
+
   function loadNavigationLogoStyles() {
     if (document.querySelector('link[href*="nav-logo.css"]')) return;
 
@@ -154,10 +167,17 @@
   if (isHomePage()) {
     // Keep the synthetic/mobile critical path focused on the intro gate.
     // Home-only styles, motion and helpers start after the visitor leaves it.
-    window.addEventListener('gea:intro-closed', startEnhancements, { once: true });
+    window.addEventListener('gea:intro-prepare', activateDeferredStyles, { once: true });
+    window.addEventListener('gea:intro-closed', () => {
+      activateDeferredStyles();
+      startEnhancements();
+    }, { once: true });
 
     window.addEventListener('DOMContentLoaded', () => {
-      if (!document.querySelector('[data-gea-intro]')) startEnhancements();
+      if (!document.querySelector('[data-gea-intro]')) {
+        activateDeferredStyles();
+        startEnhancements();
+      }
     }, { once: true });
   } else {
     startEnhancements();
