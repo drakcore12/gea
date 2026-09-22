@@ -30,16 +30,6 @@
 
   overlay.dataset.introTheme = introTheme;
 
-  function ensureGateStyles() {
-    if (document.querySelector('link[data-gea-intro-gate-styles]')) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = '/intro-gate-refresh.css';
-    link.dataset.geaIntroGateStyles = 'true';
-    document.head.appendChild(link);
-  }
-
   function ensureAmbientStyles() {
     if (document.querySelector('link[data-gea-intro-ambient-styles]')) return;
 
@@ -159,6 +149,7 @@
       document.contains(previousFocus);
 
     const removeOverlay = () => {
+      document.body.classList.remove('gea-intro-pending');
       overlay.remove();
       if (shouldRestorePreviousFocus) {
         previousFocus.focus({ preventScroll: true });
@@ -283,8 +274,6 @@
     finishIntro({ immediate: true });
     return;
   }
-
-  ensureGateStyles();
 
   const legacyVideo = overlay.querySelector('video');
   legacyVideo?.remove();
