@@ -10,9 +10,6 @@
   const introDuration = 8000;
   const fadeDuration = 420;
   const introTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
-  const gateLogoAsset = introTheme === 'dark'
-    ? '/assets/img/Soluciones_GEA_isotipo_blanco.svg'
-    : '/assets/img/isotipo.svg';
   const animatedLogoAsset = introTheme === 'dark'
     ? '/assets/img/Soluciones_GEA_imagotipo_vertical_blanco.svg'
     : '/assets/img/Soluciones_GEA_imagotipo_vertical_ultra_preciso.svg';
@@ -283,11 +280,6 @@
   if (!gate) {
     finishIntro({ immediate: true });
     return;
-  }
-
-  const gateLogo = gate.querySelector('[data-gea-intro-gate-logo]');
-  if (gateLogo && gateLogo.getAttribute('src') !== gateLogoAsset) {
-    gateLogo.setAttribute('src', gateLogoAsset);
   }
 
   startButton = gate.querySelector('[data-gea-intro-start]');
