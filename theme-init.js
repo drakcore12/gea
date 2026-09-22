@@ -113,6 +113,33 @@
     }
   }
 
+  function loadHomeScripts() {
+    if (!isHomePage() || document.querySelector('script[data-gea-home-runtime]')) return;
+
+    ['/app.js', '/home-redesign.js', '/hero-video.js'].forEach((src) => {
+      const script = document.createElement('script');
+      script.src = deployedAsset(src);
+      script.async = false;
+      script.dataset.geaHomeRuntime = 'true';
+      document.body.appendChild(script);
+    });
+  }
+
+  let enhancementsStarted = false;
+
+  function startEnhancements() {
+    if (enhancementsStarted) return;
+    enhancementsStarted = true;
+
+    loadNavigationLogoStyles();
+    loadFloatingWhatsapp();
+
+    if (isHomePage()) {
+      loadHomeMotionSystem();
+      loadHomeScripts();
+    }
+  }
+
   const theme = storedTheme() || scheduledTheme();
   root.classList.remove('no-js');
   root.classList.add('js');
@@ -124,11 +151,15 @@
     metaThemeColor.content = theme === 'dark' ? darkThemeColor : lightThemeColor;
   }
 
-  loadNavigationLogoStyles();
-  loadFloatingWhatsapp();
-  preloadEditorialStyles();
+  if (isHomePage()) {
+    // Keep the synthetic/mobile critical path focused on the intro gate.
+    // Home-only styles, motion and helpers start after the visitor leaves it.
+    window.addEventListener('gea:intro-closed', startEnhancements, { once: true });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    loadHomeMotionSystem();
-  }, { once: true });
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!document.querySelector('[data-gea-intro]')) startEnhancements();
+    }, { once: true });
+  } else {
+    startEnhancements();
+  }
 })();
