@@ -401,6 +401,73 @@
     }
   }
 
+  function initializeHomepageFaq() {
+    const section = document.querySelector('.gea-service-faq');
+    if (!section || typeof Element.prototype.animate !== 'function') return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    section.querySelectorAll('.gea-faq-item').forEach((details) => {
+      const summary = details.querySelector('summary');
+      const answer = details.querySelector('.gea-faq-answer');
+      if (!summary || !answer) return;
+
+      summary.addEventListener('click', (event) => {
+        if (reduceMotion.matches) return;
+
+        event.preventDefault();
+        if (details.classList.contains('is-animating')) return;
+
+        const opening = !details.open;
+        const startHeight = details.getBoundingClientRect().height;
+
+        if (opening) details.open = true;
+
+        const endHeight = opening
+          ? summary.getBoundingClientRect().height + answer.getBoundingClientRect().height
+          : summary.getBoundingClientRect().height;
+
+        details.classList.add('is-animating');
+
+        const panelAnimation = details.animate(
+          [
+            { height: `${startHeight}px` },
+            { height: `${endHeight}px` },
+          ],
+          {
+            duration: opening ? 280 : 230,
+            easing: 'cubic-bezier(.2, .8, .2, 1)',
+          },
+        );
+
+        answer.animate(
+          opening
+            ? [
+                { opacity: 0, transform: 'translateY(-6px)' },
+                { opacity: 1, transform: 'translateY(0)' },
+              ]
+            : [
+                { opacity: 1, transform: 'translateY(0)' },
+                { opacity: 0, transform: 'translateY(-4px)' },
+              ],
+          {
+            duration: opening ? 220 : 160,
+            easing: 'ease-out',
+          },
+        );
+
+        panelAnimation.addEventListener('finish', () => {
+          if (!opening) details.open = false;
+          details.classList.remove('is-animating');
+        }, { once: true });
+
+        panelAnimation.addEventListener('cancel', () => {
+          details.classList.remove('is-animating');
+        }, { once: true });
+      });
+    });
+  }
+
   function updateFooterYear() {
     document.querySelectorAll('[data-current-year]').forEach((element) => {
       element.textContent = String(new Date().getFullYear());
@@ -416,6 +483,7 @@
     initializeLeadForm();
     initializeTrackedLinks();
     enhanceGeaCareMembershipCopy();
+    initializeHomepageFaq();
     updateFooterYear();
   }
 
