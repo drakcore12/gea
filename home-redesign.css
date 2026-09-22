@@ -523,6 +523,19 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
   .emergency-banner { align-items:flex-start; text-align:left; }
 }
 
+@media (max-width: 760px) {
+  /* Avoid non-composited infinite animations on low-power mobile devices. */
+  .emergency-dot {
+    animation: none;
+    box-shadow: none;
+  }
+
+  .credential-rail::after {
+    animation: none;
+    left: calc(50% - 3.5px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-ux *, .home-ux *::before, .home-ux *::after {
     animation-duration:.01ms !important;
