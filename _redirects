@@ -1,3 +1,7 @@
+# Consolidate the default Netlify hostname into the canonical production domain.
+# Keep this first so every legacy/indexed path transfers with a permanent redirect.
+https://soluciones-gea.netlify.app/*  https://solucionesgea.com/:splat  301!
+
 /assets/img/imagotipo-horizontal-color-transparente.png  /assets/img/imagotipo-horizontal.svg  301!
 /assets/img/imagotipo-horizontal-negativo-transparente.png  /assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg  301!
 /assets/img/isotipo-color-transparente.png  /assets/img/isotipo.svg  301!
