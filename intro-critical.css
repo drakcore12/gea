@@ -144,6 +144,10 @@ html[data-theme="dark"] .gea-intro__gate-logo {
   filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.26));
 }
 
+html[data-theme="dark"] .gea-intro__gate-logo path {
+  fill: #ffffff;
+}
+
 html[data-theme="dark"] .gea-intro__start {
   border-color: rgba(255, 255, 255, 0.76);
   background: #ffffff;
