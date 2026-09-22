@@ -149,7 +149,6 @@
       document.contains(previousFocus);
 
     const removeOverlay = () => {
-      document.body.classList.remove('gea-intro-pending');
       overlay.remove();
       if (shouldRestorePreviousFocus) {
         previousFocus.focus({ preventScroll: true });
