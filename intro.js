@@ -179,6 +179,10 @@
     soundtrack = new Audio('/assets/audio/gea-intro.m4a');
     soundtrack.preload = 'auto';
     soundtrack.volume = 0.75;
+    soundtrack.addEventListener('ended', () => {
+      soundEnabled = false;
+      updateSoundButton(false);
+    });
     return soundtrack;
   }
 
@@ -298,10 +302,6 @@
     soundButton.addEventListener('click', toggleSound);
     skipButton?.addEventListener('click', () => finishIntro());
 
-    soundtrack.addEventListener('ended', () => {
-      soundEnabled = false;
-      updateSoundButton(false);
-    });
   }
 
   if (reducedMotion) {
