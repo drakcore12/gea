@@ -174,11 +174,21 @@
     window.setTimeout(removeOverlay, fadeDuration);
   }
 
+  function ensureSoundtrack() {
+    if (soundtrack) return soundtrack;
+    soundtrack = new Audio('/assets/audio/gea-intro.m4a');
+    soundtrack.preload = 'auto';
+    soundtrack.volume = 0.75;
+    return soundtrack;
+  }
+
   function startIntro() {
     if (hasStarted || isClosing) return;
     hasStarted = true;
     startedAt = performance.now();
 
+    // Audio is only requested after the user explicitly starts the presentation.
+    ensureSoundtrack();
     void playSoundtrack();
 
     overlay.classList.add('is-playing');
@@ -244,35 +254,15 @@
       </div>
     `;
 
-    gate = document.createElement('div');
-    gate.className = 'gea-intro__gate';
-    gate.innerHTML = `
-      ${ambientMarkup()}
-      <div class="gea-intro__gate-content">
-        <img
-          class="gea-intro__gate-logo"
-          src="${gateLogoAsset}"
-          alt="Soluciones GEA"
-          width="220"
-          height="220"
-          decoding="sync"
-        >
-        <div class="gea-intro__gate-actions">
-        <button class="gea-intro__start" type="button" data-gea-intro-start>
-          <span>Ver presentación</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M5 12h14"></path>
-            <path d="m14 7 5 5-5 5"></path>
-          </svg>
-        </button>
-        <button class="gea-intro__start gea-intro__secondary" type="button" data-gea-intro-enter>Entrar a la página</button>
-        </div>
-      </div>
-    `;
+    // Reuse the server-rendered gate. This removes a render-blocking
+    // dependency on JavaScript from the first meaningful mobile paint.
+    gate = overlay.querySelector('[data-gea-intro-gate]');
+    if (!gate) return;
 
-    soundtrack = new Audio('/assets/audio/gea-intro.m4a');
-    soundtrack.preload = 'auto';
-    soundtrack.volume = 0.75;
+    const gateLogo = gate.querySelector('[data-gea-intro-gate-logo]');
+    if (gateLogo && gateLogo.getAttribute('src') !== gateLogoAsset) {
+      gateLogo.setAttribute('src', gateLogoAsset);
+    }
 
     soundButton = document.createElement('button');
     soundButton.type = 'button';
