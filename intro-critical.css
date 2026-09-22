@@ -3,6 +3,14 @@
   --gea-intro-ink: #082a58;
 }
 
+html.gea-intro-pending body > :not(.gea-intro) {
+  visibility: hidden;
+}
+
+.no-js.gea-intro-pending body > :not(.gea-intro) {
+  visibility: visible;
+}
+
 .gea-intro {
   position: fixed;
   inset: 0;
