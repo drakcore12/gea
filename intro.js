@@ -149,7 +149,9 @@
       document.contains(previousFocus);
 
     const removeOverlay = () => {
+      document.body.removeAttribute('data-gea-intro-active');
       overlay.remove();
+      window.dispatchEvent(new CustomEvent('gea:intro-closed'));
       if (shouldRestorePreviousFocus) {
         previousFocus.focus({ preventScroll: true });
       }
