@@ -32,13 +32,22 @@
     .gea-intro__start{width:100%;min-width:0;min-height:54px;display:inline-flex;align-items:center;justify-content:center;gap:11px;padding:0 24px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:linear-gradient(135deg,#082a58 0%,#0b356f 100%);color:#fff;box-shadow:0 14px 30px rgba(8,42,88,.20),inset 0 1px 0 rgba(255,255,255,.12);font:800 15px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}
     .gea-intro__start svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     .gea-intro__secondary{background:transparent;color:var(--gea-intro-ink);border:1px solid currentColor;box-shadow:none}
+    .gea-intro__gate.is-leaving{opacity:0;visibility:hidden;transform:scale(1.015);pointer-events:none}
+    .gea-intro__start:hover{transform:translateY(-2px);background:linear-gradient(135deg,#0b356f 0%,#10427f 100%);box-shadow:0 18px 34px rgba(8,42,88,.24),inset 0 1px 0 rgba(255,255,255,.14)}
+    .gea-intro__start:active{transform:translateY(0) scale(.985)}
+    .gea-intro__start:focus-visible{outline:3px solid #1674df;outline-offset:4px}
+    .gea-intro__secondary:hover{background:rgba(22,116,223,.08)}
     .gea-intro__skip{display:none}
+    body.gea-intro-pending> :not(.gea-intro){visibility:hidden}
     html[data-theme="dark"] .gea-intro{--gea-intro-bg:#011949;--gea-intro-ink:#fff;background:#011949}
     html[data-theme="dark"] .gea-intro__gate{background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.08),transparent 36%),#011949}
     html[data-theme="dark"] .gea-intro__start{border-color:rgba(255,255,255,.76);background:#fff;color:#011949}
-    html[data-theme="dark"] .gea-intro__secondary{background:transparent;color:#fff}
+    html[data-theme="dark"] .gea-intro__secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.76)}
+    html[data-theme="dark"] .gea-intro__secondary:hover{background:rgba(255,255,255,.12);color:#fff;border-color:#fff}
     @media(max-width:700px),(orientation:portrait){.gea-intro__gate-content{width:min(84vw,340px);gap:26px}.gea-intro__gate-logo{width:clamp(136px,39vw,166px)}.gea-intro__start{min-height:52px;border-radius:15px;font-size:14px}}
-    @media(prefers-reduced-motion:reduce){.gea-intro{display:none!important}}
+    @media(max-height:520px) and (orientation:landscape){.gea-intro__gate-content{grid-template-columns:1fr;width:min(70vw,320px);gap:10px;align-items:center}.gea-intro__gate-logo{grid-row:auto;width:min(24vh,116px)}.gea-intro__gate-actions{gap:8px}.gea-intro__start{min-height:44px;border-radius:13px}}
+    @media(prefers-reduced-motion:reduce){.gea-intro{display:none!important}body.gea-intro-pending> :not(.gea-intro){visibility:visible}}
+  
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,14 +60,13 @@
   <link rel="stylesheet" href="./hero-video.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./nav-logo.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./intro.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="./intro-gate-refresh.css" data-gea-intro-gate-styles="true" media="print" onload="this.media='all'">
   <script src="/intro.js" defer fetchpriority="high"></script>
   <link rel="stylesheet" href="./home-redesign.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./home-gauge-section.css" media="print" onload="this.media='all'">
-  <noscript><style>.gea-intro{display:none!important}</style></noscript>
+  <noscript><style>.gea-intro{display:none!important}.gea-intro-pending> :not(.gea-intro){visibility:visible!important}</style></noscript>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"HomeAndConstructionBusiness","@id":"https://solucionesgea.com/#business","name":"Soluciones GEA","url":"https://solucionesgea.com/","telephone":"+573017605677","image":"https://solucionesgea.com/assets/img/imagotipo-horizontal.svg","logo":"https://solucionesgea.com/assets/img/imagotipo-horizontal.svg","description":"Servicios técnicos de electricidad, plomería, agua y gas para hogares, comercios y empresas en Medellín y el Valle de Aburrá.","address":{"@type":"PostalAddress","streetAddress":"Carrera 141 #62-86","addressLocality":"Medellín","addressRegion":"Antioquia","addressCountry":"CO"},"areaServed":["Medellín","Bello","Envigado","Itagüí","Sabaneta","La Estrella"],"sameAs":["https://www.facebook.com/profile.php?id=61591598215345","https://www.instagram.com/solucionesgea_oficial/","https://www.tiktok.com/@solucionesgea_oficial"]},{"@type":"ItemList","name":"Servicios principales de Soluciones GEA en Medellín","itemListElement":[{"@type":"ListItem","position":1,"name":"Electricista en Medellín","url":"https://solucionesgea.com/servicios/electricista-medellin/"},{"@type":"ListItem","position":2,"name":"Plomero y fugas de agua en Medellín","url":"https://solucionesgea.com/servicios/plomero-fugas-agua-medellin/"},{"@type":"ListItem","position":3,"name":"Servicio de gas en Medellín","url":"https://solucionesgea.com/servicios/gas-medellin/"}]}]}</script>
 </head>
-<body class="home-ux">
+<body class="home-ux gea-intro-pending">
   <div class="gea-intro" data-gea-intro role="region" aria-label="Presentación de Soluciones GEA">
     <!--
       Critical intro gate is server-rendered so mobile browsers can paint it
@@ -73,7 +81,7 @@
           alt="Soluciones GEA"
           width="220"
           height="220"
-          decoding="async"
+          decoding="sync"
           fetchpriority="high"
         >
         <div class="gea-intro__gate-actions">
