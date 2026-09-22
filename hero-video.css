@@ -11,12 +11,18 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
+  background: #07172f;
+  pointer-events: none;
+  contain: paint;
+}
+
+/* Do not spend mobile critical-path bandwidth on the hero poster while
+   the full-screen intro gate is the only visible experience. */
+body.home-ux:not([data-gea-intro-active]) .service-hub-hero__media {
   background:
     #07172f
     url('/assets/video/hero-poster.webp?v=20260913b')
     center center / cover no-repeat;
-  pointer-events: none;
-  contain: paint;
 }
 
 .home-ux .service-hub-hero__video {
