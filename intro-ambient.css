@@ -106,6 +106,7 @@
   left: -150px;
   transform: scale(0.82);
   animation: gea-cloud-drift-one 22s linear infinite;
+  animation-play-state: paused;
 }
 
 .gea-intro__cloud--two {
@@ -114,6 +115,7 @@
   transform: scale(1.08);
   opacity: 0.58;
   animation: gea-cloud-drift-two 29s linear infinite 4s;
+  animation-play-state: paused;
 }
 
 .gea-intro__cloud--three {
@@ -122,6 +124,7 @@
   transform: scale(0.62);
   opacity: 0.46;
   animation: gea-cloud-drift-three 35s linear infinite 8s;
+  animation-play-state: paused;
 }
 
 /* Noche: estrellas concentradas en el cielo, sin competir con logo ni copy. */
@@ -141,7 +144,14 @@
   box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.24);
   opacity: 0.42;
   animation: gea-star-twinkle 5.2s ease-in-out infinite;
+  animation-play-state: paused;
   transform-origin: center;
+}
+
+/* Ambient motion starts only once the visitor chooses to watch the intro. */
+.gea-intro.is-playing .gea-intro__cloud,
+.gea-intro.is-playing .gea-intro__star {
+  animation-play-state: running;
 }
 
 /* Distribución irregular, siempre por encima de la zona central de contenido. */
