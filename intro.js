@@ -191,7 +191,9 @@
     hasStarted = true;
     startedAt = performance.now();
 
-    // Audio is only requested after the user explicitly starts the presentation.
+    // Heavy presentation DOM, ambient effects and audio are prepared only
+    // after the visitor explicitly chooses to watch the presentation.
+    preparePresentation();
     ensureSoundtrack();
     void playSoundtrack();
 
@@ -203,22 +205,8 @@
     window.setTimeout(() => soundButton?.focus({ preventScroll: true }), 380);
   }
 
-  function buildIntro() {
-    ensureGateStyles();
+  function preparePresentation() {
     ensureAmbientStyles();
-
-    const legacyVideo = overlay.querySelector('video');
-    legacyVideo?.remove();
-
-    if (skipButton) {
-      skipButton.innerHTML = `
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M5 12h14"></path>
-          <path d="m14 7 5 5-5 5"></path>
-        </svg>
-      `;
-      skipButton.setAttribute('title', 'Saltar presentación');
-    }
 
     const stage = document.createElement('div');
     stage.className = 'gea-intro__stage';
@@ -258,16 +246,6 @@
       </div>
     `;
 
-    // Reuse the server-rendered gate. This removes a render-blocking
-    // dependency on JavaScript from the first meaningful mobile paint.
-    gate = overlay.querySelector('[data-gea-intro-gate]');
-    if (!gate) return;
-
-    const gateLogo = gate.querySelector('[data-gea-intro-gate-logo]');
-    if (gateLogo && gateLogo.getAttribute('src') !== gateLogoAsset) {
-      gateLogo.setAttribute('src', gateLogoAsset);
-    }
-
     soundButton = document.createElement('button');
     soundButton.type = 'button';
     soundButton.className = 'gea-intro__sound';
@@ -296,9 +274,6 @@
     overlay.prepend(gate);
     overlay.append(controls);
 
-    startButton = gate.querySelector('[data-gea-intro-start]');
-    startButton?.addEventListener('click', startIntro);
-    gate.querySelector('[data-gea-intro-enter]').addEventListener('click', () => finishIntro({ immediate: true }));
     soundButton.addEventListener('click', toggleSound);
     skipButton?.addEventListener('click', () => finishIntro());
 
@@ -309,7 +284,26 @@
     return;
   }
 
-  buildIntro();
+  ensureGateStyles();
+
+  const legacyVideo = overlay.querySelector('video');
+  legacyVideo?.remove();
+
+  gate = overlay.querySelector('[data-gea-intro-gate]');
+  if (!gate) {
+    finishIntro({ immediate: true });
+    return;
+  }
+
+  const gateLogo = gate.querySelector('[data-gea-intro-gate-logo]');
+  if (gateLogo && gateLogo.getAttribute('src') !== gateLogoAsset) {
+    gateLogo.setAttribute('src', gateLogoAsset);
+  }
+
+  startButton = gate.querySelector('[data-gea-intro-start]');
+  startButton?.addEventListener('click', startIntro);
+  gate.querySelector('[data-gea-intro-enter]')?.addEventListener('click', () => finishIntro({ immediate: true }));
+
   document.body.classList.add('gea-intro-open');
   setPageInteractive(false);
 
