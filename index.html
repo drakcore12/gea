@@ -41,7 +41,34 @@
 </head>
 <body class="home-ux">
   <div class="gea-intro" data-gea-intro role="region" aria-label="Presentación de Soluciones GEA">
-    <video class="gea-intro__video" muted playsinline preload="none" aria-hidden="true"></video>
+    <!--
+      Critical intro gate is server-rendered so mobile browsers can paint it
+      without waiting for intro.js. JavaScript only enhances it afterwards.
+    -->
+    <div class="gea-intro__gate" data-gea-intro-gate>
+      <div class="gea-intro__gate-content">
+        <img
+          class="gea-intro__gate-logo"
+          data-gea-intro-gate-logo
+          src="/assets/img/isotipo.svg"
+          alt="Soluciones GEA"
+          width="220"
+          height="220"
+          decoding="async"
+          fetchpriority="high"
+        >
+        <div class="gea-intro__gate-actions">
+          <button class="gea-intro__start" type="button" data-gea-intro-start>
+            <span>Ver presentación</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M5 12h14"></path>
+              <path d="m14 7 5 5-5 5"></path>
+            </svg>
+          </button>
+          <button class="gea-intro__start gea-intro__secondary" type="button" data-gea-intro-enter>Entrar a la página</button>
+        </div>
+      </div>
+    </div>
     <button class="gea-intro__skip" type="button" data-gea-intro-skip aria-label="Saltar presentación">Saltar</button>
   </div>
 
