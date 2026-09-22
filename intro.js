@@ -23,6 +23,7 @@
   let startedAt = 0;
   let soundRequest = 0;
   let soundEnabled = true;
+  let pagePrepared = false;
   const previousFocus = document.activeElement;
 
   overlay.dataset.introTheme = introTheme;
@@ -126,9 +127,25 @@
     });
   }
 
+  function preparePage() {
+    if (pagePrepared) return;
+    pagePrepared = true;
+
+    // Keep this fallback local to the intro so a failure in an optional
+    // enhancement can never reveal an unstyled page.
+    document.querySelectorAll('link[data-gea-deferred-style]').forEach((link) => {
+      link.rel = 'stylesheet';
+      link.removeAttribute('as');
+      link.removeAttribute('fetchpriority');
+    });
+
+    window.dispatchEvent(new CustomEvent('gea:intro-prepare'));
+  }
+
   function finishIntro({ immediate = false } = {}) {
     if (isClosing) return;
     isClosing = true;
+    preparePage();
 
     window.clearTimeout(introTimer);
     soundRequest += 1;
@@ -155,7 +172,9 @@
     };
 
     if (immediate) {
-      removeOverlay();
+      // Give preloaded styles one paint cycle to become active. This prevents
+      // a flash of unstyled content without delaying the critical intro paint.
+      window.requestAnimationFrame(() => window.requestAnimationFrame(removeOverlay));
       return;
     }
 
@@ -179,6 +198,7 @@
     if (hasStarted || isClosing) return;
     hasStarted = true;
     startedAt = performance.now();
+    preparePage();
 
     // Heavy presentation DOM, ambient effects and audio are prepared only
     // after the visitor explicitly chooses to watch the presentation.
