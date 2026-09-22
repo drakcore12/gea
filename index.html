@@ -20,6 +20,26 @@
   <meta name="twitter:description" content="Electricidad, plomería y gas en Medellín: diagnóstico, reparación e instalaciones para hogares y negocios.">
   <title>Electricista, Plomero y Gas en Medellín | Soluciones GEA</title>
   <link rel="icon" href="./assets/img/isotipo-color-transparente.ico" sizes="any"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/isotipo.svg">
+  <!-- Critical mobile intro path: discover the LCP asset immediately and paint the gate without waiting for the full site CSS. -->
+  <link rel="preload" href="/assets/img/isotipo.svg" as="image" type="image/svg+xml" fetchpriority="high">
+  <style data-gea-critical-intro>
+    :root{--gea-intro-bg:#fff;--gea-intro-ink:#082a58}
+    .gea-intro{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;width:100vw;height:100vh;height:100dvh;overflow:hidden;background:var(--gea-intro-bg);isolation:isolate}
+    .gea-intro__gate{position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:max(28px,env(safe-area-inset-top)) 24px max(28px,env(safe-area-inset-bottom));background:radial-gradient(circle at 50% 45%,rgba(22,116,223,.055),transparent 34%),var(--gea-intro-bg)}
+    .gea-intro__gate-content{width:min(86vw,380px);display:grid;justify-items:center;gap:30px;text-align:center;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .gea-intro__gate-logo{display:block;width:clamp(138px,16vw,178px);height:auto;filter:drop-shadow(0 20px 38px rgba(8,42,88,.12))}
+    .gea-intro__gate-actions{display:grid;gap:12px;width:min(100%,290px)}
+    .gea-intro__start{width:100%;min-width:0;min-height:54px;display:inline-flex;align-items:center;justify-content:center;gap:11px;padding:0 24px;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:linear-gradient(135deg,#082a58 0%,#0b356f 100%);color:#fff;box-shadow:0 14px 30px rgba(8,42,88,.20),inset 0 1px 0 rgba(255,255,255,.12);font:800 15px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}
+    .gea-intro__start svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .gea-intro__secondary{background:transparent;color:var(--gea-intro-ink);border:1px solid currentColor;box-shadow:none}
+    .gea-intro__skip{display:none}
+    html[data-theme="dark"] .gea-intro{--gea-intro-bg:#011949;--gea-intro-ink:#fff;background:#011949}
+    html[data-theme="dark"] .gea-intro__gate{background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.08),transparent 36%),#011949}
+    html[data-theme="dark"] .gea-intro__start{border-color:rgba(255,255,255,.76);background:#fff;color:#011949}
+    html[data-theme="dark"] .gea-intro__secondary{background:transparent;color:#fff}
+    @media(max-width:700px),(orientation:portrait){.gea-intro__gate-content{width:min(84vw,340px);gap:26px}.gea-intro__gate-logo{width:clamp(136px,39vw,166px)}.gea-intro__start{min-height:52px;border-radius:15px;font-size:14px}}
+    @media(prefers-reduced-motion:reduce){.gea-intro{display:none!important}}
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="./theme-init.js"></script>
@@ -32,7 +52,6 @@
   <link rel="stylesheet" href="./nav-logo.css">
   <link rel="stylesheet" href="./intro.css">
   <link rel="stylesheet" href="./intro-gate-refresh.css" data-gea-intro-gate-styles="true">
-  <link rel="stylesheet" href="./intro-ambient.css" data-gea-intro-ambient-styles="true">
   <script src="/intro.js" defer fetchpriority="high"></script>
   <link rel="stylesheet" href="./home-redesign.css">
   <link rel="stylesheet" href="./home-gauge-section.css">
