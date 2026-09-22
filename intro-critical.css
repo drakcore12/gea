@@ -196,6 +196,11 @@ html[data-theme="dark"] .gea-intro__secondary:hover {
   }
 }
 
+/* No JavaScript: never trap the visitor behind an intro that cannot run. */
+.no-js .gea-intro {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gea-intro {
     display: none !important;
