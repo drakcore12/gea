@@ -17,6 +17,12 @@
   isolation: isolate;
 }
 
+/* While the gate owns the viewport, keep the page behind it out of paint/LCP/CLS.
+   visibility preserves layout, so revealing the page later does not move geometry. */
+body[data-gea-intro-active] > :not(.gea-intro) {
+  visibility: hidden;
+}
+
 .gea-intro__gate {
   position: absolute;
   inset: 0;
@@ -199,6 +205,10 @@ html[data-theme="dark"] .gea-intro__secondary:hover {
 /* No JavaScript: never trap the visitor behind an intro that cannot run. */
 .no-js .gea-intro {
   display: none !important;
+}
+
+html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
+  visibility: visible !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
