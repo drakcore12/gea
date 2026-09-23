@@ -548,89 +548,92 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
 /* ---------- FAQ redesign 2026 ---------- */
 .home-ux .gea-service-faq {
   overflow: clip;
-  background:
-    linear-gradient(rgba(1, 25, 73, .028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(1, 25, 73, .028) 1px, transparent 1px),
-    var(--gea-paper, #f7f9fc);
-  background-size: 36px 36px;
+  background: var(--gea-paper, #f7f9fc);
 }
 
 .home-ux .gea-service-faq > .container {
-  display: grid;
-  grid-template-columns: minmax(240px, .72fr) minmax(0, 1.28fr);
-  column-gap: clamp(48px, 7vw, 96px);
-  align-items: start;
+  display: block;
 }
 
 .home-ux .gea-service-faq .section-heading {
-  margin: 0;
-  padding-top: 8px;
+  width: min(760px, 100%);
+  margin: 0 auto clamp(30px, 4vw, 46px);
+  padding: 0;
+  text-align: center;
 }
 
 .home-ux .gea-service-faq .section-heading h2 {
-  max-width: 8.5ch;
+  max-width: none;
+  margin-inline: auto;
+  text-wrap: balance;
 }
 
 .home-ux .gea-service-faq .section-heading::after {
-  content: "GEA / FAQ / 01";
-  display: block;
-  width: fit-content;
-  margin-top: 22px;
-  color: rgba(1, 25, 73, .46);
-  font-family: "Space Mono", ui-monospace, monospace;
-  font-size: .58rem;
-  font-weight: 700;
-  letter-spacing: .09em;
+  display: none;
 }
 
 .home-ux .gea-faq-list {
-  min-width: 0;
-  border-top: 1px solid rgba(1, 25, 73, .2);
+  width: min(920px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
 }
 
 .home-ux .gea-faq-item {
   min-width: 0;
   margin: 0;
-  border: 0;
-  border-bottom: 1px solid rgba(1, 25, 73, .2);
-  background: transparent;
+  border: 1px solid rgba(1, 25, 73, .14);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 7px 22px rgba(1, 25, 73, .045);
+  overflow: hidden;
 }
 
 .home-ux .gea-faq-item summary {
   width: 100%;
   min-width: 0;
-  min-height: 78px;
+  min-height: 84px;
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) 48px;
-  gap: 14px;
+  grid-template-columns: 54px minmax(0, 1fr) 46px;
+  gap: 18px;
   align-items: center;
-  padding: 10px 4px;
+  padding: 18px 22px;
   color: var(--gea-blue, #011949);
   cursor: pointer;
   list-style: none;
-  border-radius: 10px;
-  font: 700 clamp(1rem, 1.35vw, 1.16rem)/1.42 Archivo, Inter, system-ui, sans-serif;
-  transition: color .2s ease, background-color .2s ease;
+  font: 700 clamp(1.03rem, 1.35vw, 1.16rem)/1.42 Archivo, Inter, system-ui, sans-serif;
+  transition: background-color .2s ease, color .2s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .home-ux .gea-faq-item summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.home-ux .gea-faq-item summary::marker {
+  content: "";
   display: none;
+  font-size: 0;
 }
 
 .home-ux .gea-faq-index {
-  align-self: start;
-  padding-top: 14px;
+  display: block;
+  align-self: center;
+  justify-self: center;
+  min-width: 2.2ch;
   color: var(--gea-copper, #fe8601);
   font-family: "Space Mono", ui-monospace, monospace;
-  font-size: .66rem;
+  font-size: clamp(1.15rem, 1.9vw, 1.35rem);
   font-weight: 700;
-  letter-spacing: .06em;
+  line-height: 1;
+  letter-spacing: -.03em;
+  text-align: center;
 }
 
 .home-ux .gea-faq-question {
   min-width: 0;
   overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .home-ux .gea-faq-toggle {
@@ -639,30 +642,32 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
   display: grid;
   place-items: center;
   justify-self: end;
-  flex: 0 0 auto;
-  border: 1.5px solid rgba(1, 25, 73, .34);
+  border: 1.5px solid rgba(1, 25, 73, .28);
   border-radius: 50%;
   background: #fff;
-  color: #011949;
-  box-shadow: 0 5px 16px rgba(1, 25, 73, .08);
+  color: var(--gea-blue, #011949);
+  box-shadow: none;
   transition:
     background-color .2s ease,
     border-color .2s ease,
     color .2s ease,
-    box-shadow .2s ease;
+    transform .2s ease;
 }
 
 .home-ux .gea-faq-toggle svg {
   width: 20px;
   height: 20px;
   display: block;
-  overflow: visible;
   fill: none;
   stroke: currentColor;
   stroke-width: 2.4;
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: transform .24s cubic-bezier(.2, .8, .2, 1);
+}
+
+.home-ux .gea-faq-item[open] {
+  border-color: rgba(254, 134, 1, .34);
 }
 
 .home-ux .gea-faq-item[open] summary {
@@ -673,7 +678,6 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
   border-color: var(--gea-copper, #fe8601);
   background: var(--gea-copper, #fe8601);
   color: #fff;
-  box-shadow: 0 7px 18px rgba(254, 134, 1, .2);
 }
 
 .home-ux .gea-faq-item[open] .gea-faq-toggle svg {
@@ -685,27 +689,24 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
 }
 
 .home-ux .gea-faq-answer p {
-  max-width: 68ch;
+  max-width: none;
   margin: 0;
-  padding: 0 60px 26px 56px;
+  padding: 0 86px 26px 94px;
   color: var(--gea-muted, #607089);
   font-size: .98rem;
   line-height: 1.72;
   overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .home-ux .gea-faq-item summary:hover {
-  background: rgba(1, 25, 73, .035);
-}
-
-.home-ux .gea-faq-item summary:hover .gea-faq-toggle {
-  border-color: var(--gea-copper, #fe8601);
-  box-shadow: 0 7px 18px rgba(1, 25, 73, .12);
+  background: rgba(1, 25, 73, .025);
 }
 
 .home-ux .gea-faq-item summary:focus-visible {
   outline: 3px solid #ffb52c;
-  outline-offset: 3px;
+  outline-offset: -3px;
+  border-radius: 14px;
 }
 
 .home-ux .gea-faq-item.is-animating {
@@ -714,20 +715,17 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
 }
 
 html[data-theme="dark"] .home-ux .gea-service-faq {
-  background:
-    linear-gradient(rgba(255, 255, 255, .032) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, .032) 1px, transparent 1px),
-    #041630;
-  background-size: 36px 36px;
+  background: #041630;
 }
 
-html[data-theme="dark"] .home-ux .gea-service-faq .section-heading::after {
-  color: rgba(255, 255, 255, .45);
-}
-
-html[data-theme="dark"] .home-ux .gea-faq-list,
 html[data-theme="dark"] .home-ux .gea-faq-item {
-  border-color: rgba(255, 255, 255, .18);
+  border-color: rgba(255, 255, 255, .14);
+  background: #071f45;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .home-ux .gea-faq-item[open] {
+  border-color: rgba(254, 134, 1, .5);
 }
 
 html[data-theme="dark"] .home-ux .gea-faq-item summary,
@@ -736,10 +734,9 @@ html[data-theme="dark"] .home-ux .gea-faq-item[open] summary {
 }
 
 html[data-theme="dark"] .home-ux .gea-faq-toggle {
-  border-color: rgba(255, 255, 255, .4);
-  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .35);
+  background: rgba(255, 255, 255, .05);
   color: #fff;
-  box-shadow: none;
 }
 
 html[data-theme="dark"] .home-ux .gea-faq-item[open] .gea-faq-toggle {
@@ -752,72 +749,70 @@ html[data-theme="dark"] .home-ux .gea-faq-answer p {
 }
 
 html[data-theme="dark"] .home-ux .gea-faq-item summary:hover {
-  background: rgba(255, 255, 255, .045);
+  background: rgba(255, 255, 255, .035);
 }
 
-@media (max-width: 1024px) {
-  .home-ux .gea-service-faq > .container {
-    grid-template-columns: 1fr;
-    row-gap: 30px;
+@media (max-width: 760px) {
+  .home-ux .gea-service-faq .section-heading {
+    margin-bottom: 28px;
   }
 
-  .home-ux .gea-service-faq .section-heading h2 {
-    max-width: 13ch;
+  .home-ux .gea-faq-list {
+    gap: 12px;
   }
 
-  .home-ux .gea-service-faq .section-heading::after {
-    margin-top: 14px;
-  }
-}
-
-@media (max-width: 640px) {
-  .home-ux .gea-service-faq {
-    background-size: 30px 30px;
-  }
-
-  .home-ux .gea-service-faq > .container {
-    row-gap: 22px;
+  .home-ux .gea-faq-item {
+    border-radius: 14px;
   }
 
   .home-ux .gea-faq-item summary {
-    min-height: 72px;
-    grid-template-columns: 30px minmax(0, 1fr) 44px;
-    gap: 9px;
-    padding: 8px 0;
-    font-size: clamp(.98rem, 4.25vw, 1.06rem);
+    min-height: 76px;
+    grid-template-columns: 44px minmax(0, 1fr) 42px;
+    gap: 12px;
+    padding: 15px 16px;
+    font-size: clamp(.98rem, 4.2vw, 1.06rem);
     line-height: 1.4;
   }
 
   .home-ux .gea-faq-index {
-    padding-top: 14px;
-    font-size: .6rem;
+    font-size: 1.08rem;
   }
 
   .home-ux .gea-faq-toggle {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
   }
 
   .home-ux .gea-faq-toggle svg {
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
   }
 
   .home-ux .gea-faq-answer p {
-    padding: 0 2px 24px 39px;
+    padding: 0 58px 22px 72px;
     font-size: .94rem;
     line-height: 1.66;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
   .home-ux .gea-faq-item summary {
-    grid-template-columns: 25px minmax(0, 1fr) 42px;
-    gap: 7px;
+    grid-template-columns: 36px minmax(0, 1fr) 38px;
+    gap: 10px;
+    padding: 14px 13px;
+  }
+
+  .home-ux .gea-faq-index {
+    font-size: 1rem;
+  }
+
+  .home-ux .gea-faq-toggle {
+    width: 36px;
+    height: 36px;
   }
 
   .home-ux .gea-faq-answer p {
-    padding-left: 32px;
+    padding: 0 18px 20px 59px;
   }
 }
 
