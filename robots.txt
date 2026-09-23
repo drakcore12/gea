@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Permitir descubrimiento en ChatGPT Search. Este control es independiente de GPTBot.
+User-agent: OAI-SearchBot
+Allow: /
+
 Sitemap: https://solucionesgea.com/sitemap.xml
