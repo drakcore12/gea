@@ -595,11 +595,11 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
   min-width: 0;
   min-height: 84px;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) 52px;
+  grid-template-columns: 68px minmax(0, 1fr) 68px;
   gap: 20px;
   align-items: center;
   box-sizing: border-box;
-  padding: 20px 24px;
+  padding: 20px 28px;
   color: var(--gea-blue, #011949);
   cursor: pointer;
   list-style: none;
@@ -636,7 +636,7 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
   min-width: 2.2ch;
   color: var(--gea-copper, #fe8601);
   font-family: "Space Mono", ui-monospace, monospace;
-  font-size: clamp(1.35rem, 2.2vw, 1.55rem);
+  font-size: clamp(1.55rem, 2.5vw, 1.8rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -.03em;
@@ -654,7 +654,7 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
   height: 44px;
   display: grid;
   place-items: center;
-  justify-self: end;
+  justify-self: center;
   border: 1.5px solid rgba(1, 25, 73, .28);
   border-radius: 50%;
   background: #fff;
@@ -704,7 +704,7 @@ html[data-theme="dark"] .home-contact textarea { background:#03152f; color:#fff;
 .home-ux .gea-faq-answer p {
   max-width: none;
   margin: 0;
-  padding: 0 96px 30px 108px;
+  padding: 0 116px 30px;
   color: var(--gea-muted, #607089);
   font-size: .98rem;
   line-height: 1.72;
@@ -780,15 +780,15 @@ html[data-theme="dark"] .home-ux .gea-faq-item summary:hover {
 
   .home-ux .gea-faq-item summary {
     min-height: 76px;
-    grid-template-columns: 50px minmax(0, 1fr) 44px;
-    gap: 14px;
-    padding: 18px 18px;
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+    gap: 12px;
+    padding: 18px 20px;
     font-size: clamp(.98rem, 4.2vw, 1.06rem);
     line-height: 1.4;
   }
 
   .home-ux .gea-faq-index {
-    font-size: 1.22rem;
+    font-size: 1.38rem;
   }
 
   .home-ux .gea-faq-toggle {
@@ -802,7 +802,7 @@ html[data-theme="dark"] .home-ux .gea-faq-item summary:hover {
   }
 
   .home-ux .gea-faq-answer p {
-    padding: 0 66px 24px 82px;
+    padding: 0 84px 24px;
     font-size: .94rem;
     line-height: 1.66;
   }
@@ -810,13 +810,13 @@ html[data-theme="dark"] .home-ux .gea-faq-item summary:hover {
 
 @media (max-width: 420px) {
   .home-ux .gea-faq-item summary {
-    grid-template-columns: 42px minmax(0, 1fr) 38px;
-    gap: 10px;
-    padding: 16px 14px;
+    grid-template-columns: 46px minmax(0, 1fr) 46px;
+    gap: 9px;
+    padding: 16px 16px;
   }
 
   .home-ux .gea-faq-index {
-    font-size: 1.12rem;
+    font-size: 1.3rem;
   }
 
   .home-ux .gea-faq-toggle {
@@ -825,7 +825,7 @@ html[data-theme="dark"] .home-ux .gea-faq-item summary:hover {
   }
 
   .home-ux .gea-faq-answer p {
-    padding: 0 18px 22px 66px;
+    padding: 0 70px 22px;
   }
 }
 
