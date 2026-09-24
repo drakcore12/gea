@@ -958,6 +958,7 @@ html[data-theme='dark'] .service-conditions-details ul { color: #c1cde0; }
 .service-detail-page .service-cta::before { content: ''; position: absolute; right: -8%; bottom: -200px; width: 500px; height: 500px; border: 1px solid rgba(255,255,255,.1); border-radius: 50%; pointer-events: none; }
 .service-detail-page .service-guide a { border-radius: 2px; }
 html[data-theme='dark'] .service-detail-page .service-hero { background: radial-gradient(circle at 85% 18%, color-mix(in srgb,var(--service-accent) 25%,transparent), transparent 30%), #07172f; }
+html[data-theme='dark'] .service-detail-page .breadcrumb a { color: #b9d1fb; }
 html[data-theme='dark'] .service-detail-page .service-hero .lead { color: #dce6f3; }
 html[data-theme='dark'] .service-detail-page .service-hero h1 { color: #fff; }
 html[data-theme='dark'] .service-detail-page .service-section.section-soft { background: #041b40; }
