@@ -243,6 +243,14 @@ body.gea-intro-open {
   stroke-linejoin: round;
 }
 
+.gea-intro__skip-icon {
+  display: none;
+}
+
+.gea-intro__skip-label {
+  display: inline;
+}
+
 .gea-intro__sound-off {
   display: none;
 }
@@ -370,6 +378,33 @@ body.gea-intro-open {
   .gea-intro__controls {
     top: calc(env(safe-area-inset-top, 0px) + 12px);
     right: calc(env(safe-area-inset-right, 0px) + 12px);
+  }
+
+  .gea-intro__skip-label {
+    display: none;
+  }
+
+  .gea-intro__skip-icon {
+    display: block;
+  }
+
+  html[data-theme="dark"] .gea-intro__controls .gea-intro__skip,
+  html[data-theme="dark"] .gea-intro__controls .gea-intro__sound {
+    border-color: rgba(255, 255, 255, .34);
+    background: rgba(1, 25, 73, .88);
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  html[data-theme="dark"] .gea-intro__controls .gea-intro__skip:hover,
+  html[data-theme="dark"] .gea-intro__controls .gea-intro__sound:hover,
+  html[data-theme="dark"] .gea-intro__controls .gea-intro__skip:focus-visible,
+  html[data-theme="dark"] .gea-intro__controls .gea-intro__sound:focus-visible {
+    border-color: rgba(255, 255, 255, .7);
+    background: #0a2d67;
+    color: #ffffff;
   }
 }
 
