@@ -109,45 +109,18 @@
     window.setInterval(rotateContext, 3200);
   }
 
-  function setCounter(counter, value) {
-    const suffix = counter.dataset.counterSuffix || '';
-    counter.textContent = `${formatNumber(value)}${suffix}`;
-  }
-
-  function animateCounter(counter, index = 0) {
-    const target = Number(counter.dataset.counterTarget || 0);
+  function setCounter(counter) {
+    const target = Number.parseInt(counter.dataset.counterTarget || '', 10);
     if (!Number.isFinite(target)) return;
 
-    if (reducedMotion) {
-      setCounter(counter, target);
-      return;
-    }
-
-    const delay = index * 110;
-    const duration = 1150;
-    const startAt = performance.now() + delay;
-
-    const tick = (now) => {
-      if (now < startAt) {
-        requestAnimationFrame(tick);
-        return;
-      }
-
-      const progress = Math.min(1, (now - startAt) / duration);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      setCounter(counter, Math.round(target * eased));
-
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-
-    setCounter(counter, 0);
-    requestAnimationFrame(tick);
+    const suffix = counter.dataset.counterSuffix || '';
+    counter.textContent = `${formatNumber(target)}${suffix}`;
   }
 
   function startCounters() {
     if (countersStarted) return;
     countersStarted = true;
-    counters.forEach((counter, index) => animateCounter(counter, index));
+    counters.forEach((counter) => setCounter(counter));
   }
 
   function activateServiceCards() {
