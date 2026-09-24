@@ -866,10 +866,8 @@
 .home-ux .home-contact .contact-form::before {
   content: "SOLICITUD / ST-01";
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: auto;
-  inset: auto auto auto 0;
+  inset: 0 auto auto 0;
   display: block;
   width: auto;
   height: auto;
