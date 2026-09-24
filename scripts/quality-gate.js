@@ -115,7 +115,11 @@ if (!qualityWorkflow.includes('node scripts/verify.js --release')) {
 }
 
 const staticWorkflow = read('.github/workflows/static.yml');
-if (/^\s*push\s*:/m.test(staticWorkflow)) {
+const hasAutomaticPushTrigger = staticWorkflow
+  .split('\n')
+  .some((line) => line.trim() === 'push:');
+
+if (hasAutomaticPushTrigger) {
   report('GitHub Pages no debe desplegar automáticamente: Netlify es producción');
 }
 
