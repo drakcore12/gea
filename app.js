@@ -481,6 +481,8 @@
     const starsElement = section.querySelector('[data-google-stars]');
     const listElement = section.querySelector('[data-google-review-list]');
     const noticeElement = section.querySelector('[data-google-reviews-notice]');
+    const reviewsKickerElement = section.querySelector('[data-google-reviews-kicker]');
+    const reviewsTitleElement = section.querySelector('[data-google-reviews-list-title]');
     const profileLink = section.querySelector('[data-google-profile-link]');
     const writeReviewLink = section.querySelector('[data-google-write-review-link]');
     const secondaryProfileLink = section.querySelector('[data-google-profile-link-secondary]');
@@ -494,6 +496,9 @@
     const evidencePrev = document.querySelector('[data-evidence-prev]');
     const evidenceNext = document.querySelector('[data-evidence-next]');
     let hasLoaded = false;
+    let hasRendered = false;
+    let refreshTimer = null;
+    let lastReviewSignature = '';
     let mapObserver = null;
 
     const starString = (rating) => {
@@ -547,6 +552,17 @@
 
     const renderReviews = (payload) => {
       section.classList.remove('is-fallback');
+      hasRendered = true;
+
+      const isRealtime = payload?.source === 'business-profile' && payload?.realtime === true;
+      if (reviewsKickerElement) {
+        reviewsKickerElement.textContent = isRealtime ? 'Opiniones actualizadas' : 'Opiniones destacadas';
+      }
+      if (reviewsTitleElement) {
+        reviewsTitleElement.textContent = isRealtime
+          ? 'Todas las experiencias de nuestros clientes'
+          : 'Experiencias de nuestros clientes';
+      }
 
       if (profileLink) profileLink.href = CONFIG.googleProfileUrl;
       if (writeReviewLink) writeReviewLink.href = CONFIG.googleWriteReviewUrl;
@@ -680,78 +696,93 @@
       }
 
       if (!listElement) return;
-      listElement.replaceChildren();
       listElement.setAttribute('aria-busy', 'false');
 
       const reviews = Array.isArray(payload.reviews) ? payload.reviews : [];
-      reviews.forEach((review) => {
-        const card = document.createElement('article');
-        card.className = 'google-review-card';
+      const reviewSignature = reviews
+        .map((review) => [
+          review.id || '',
+          review.updateTime || review.publishTime || '',
+          review.rating || 0,
+          review.author?.name || '',
+          review.text || '',
+        ].join('|'))
+        .join('¦');
 
-        const author = document.createElement('div');
-        author.className = 'google-review-author';
+      if (reviewSignature !== lastReviewSignature) {
+        listElement.replaceChildren();
 
-        const authorLabel = String(review.author?.name || 'Usuario de Google').trim();
-        const avatar = document.createElement('span');
-        avatar.className = 'google-review-avatar';
-        avatar.textContent = authorLabel.charAt(0).toUpperCase() || 'G';
-        avatar.setAttribute('aria-hidden', 'true');
+        reviews.forEach((review) => {
+          const card = document.createElement('article');
+          card.className = 'google-review-card';
 
-        const photoUrl = safeGoogleImageUrl(review.author?.photoUri);
-        if (photoUrl) {
-          const image = document.createElement('img');
-          image.alt = '';
-          image.width = 42;
-          image.height = 42;
-          image.loading = 'lazy';
-          image.decoding = 'async';
-          image.referrerPolicy = 'no-referrer';
-          image.addEventListener('error', () => image.remove(), { once: true });
-          image.setAttribute('src', photoUrl);
-          avatar.appendChild(image);
-        }
+          const author = document.createElement('div');
+          author.className = 'google-review-author';
 
-        author.appendChild(avatar);
+          const authorLabel = String(review.author?.name || 'Usuario de Google').trim();
+          const avatar = document.createElement('span');
+          avatar.className = 'google-review-avatar';
+          avatar.textContent = authorLabel.charAt(0).toUpperCase() || 'G';
+          avatar.setAttribute('aria-hidden', 'true');
 
-        const authorCopy = document.createElement('div');
-        authorCopy.className = 'google-review-author-copy';
+          const photoUrl = safeGoogleImageUrl(review.author?.photoUri);
+          if (photoUrl) {
+            const image = document.createElement('img');
+            image.alt = '';
+            image.width = 42;
+            image.height = 42;
+            image.loading = 'lazy';
+            image.decoding = 'async';
+            image.referrerPolicy = 'no-referrer';
+            image.addEventListener('error', () => image.remove(), { once: true });
+            image.setAttribute('src', photoUrl);
+            avatar.appendChild(image);
+          }
 
-        const authorName = document.createElement('strong');
-        authorName.textContent = authorLabel;
-        authorCopy.appendChild(authorName);
+          author.appendChild(avatar);
 
-        if (review.relativeTime) {
-          const time = document.createElement('small');
-          time.textContent = review.relativeTime;
-          authorCopy.appendChild(time);
-        }
+          const authorCopy = document.createElement('div');
+          authorCopy.className = 'google-review-author-copy';
 
-        author.appendChild(authorCopy);
-        card.appendChild(author);
+          const authorName = document.createElement('strong');
+          authorName.textContent = authorLabel;
+          authorCopy.appendChild(authorName);
 
-        const stars = document.createElement('div');
-        stars.className = 'google-review-stars';
-        stars.textContent = starString(review.rating);
-        stars.setAttribute('aria-label', `${review.rating || 0} de 5 estrellas`);
-        card.appendChild(stars);
+          if (review.relativeTime) {
+            const time = document.createElement('small');
+            time.textContent = review.relativeTime;
+            authorCopy.appendChild(time);
+          }
 
-        if (review.text) {
-          const text = document.createElement('p');
-          text.className = 'google-review-text';
-          text.textContent = review.text;
-          card.appendChild(text);
-        }
+          author.appendChild(authorCopy);
+          card.appendChild(author);
 
-        const source = document.createElement('a');
-        source.className = 'google-review-source-link';
-        source.href = CONFIG.googleProfileUrl;
-        source.target = '_blank';
-        source.rel = 'noopener noreferrer';
-        source.textContent = 'Ver en Google Maps';
-        card.appendChild(source);
+          const stars = document.createElement('div');
+          stars.className = 'google-review-stars';
+          stars.textContent = starString(review.rating);
+          stars.setAttribute('aria-label', `${review.rating || 0} de 5 estrellas`);
+          card.appendChild(stars);
 
-        listElement.appendChild(card);
-      });
+          if (review.text) {
+            const text = document.createElement('p');
+            text.className = 'google-review-text';
+            text.textContent = review.text;
+            card.appendChild(text);
+          }
+
+          const source = document.createElement('a');
+          source.className = 'google-review-source-link';
+          source.href = CONFIG.googleProfileUrl;
+          source.target = '_blank';
+          source.rel = 'noopener noreferrer';
+          source.textContent = 'Ver en Google Maps';
+          card.appendChild(source);
+
+          listElement.appendChild(card);
+        });
+
+        lastReviewSignature = reviewSignature;
+      }
 
       if (!reviews.length) {
         section.classList.add('is-fallback');
@@ -763,9 +794,18 @@
       }
     };
 
-    const load = async () => {
-      if (hasLoaded) return;
-      hasLoaded = true;
+    const scheduleRefresh = (seconds) => {
+      if (refreshTimer) return;
+      const interval = Math.max(30, Number(seconds) || 30) * 1000;
+      refreshTimer = window.setInterval(() => {
+        if (document.visibilityState !== 'visible') return;
+        void load({ force: true });
+      }, interval);
+    };
+
+    const load = async ({ force = false } = {}) => {
+      if (hasLoaded && !force) return;
+      if (!force) hasLoaded = true;
 
       try {
         const response = await fetch('/api/google-reviews', {
@@ -776,13 +816,17 @@
 
         const payload = await response.json();
         if (!response.ok || !payload?.configured) {
-          setFallback();
+          if (!hasRendered) setFallback();
           return;
         }
 
         renderReviews(payload);
+
+        if (payload?.realtime === true) {
+          scheduleRefresh(payload.refreshSeconds);
+        }
       } catch (_) {
-        setFallback();
+        if (!hasRendered) setFallback();
       }
     };
 
