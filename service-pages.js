@@ -149,6 +149,63 @@
     });
   }
 
+  function enhanceServiceJourney() {
+    const main = document.querySelector('main');
+    if (!main || !document.body.matches('.service-detail-page, .services-hub-page')) return;
+
+    const sections = [
+      ['.service-section:has(.feature-list), .service-section:has(.service-hub-grid)', 'Qué atendemos'],
+      ['.service-section:has(.service-steps)', 'Cómo trabajamos'],
+      ['.price-section', 'Valores'],
+      ['.faq-section', 'Preguntas'],
+    ].map(([selector, label]) => ({ section: main.querySelector(selector), label }))
+      .filter(({ section }) => section);
+
+    if (sections.length > 1) {
+      const guide = document.createElement('nav');
+      guide.className = 'service-guide container';
+      guide.setAttribute('aria-label', 'Explorar esta página');
+      sections.forEach(({ section, label }, index) => {
+        if (!section.id) section.id = `seccion-gea-${index + 1}`;
+        const link = document.createElement('a');
+        link.href = `#${section.id}`;
+        link.textContent = label;
+        guide.append(link);
+      });
+      const hero = main.querySelector('.service-hero, .service-hub-hero');
+      hero?.insertAdjacentElement('afterend', guide);
+
+      if ('IntersectionObserver' in window) {
+        const links = Array.from(guide.querySelectorAll('a'));
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            links.forEach((link) => {
+              if (link.hash === `#${entry.target.id}`) link.setAttribute('aria-current', 'location');
+              else link.removeAttribute('aria-current');
+            });
+          });
+        }, { rootMargin: '-25% 0px -65% 0px' });
+        sections.forEach(({ section }) => observer.observe(section));
+      }
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const targets = main.querySelectorAll('.service-meta-card, .feature-list li, .scope-card, .service-steps li, .price-card, .plan-card, .related-card, .service-hub-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-service-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -5% 0px', threshold: 0.08 });
+    targets.forEach((target) => {
+      if (target.getBoundingClientRect().top < window.innerHeight) return;
+      target.classList.add('service-animate');
+      observer.observe(target);
+    });
+  }
+
   function initialize() {
     ensureServiceMediaStyles();
     removeRetiredCareLinks();
@@ -157,6 +214,7 @@
     enhanceServicesHubPhotos();
     enhanceHomeServiceLinks();
     connectLegacyServicePagesToPillars();
+    enhanceServiceJourney();
     window.setTimeout(setWhatsappMessages, 100);
   }
 

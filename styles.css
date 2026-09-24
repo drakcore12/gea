@@ -1015,6 +1015,122 @@ details p {
   text-underline-offset: 3px;
 }
 
+/* A useful, shared closing chapter on home and service pages. */
+.site-footer.gea-footer {
+  padding: 0;
+  color: #dce7f5;
+  background: #061a38;
+  border-top: 0;
+}
+
+.gea-footer-invite {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 36px;
+  padding: clamp(44px, 7vw, 88px) 0;
+  border-bottom: 1px solid rgba(255,255,255,.16);
+}
+
+.gea-footer-kicker {
+  color: #9fceff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.gea-footer-invite h2 {
+  max-width: 720px;
+  margin: 14px 0 12px;
+  color: #fff;
+  font-size: clamp(35px, 5vw, 68px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.site-footer.gea-footer .gea-footer-invite p {
+  max-width: 610px;
+  color: #c8d8eb;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.gea-footer-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  gap: 24px;
+  min-height: 56px;
+  padding: 14px 20px;
+  color: #061a38;
+  background: #fff;
+  border-radius: 12px;
+  font-weight: 800;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.gea-footer-cta:hover,
+.gea-footer-cta:focus-visible {
+  color: #061a38;
+  background: #d7ebff;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  transform: translateY(-3px);
+}
+
+.gea-footer-cta:active { transform: translateY(0) scale(.98); }
+.gea-footer-cta span { font-size: 23px; line-height: 1; }
+
+.gea-footer-main {
+  display: grid;
+  grid-template-columns: minmax(0,1.5fr) repeat(2,minmax(0,1fr));
+  gap: clamp(30px, 6vw, 90px);
+  padding: 54px 0 64px;
+}
+
+.gea-footer-identity .footer-brand-plate { width: 190px; margin-bottom: 20px; }
+.gea-footer-identity p,
+.gea-footer-identity > span { display: block; margin: 0 0 8px; color: #c8d8eb; font-size: 14px; text-align: left; }
+.gea-footer-main h3 { margin: 0 0 17px; color: #fff; font: 800 13px/1.3 Manrope, Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.gea-footer-links { display: flex; flex-direction: column; align-items: flex-start; gap: 13px; }
+.gea-footer-links h3 { margin-bottom: 4px; }
+.gea-footer-links a,
+.gea-footer-contact a { color: #dce7f5; text-decoration: none; text-underline-offset: 4px; transition: color .18s ease, transform .18s ease; }
+.gea-footer-links a:hover,
+.gea-footer-links a:focus-visible,
+.gea-footer-contact a:hover,
+.gea-footer-contact a:focus-visible { color: #fff; text-decoration: underline; transform: translateX(3px); }
+.gea-footer-links a span,
+.gea-footer-contact a span { color: #9fceff; }
+.site-footer.gea-footer .gea-footer-contact p { margin: 8px 0 23px; color: #c8d8eb; font-size: 13px; text-align: left; }
+.gea-footer-contact nav { display: flex; flex-wrap: wrap; gap: 12px 18px; font-size: 13px; }
+.gea-footer-bottom { display: flex; align-items: center; gap: 18px; padding: 20px 0 28px; border-top: 1px solid rgba(255,255,255,.16); color: #b4cbe3; font-size: 12px; }
+.gea-footer-bottom span:first-child { margin-right: auto; }
+.gea-footer-bottom a { color: #dce7f5; text-underline-offset: 4px; }
+.site-footer.gea-footer a:focus-visible { outline: 3px solid #8dc3ff; outline-offset: 4px; }
+
+@media (max-width: 760px) {
+  .gea-footer-invite { display: block; }
+  .site-footer.gea-footer .gea-footer-invite p { text-align: left; }
+  .gea-footer-cta { margin-top: 24px; width: 100%; }
+  .gea-footer-main { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 36px 20px; padding: 42px 0; text-align: left; }
+  .gea-footer-identity { grid-column: 1 / -1; }
+  .gea-footer-bottom { flex-wrap: wrap; gap: 14px; }
+  .gea-footer-bottom span:first-child { flex-basis: 100%; }
+}
+
+@media (max-width: 420px) {
+  .gea-footer-main { grid-template-columns: 1fr; }
+  .gea-footer-identity { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gea-footer-cta,
+  .gea-footer-links a,
+  .gea-footer-contact a { transition: none; transform: none !important; }
+}
+
 .floating-whatsapp {
   position: fixed;
   right: max(18px, env(safe-area-inset-right));
