@@ -57,7 +57,9 @@ export default async (request: Request) => {
     return json({ error: 'Method not allowed' }, 405);
   }
 
-  const apiKey = Netlify.env.get('GOOGLE_PLACES_API_KEY')?.trim();
+  const apiKey =
+    Netlify.env.get('GOOGLE_API_KEY')?.trim() ||
+    Netlify.env.get('GOOGLE_PLACES_API_KEY')?.trim();
   if (!apiKey) {
     return json({
       configured: false,
