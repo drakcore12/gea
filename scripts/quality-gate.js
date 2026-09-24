@@ -43,6 +43,21 @@ for (const file of requiredDocs) {
   if (!fs.existsSync(path.join(root, file))) report(`Falta documentación obligatoria: ${file}`);
 }
 
+const forbiddenLegacyFiles = [
+  'home-ux.js',
+  'home-ux.css',
+  'home-ux-content.css',
+  'home-ux-theme.css',
+  'intro-critical.css',
+  'intro-gate-refresh.css',
+  'hero-home.css',
+  'social.css',
+];
+
+for (const file of forbiddenLegacyFiles) {
+  if (fs.existsSync(path.join(root, file))) report(`Archivo legacy no debe regresar: ${file}`);
+}
+
 const files = walk(root);
 const textFiles = files.filter(({ relative }) => /\.(?:js|mjs|mts|html|css|md|yml|yaml|toml|json|txt)$/i.test(relative));
 const secretPatterns = [
