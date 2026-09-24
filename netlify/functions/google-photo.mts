@@ -40,6 +40,10 @@ export default async (request: Request) => {
 
   const url = new URL(request.url);
   const photoName = url.searchParams.get('name')?.trim() || '';
+  const requestedWidth = Number.parseInt(url.searchParams.get('w') || '720', 10);
+  const maxWidthPx = Number.isFinite(requestedWidth)
+    ? Math.min(900, Math.max(320, requestedWidth))
+    : 720;
   const expectedPrefix = `places/${GOOGLE_PLACE_ID}/photos/`;
 
   if (!photoName.startsWith(expectedPrefix) || photoName.length > 700) {
@@ -48,7 +52,7 @@ export default async (request: Request) => {
 
   try {
     const mediaResponse = await fetch(
-      `https://places.googleapis.com/v1/${photoName}/media?maxWidthPx=900&skipHttpRedirect=true`,
+      `https://places.googleapis.com/v1/${photoName}/media?maxWidthPx=${maxWidthPx}&skipHttpRedirect=true`,
       {
         headers: {
           'X-Goog-Api-Key': apiKey,
