@@ -6,6 +6,10 @@
     analyticsConsentKey: 'gea-analytics-consent',
     themeStorageKey: 'gea-theme-manual-override',
     whatsappNumber: '573017605677',
+    googlePlaceId: 'ChIJRe3_2HIrRI4RrBVCtwBbwqk',
+    googleProfileUrl: 'https://www.google.com/maps/search/?api=1&query=Soluciones%20G.E.A&query_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk',
+    googleWriteReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJRe3_2HIrRI4RrBVCtwBbwqk',
+    googleDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Soluciones%20G.E.A&destination_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk',
     logoPositive: './assets/img/imagotipo-horizontal.svg',
     logoNegative: './assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg',
     themeColors: Object.freeze({ light: '#ffffff', dark: '#011949' }),
@@ -508,20 +512,9 @@
     const renderReviews = (payload) => {
       section.classList.remove('is-fallback');
 
-      if (payload.googleProfileUrl && profileLink) {
-        profileLink.href = payload.googleProfileUrl;
-      }
-
-      if (writeReviewLink && payload.writeReviewUrl) {
-        writeReviewLink.href = payload.writeReviewUrl;
-      }
-
-      if (secondaryProfileLink) {
-        secondaryProfileLink.href =
-          payload.reviewsUrl ||
-          payload.googleProfileUrl ||
-          secondaryProfileLink.href;
-      }
+      if (profileLink) profileLink.href = CONFIG.googleProfileUrl;
+      if (writeReviewLink) writeReviewLink.href = CONFIG.googleWriteReviewUrl;
+      if (secondaryProfileLink) secondaryProfileLink.href = CONFIG.googleProfileUrl;
 
       if (addressElement && payload.address) {
         addressElement.textContent = payload.address;
@@ -532,11 +525,7 @@
       const hasLocation = Number.isFinite(latitude) && Number.isFinite(longitude);
 
       if (directionsLink) {
-        directionsLink.href =
-          payload.directionsUrl ||
-          (hasLocation
-            ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${latitude},${longitude}`)}`
-            : (payload.googleProfileUrl || directionsLink.href));
+        directionsLink.href = CONFIG.googleDirectionsUrl;
       }
 
       if (mapCard && hasLocation) {
@@ -597,28 +586,18 @@
         const author = document.createElement('div');
         author.className = 'google-review-author';
 
-        if (review.author?.photoUri) {
-          const image = document.createElement('img');
-          image.src = review.author.photoUri;
-          image.alt = '';
-          image.width = 42;
-          image.height = 42;
-          image.loading = 'lazy';
-          image.decoding = 'async';
-          image.referrerPolicy = 'no-referrer';
-          author.appendChild(image);
-        }
+        const authorLabel = String(review.author?.name || 'Usuario de Google').trim();
+        const avatar = document.createElement('span');
+        avatar.className = 'google-review-avatar';
+        avatar.textContent = authorLabel.charAt(0).toUpperCase() || 'G';
+        avatar.setAttribute('aria-hidden', 'true');
+        author.appendChild(avatar);
 
         const authorCopy = document.createElement('div');
         authorCopy.className = 'google-review-author-copy';
 
-        const authorName = document.createElement(review.author?.uri ? 'a' : 'strong');
-        authorName.textContent = review.author?.name || 'Usuario de Google';
-        if (authorName instanceof HTMLAnchorElement) {
-          authorName.href = review.author.uri;
-          authorName.target = '_blank';
-          authorName.rel = 'noopener noreferrer';
-        }
+        const authorName = document.createElement('strong');
+        authorName.textContent = authorLabel;
         authorCopy.appendChild(authorName);
 
         if (review.relativeTime) {
@@ -643,15 +622,13 @@
           card.appendChild(text);
         }
 
-        if (review.googleMapsUri) {
-          const source = document.createElement('a');
-          source.className = 'google-review-source-link';
-          source.href = review.googleMapsUri;
-          source.target = '_blank';
-          source.rel = 'noopener noreferrer';
-          source.textContent = 'Ver en Google Maps';
-          card.appendChild(source);
-        }
+        const source = document.createElement('a');
+        source.className = 'google-review-source-link';
+        source.href = CONFIG.googleProfileUrl;
+        source.target = '_blank';
+        source.rel = 'noopener noreferrer';
+        source.textContent = 'Ver en Google Maps';
+        card.appendChild(source);
 
         listElement.appendChild(card);
       });
