@@ -719,3 +719,128 @@ html[data-theme='dark'] .price-section .service-note {
     padding: 60px 0;
   }
 }
+
+/* Service journeys: a quiet rhythm with immediate feedback on every action. */
+.service-detail-page,
+.services-hub-page { --service-accent: var(--water); }
+.service-electric { --service-accent: var(--orange); }
+.service-gas { --service-accent: var(--green); }
+.service-water { --service-accent: var(--water); }
+
+.service-detail-page .service-hero,
+.services-hub-page .service-hub-hero { isolation: isolate; }
+.service-detail-page .service-hero::before,
+.services-hub-page .service-hub-hero::before {
+  content: '';
+  position: absolute;
+  width: min(45vw, 620px);
+  aspect-ratio: 1;
+  top: -30%;
+  right: -12%;
+  z-index: -1;
+  border: 1px solid color-mix(in srgb, var(--service-accent) 25%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 70px color-mix(in srgb, var(--service-accent) 3%, transparent), 0 0 0 140px color-mix(in srgb, var(--service-accent) 2%, transparent);
+  pointer-events: none;
+}
+.service-detail-page .service-hero-grid { gap: clamp(30px, 5vw, 82px); }
+.service-detail-page .service-hero-copy .eyebrow { color: var(--service-accent); }
+.service-detail-page .service-meta-card { border-top-color: var(--service-accent); }
+.service-detail-page .service-hero .service-meta-card { overflow: hidden; }
+.service-detail-page .service-hero .service-photo { transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+.service-detail-page .service-hero .service-meta-card:hover .service-photo { transform: scale(1.025); }
+
+.service-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 23px;
+  padding-bottom: 10px;
+}
+.service-guide a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 17px;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease;
+}
+.service-guide a:hover,
+.service-guide a:focus-visible { transform: translateY(-2px); border-color: var(--service-accent); }
+.service-guide a:active { transform: scale(.97); }
+.service-guide a[aria-current='location'] { color: #fff; background: var(--blue); border-color: var(--blue); }
+.service-guide a:focus-visible { outline: 3px solid var(--service-accent); outline-offset: 3px; }
+main > section[id^='seccion-gea-'] { scroll-margin-top: 110px; }
+
+.service-detail-page .feature-list li,
+.service-detail-page .scope-card,
+.service-detail-page .service-steps li,
+.service-detail-page .price-card,
+.service-detail-page .plan-card,
+.service-detail-page .related-card,
+.services-hub-page .service-hub-card {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+}
+.service-detail-page .feature-list li:hover,
+.service-detail-page .scope-card:hover,
+.service-detail-page .service-steps li:hover,
+.service-detail-page .price-card:hover,
+.service-detail-page .plan-card:hover,
+.services-hub-page .service-hub-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--service-accent) 50%, var(--line));
+  box-shadow: 0 18px 40px rgba(1,25,73,.13);
+}
+.service-detail-page .service-steps { counter-reset: gea-steps; }
+.service-detail-page .service-steps li { position: relative; overflow: hidden; border-top: 3px solid var(--service-accent); }
+.service-detail-page .service-steps li::after {
+  content: '';
+  position: absolute;
+  inset: auto auto 0 0;
+  width: 0;
+  height: 3px;
+  background: var(--service-accent);
+  transition: width .35s ease;
+}
+.service-detail-page .service-steps li:hover::after { width: 100%; }
+.service-detail-page .hero-actions .button,
+.service-detail-page .service-cta .button,
+.services-hub-page .service-hub-card > a { transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.service-detail-page .hero-actions .button:hover,
+.service-detail-page .service-cta .button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(1,25,73,.15); }
+.service-detail-page .hero-actions .button:active,
+.service-detail-page .service-cta .button:active { transform: scale(.97); }
+.service-detail-page .faq-list details { transition: border-color .2s ease, background .2s ease, box-shadow .2s ease; }
+.service-detail-page .faq-list details[open] { border-color: var(--service-accent); box-shadow: 0 12px 30px rgba(1,25,73,.08); }
+.service-detail-page .faq-list summary { cursor: pointer; }
+.service-detail-page .faq-list summary:focus-visible { outline: 3px solid var(--service-accent); outline-offset: 3px; }
+.service-detail-page .faq-list details[open] p { animation: gea-answer-in .3s ease both; }
+@keyframes gea-answer-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+.service-animate { opacity: 0; transform: translateY(18px); }
+.service-animate.is-service-visible { opacity: 1; transform: translateY(0); transition: opacity .45s ease, transform .45s ease, box-shadow .25s ease, border-color .25s ease; }
+
+@media (max-width: 760px) {
+  .service-guide { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; scroll-snap-type: x proximity; }
+  .service-guide a { white-space: nowrap; scroll-snap-align: start; }
+  .service-detail-page .service-hero::before { width: 70vw; top: -8%; right: -38%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-animate { opacity: 1; transform: none; }
+  .service-detail-page .service-hero .service-photo,
+  .service-detail-page .feature-list li,
+  .service-detail-page .scope-card,
+  .service-detail-page .service-steps li,
+  .service-detail-page .price-card,
+  .service-detail-page .plan-card,
+  .service-detail-page .faq-list details,
+  .service-detail-page .related-card,
+  .service-detail-page .hero-actions .button,
+  .service-guide a { animation: none !important; transition: none !important; transform: none !important; }
+}
