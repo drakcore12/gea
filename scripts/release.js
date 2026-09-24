@@ -71,6 +71,91 @@ function validateServiceIconSvgs() {
   }
 }
 
+function readAttribute(tag, attributeName) {
+  const lowerTag = tag.toLowerCase();
+  const target = attributeName.toLowerCase();
+  let cursor = 0;
+
+  while (cursor < tag.length) {
+    const index = lowerTag.indexOf(target, cursor);
+    if (index < 0) return null;
+
+    let position = index + target.length;
+    while (position < tag.length && /\s/.test(tag.charAt(position))) position += 1;
+    if (tag.charAt(position) !== '=') {
+      cursor = position;
+      continue;
+    }
+
+    position += 1;
+    while (position < tag.length && /\s/.test(tag.charAt(position))) position += 1;
+    const quote = tag.charAt(position);
+    if (quote !== '"' && quote !== "'") {
+      cursor = position + 1;
+      continue;
+    }
+
+    const end = tag.indexOf(quote, position + 1);
+    if (end < 0) return null;
+    return tag.slice(position + 1, end);
+  }
+
+  return null;
+}
+
+function findHtmlTag(source, tagName, predicate) {
+  const lowerSource = source.toLowerCase();
+  const needle = `<${tagName.toLowerCase()}`;
+  let cursor = 0;
+
+  while (cursor < source.length) {
+    const start = lowerSource.indexOf(needle, cursor);
+    if (start < 0) return null;
+
+    const end = source.indexOf('>', start + needle.length);
+    if (end < 0) return null;
+
+    const tag = source.slice(start, end + 1);
+    if (predicate(tag)) return { start, end: end + 1, tag };
+    cursor = end + 1;
+  }
+
+  return null;
+}
+
+function replaceRange(source, start, end, replacement) {
+  return source.slice(0, start) + replacement + source.slice(end);
+}
+
+function cssImportReferences(source) {
+  const references = [];
+  const lowerSource = source.toLowerCase();
+  let cursor = 0;
+
+  while (cursor < source.length) {
+    const importIndex = lowerSource.indexOf('@import', cursor);
+    if (importIndex < 0) break;
+
+    const urlIndex = lowerSource.indexOf('url(', importIndex + 7);
+    if (urlIndex < 0) break;
+
+    const closeIndex = source.indexOf(')', urlIndex + 4);
+    if (closeIndex < 0) break;
+
+    let reference = source.slice(urlIndex + 4, closeIndex).trim();
+    const first = reference.charAt(0);
+    const last = reference.charAt(reference.length - 1);
+    if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
+      reference = reference.slice(1, -1).trim();
+    }
+
+    if (reference) references.push({ start: urlIndex + 4, end: closeIndex, reference });
+    cursor = closeIndex + 1;
+  }
+
+  return references;
+}
+
 function versionLocalAsset(reference, version) {
   if (/^(?:https?:)?\/\//i.test(reference)) return reference;
   if (/^(?:data:|mailto:|tel:|javascript:)/i.test(reference)) return reference;
