@@ -107,40 +107,6 @@
     if (navLink) navLink.href = '/servicios/';
   }
 
-  function connectLegacyServicePagesToPillars() {
-    const body = document.body;
-    if (!body.classList.contains('service-detail-page') || body.dataset.seoPillar) return;
-    if (document.querySelector('[data-seo-pillar-links]')) return;
-    const target = document.querySelector('.service-cta');
-    if (!target) return;
-
-    const current = location.pathname.replace(/index\.html$/, '');
-    const section = document.createElement('section');
-    section.className = 'service-section section-soft';
-    section.dataset.seoPillarLinks = 'true';
-
-    const links = pillars
-      .filter((pillar) => pillar.href !== current)
-      .map((pillar) => `
-        <a class="related-card" href="${pillar.href}">
-          <img src="${pillar.icon}" width="48" height="48" alt="">
-          <span><strong>${pillar.title}</strong><small>${pillar.description}</small></span>
-          <span aria-hidden="true">→</span>
-        </a>`)
-      .join('');
-
-    section.innerHTML = `
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">SERVICIOS PRINCIPALES EN MEDELLÍN</p>
-          <h2>Electricidad, plomería y gas</h2>
-          <p>Consulte la página principal del área técnica que corresponde a su necesidad.</p>
-        </div>
-        <div class="related-grid">${links}</div>
-      </div>`;
-    target.insertAdjacentElement('beforebegin', section);
-  }
-
   function removeRetiredCareLinks() {
     document.querySelectorAll('a[href*="gea-care"], a[href="#planes"]').forEach((link) => {
       const card = link.closest('.related-card, .service-hub-card');
@@ -156,7 +122,6 @@
     const sections = [
       ['.service-section:has(.feature-list), .service-section:has(.service-hub-grid)', 'Qué atendemos'],
       ['.service-section:has(.service-steps)', 'Cómo trabajamos'],
-      ['.price-section', 'Valores'],
       ['.faq-section', 'Preguntas'],
     ].map(([selector, label]) => ({ section: main.querySelector(selector), label }))
       .filter(({ section }) => section);
@@ -213,7 +178,6 @@
     enhancePillarPhoto();
     enhanceServicesHubPhotos();
     enhanceHomeServiceLinks();
-    connectLegacyServicePagesToPillars();
     enhanceServiceJourney();
     window.setTimeout(setWhatsappMessages, 100);
   }
