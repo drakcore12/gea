@@ -114,7 +114,7 @@
     counter.textContent = `${formatNumber(value)}${suffix}`;
   }
 
-  function animateCounter(counter, index) {
+  function animateCounter(counter, index = 0) {
     const target = Number(counter.dataset.counterTarget || 0);
     if (!Number.isFinite(target)) return;
 
@@ -147,7 +147,7 @@
   function startCounters() {
     if (countersStarted) return;
     countersStarted = true;
-    counters.forEach((counter) => animateCounter(counter));
+    counters.forEach((counter, index) => animateCounter(counter, index));
   }
 
   function activateServiceCards() {
