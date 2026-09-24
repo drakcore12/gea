@@ -634,7 +634,9 @@
           card.className = 'google-evidence-card';
 
           const image = document.createElement('img');
-          image.src = photo.src;
+          const mobileEvidence = window.matchMedia?.('(max-width: 760px)').matches === true;
+          const requestedWidth = mobileEvidence ? 640 : 800;
+          image.dataset.src = `${photo.src}&w=${requestedWidth}`;
           image.alt = `Evidencia visual de Soluciones GEA publicada en Google Maps ${index + 1}`;
           image.loading = 'lazy';
           image.decoding = 'async';
@@ -654,6 +656,31 @@
 
           evidenceGallery.appendChild(card);
         });
+
+        const evidenceImages = Array.from(evidenceGallery.querySelectorAll('img[data-src]'));
+        const loadEvidenceImage = (image) => {
+          const src = image.dataset.src;
+          if (!src) return;
+          image.src = src;
+          image.removeAttribute('data-src');
+        };
+
+        if ('IntersectionObserver' in window && evidenceImages.length) {
+          const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              imageObserver.unobserve(entry.target);
+              loadEvidenceImage(entry.target);
+            });
+          }, {
+            root: evidenceGallery,
+            rootMargin: '0px 240px',
+            threshold: 0.01,
+          });
+          evidenceImages.forEach((image) => imageObserver.observe(image));
+        } else {
+          evidenceImages.forEach(loadEvidenceImage);
+        }
 
         if (!evidenceGallery.children.length) {
           evidenceGallery.hidden = true;
@@ -777,6 +804,7 @@
       }, { rootMargin: '420px 0px' });
 
       observer.observe(section);
+      if (evidenceSection) observer.observe(evidenceSection);
       return;
     }
 
