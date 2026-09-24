@@ -54,9 +54,11 @@ Sin consentimiento no se carga Analytics y ninguna funcionalidad principal depen
 ## Capas frontend
 1. Foundation: `styles.css`, `brand.css`, `theme.css`.
 2. Domain/page: `service-pages.css`, `service-media.css`.
-3. Home components: `home-redesign.css`, `home-gauge-section.css`.
-4. Runtime: `app.js`, `home-redesign.js`, `hero-video.js`, `gea-motion.js`.
-5. Critical intro: CSS mínimo embebido deliberadamente.
+3. Home base: `home-redesign.css`, `home-gauge-section.css`.
+4. Home priority: `home-priority.css`, inyectado por release como última capa explícita.
+5. Editorial/motion diferido: `gea-editorial-2026.css`, `gea-motion.css`, `service-icon-sizing.css`, cargados tras la intro.
+6. Runtime: `app.js`, `home-redesign.js`, `hero-video.js`, `gea-motion.js`.
+7. Critical intro: CSS mínimo embebido deliberadamente.
 
 Regla: no crear una hoja global nueva para corregir un override. Se modifica el archivo propietario o se registra un ADR.
 
