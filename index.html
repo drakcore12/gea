@@ -568,35 +568,75 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
     <section id="opiniones-google" class="home-section google-reviews-section" aria-labelledby="google-reviews-title" data-google-reviews>
       <div class="container">
         <div class="section-heading">
-          <p class="eyebrow">Opiniones de clientes</p>
-          <h2 id="google-reviews-title">Lo que dicen en Google</h2>
-          <p>Calificación y opiniones obtenidas directamente desde Google Maps.</p>
+          <p class="eyebrow">Reputación verificada</p>
+          <h2 id="google-reviews-title">Soluciones GEA en Google</h2>
+          <p>Calificación, ubicación y opiniones consultadas directamente desde Google Maps.</p>
         </div>
 
-        <div class="google-reviews-shell">
+        <div class="google-business-card">
           <article class="google-rating-card" data-google-rating-card>
             <div class="google-rating-source" aria-label="Fuente: Google Maps">
               <span class="google-rating-g" aria-hidden="true">G</span>
-              <strong>Google Maps</strong>
+              <div>
+                <strong>Google Maps</strong>
+                <span>Perfil de empresa</span>
+              </div>
             </div>
-            <div class="google-rating-score">
-              <strong data-google-rating>—</strong>
-              <span>/ 5</span>
+
+            <div class="google-rating-main">
+              <div class="google-rating-score">
+                <strong data-google-rating>—</strong>
+                <span>/ 5</span>
+              </div>
+              <div>
+                <div class="google-rating-stars" data-google-stars aria-hidden="true">★★★★★</div>
+                <p data-google-review-count>Consultando calificaciones…</p>
+              </div>
             </div>
-            <div class="google-rating-stars" data-google-stars aria-hidden="true">★★★★★</div>
-            <p data-google-review-count>Consultando la calificación publicada en Google…</p>
-            <a class="button button-secondary google-profile-link" data-google-profile-link href="https://share.google/o8vbV41rlIalXuJp7" target="_blank" rel="noopener noreferrer">Ver perfil en Google</a>
+
+            <div class="google-business-location">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="2.4"></circle>
+              </svg>
+              <span data-google-address>Medellín, Antioquia</span>
+            </div>
+
+            <div class="google-rating-actions">
+              <a class="button button-primary google-profile-link" data-google-profile-link href="https://share.google/o8vbV41rlIalXuJp7" target="_blank" rel="noopener noreferrer">Ver perfil en Google</a>
+              <a class="button button-secondary google-directions-link" data-google-directions-link href="https://share.google/o8vbV41rlIalXuJp7" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
+            </div>
           </article>
 
-          <div class="google-review-list" data-google-review-list aria-live="polite" aria-busy="true">
-            <article class="google-review-card google-review-card--loading" aria-hidden="true"></article>
-            <article class="google-review-card google-review-card--loading" aria-hidden="true"></article>
-            <article class="google-review-card google-review-card--loading" aria-hidden="true"></article>
+          <div class="google-map-card" data-google-map-card aria-label="Ubicación de Soluciones GEA en Google Maps">
+            <div class="google-map-placeholder" data-google-map-placeholder>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Z"></path>
+                <path d="M9 3v15"></path>
+                <path d="M15 6v15"></path>
+              </svg>
+              <strong>Ubicación en Google Maps</strong>
+              <span>El mapa se carga al llegar a esta sección.</span>
+            </div>
           </div>
         </div>
 
+        <div class="google-reviews-heading">
+          <div>
+            <span class="google-reviews-kicker">Opiniones destacadas</span>
+            <h3>Experiencias de nuestros clientes</h3>
+          </div>
+          <a data-google-profile-link-secondary href="https://share.google/o8vbV41rlIalXuJp7" target="_blank" rel="noopener noreferrer">Ver todas en Google →</a>
+        </div>
+
+        <div class="google-review-list" data-google-review-list aria-live="polite" aria-busy="true">
+          <article class="google-review-card google-review-card--loading" aria-hidden="true"></article>
+          <article class="google-review-card google-review-card--loading" aria-hidden="true"></article>
+          <article class="google-review-card google-review-card--loading" aria-hidden="true"></article>
+        </div>
+
         <p class="google-reviews-notice" data-google-reviews-notice>
-          Las opiniones se muestran desde Google Maps. Si la conexión no está disponible, puedes consultar el perfil oficial directamente en Google.
+          Las opiniones se muestran desde Google Maps y se atribuyen a sus autores.
         </p>
       </div>
     </section>
