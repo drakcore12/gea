@@ -64,6 +64,8 @@ export default async (request: Request) => {
       'userRatingCount',
       'reviews',
       'googleMapsUri',
+      'formattedAddress',
+      'location',
     ].join(',');
 
     const response = await fetch(
@@ -96,6 +98,10 @@ export default async (request: Request) => {
       rating: Number(place?.rating) || null,
       reviewCount: Number(place?.userRatingCount) || 0,
       googleProfileUrl: place?.googleMapsUri || GOOGLE_PROFILE_URL,
+      address: place?.formattedAddress || 'Medellín, Antioquia',
+      location: place?.location && Number.isFinite(place.location.latitude) && Number.isFinite(place.location.longitude)
+        ? { latitude: place.location.latitude, longitude: place.location.longitude }
+        : null,
       orderingNotice: 'Mostramos hasta 3 opiniones seleccionadas por relevancia por Google Maps.',
       reviews,
     });
