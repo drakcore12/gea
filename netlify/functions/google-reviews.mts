@@ -272,11 +272,10 @@ export default async (request: Request) => {
       : [];
 
     const reviews = businessProfileResult?.reviews || placesReviews;
-    const rating = businessProfileResult?.rating ?? Number(place?.rating) || null;
+    const rating = businessProfileResult?.rating ?? (Number(place?.rating) || null);
     const reviewCount =
       businessProfileResult?.reviewCount ??
-      Number(place?.userRatingCount) ||
-      reviews.length;
+      (Number(place?.userRatingCount) || reviews.length);
 
     const photos = Array.isArray(place?.photos)
       ? place.photos.slice(0, 10).map((photo: any) => ({
