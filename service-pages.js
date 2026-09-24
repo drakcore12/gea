@@ -79,48 +79,17 @@
     const card = document.querySelector('.service-hero .service-meta-card');
     if (!pillar || !card || card.querySelector('[data-service-photo]')) return;
 
-    const note = document.createElement('p');
-    note.className = 'service-photo-note';
-    note.textContent = 'Imagen ilustrativa. Será reemplazada progresivamente por fotografías de trabajos reales de Soluciones GEA.';
-    card.prepend(note);
     card.prepend(createServicePhoto(pillar, true));
     const mark = card.querySelector('.service-mark');
     if (mark) mark.remove();
   }
 
-  function enhanceServicesHubPhotos() {
-    if (!document.body.classList.contains('services-hub-page')) return;
-    pillars.forEach((pillar) => {
-      const link = document.querySelector(`.service-hub-card > a[href="${pillar.href}"]`);
-      const card = link?.closest('.service-hub-card');
-      if (!card || card.querySelector('.service-photo')) return;
-      const icon = card.querySelector('.service-hub-icon');
-      const image = createServicePhoto(pillar);
-      if (icon) icon.replaceWith(image);
-      else card.prepend(image);
-    });
-  }
-
-  function enhanceHomeServiceLinks() {
-    if (location.pathname !== '/' && !location.pathname.endsWith('/index.html')) return;
-    const navLink = document.querySelector('.main-nav a[href="#servicios"]');
-    if (navLink) navLink.href = '/servicios/';
-  }
-
-  function removeRetiredCareLinks() {
-    document.querySelectorAll('a[href*="gea-care"], a[href="#planes"]').forEach((link) => {
-      const card = link.closest('.related-card, .service-hub-card');
-      if (card) card.remove();
-      else link.remove();
-    });
-  }
-
   function enhanceServiceJourney() {
     const main = document.querySelector('main');
-    if (!main || !document.body.matches('.service-detail-page, .services-hub-page')) return;
+    if (!main || !document.body.matches('.service-detail-page')) return;
 
     const sections = [
-      ['.service-section:has(.feature-list), .service-section:has(.service-hub-grid)', 'Qué atendemos'],
+      ['.service-section:has(.feature-list)', 'Qué atendemos'],
       ['.service-section:has(.service-steps)', 'Cómo trabajamos'],
       ['.faq-section', 'Preguntas'],
     ].map(([selector, label]) => ({ section: main.querySelector(selector), label }))
@@ -156,7 +125,7 @@
     }
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-    const targets = main.querySelectorAll('.service-meta-card, .feature-list li, .scope-card, .service-steps li, .price-card, .plan-card, .related-card, .service-hub-card');
+    const targets = main.querySelectorAll('.service-meta-card, .feature-list li, .scope-card, .service-steps li');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -173,11 +142,8 @@
 
   function initialize() {
     ensureServiceMediaStyles();
-    removeRetiredCareLinks();
     setWhatsappMessages();
     enhancePillarPhoto();
-    enhanceServicesHubPhotos();
-    enhanceHomeServiceLinks();
     enhanceServiceJourney();
     window.setTimeout(setWhatsappMessages, 100);
   }

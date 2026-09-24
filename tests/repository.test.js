@@ -22,12 +22,38 @@ function walk(directory) {
 test('critical pages exist', () => {
   [
     'index.html',
-    'servicios/index.html',
     'servicios/electricista-medellin/index.html',
     'servicios/plomero-fugas-agua-medellin/index.html',
     'servicios/gas-medellin/index.html',
     'privacidad.html',
   ].forEach((file) => assert.equal(fs.existsSync(path.join(root, file)), true, file));
+});
+
+test('service navigation has three destinations and retired URLs redirect', () => {
+  const serviceRoot = path.join(root, 'servicios');
+  const live = ['electricista-medellin', 'plomero-fugas-agua-medellin', 'gas-medellin'];
+  const retired = {
+    'servicios-electricos-comerciales-medellin': live[0],
+    'fugas-de-agua-y-gas-medellin': live[1],
+    'redes-internas-de-gas-medellin': live[2],
+    'bombas-y-presion-de-agua-medellin': live[1],
+    'lavado-de-tanques-medellin': live[1],
+    'mantenimiento-cocinas-comerciales-medellin': live[2],
+  };
+  assert.equal(fs.existsSync(path.join(serviceRoot, 'index.html')), false);
+  assert.deepEqual(fs.readdirSync(serviceRoot).filter((name) => fs.existsSync(path.join(serviceRoot, name, 'index.html'))).sort(), [...live].sort());
+  const redirects = read('_redirects');
+  assert.match(redirects, /^\/servicios\/\s+\/\s+301!/m);
+  for (const [oldPath, destination] of Object.entries(retired)) {
+    assert.match(redirects, new RegExp(`^/servicios/${oldPath}/\\s+/servicios/${destination}/\\s+301!`, 'm'));
+  }
+  const sitemap = read('sitemap.xml');
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/solucionesgea\.com\/servicios\/<\/loc>/);
+  for (const oldPath of Object.keys(retired)) assert.doesNotMatch(sitemap, new RegExp(`<loc>[^<]+/${oldPath}/`));
+  for (const html of [read('index.html'), ...live.map((slug) => read(`servicios/${slug}/index.html`))]) {
+    assert.doesNotMatch(html, /href="\/servicios\/(?:servicios-electricos|fugas-de-agua|redes-internas|bombas-y-presion|lavado-de-tanques|mantenimiento-cocinas|gea-care)/);
+    assert.doesNotMatch(html, /href="\/servicios\/"/);
+  }
 });
 
 test('contact form has labels and WhatsApp control', () => {

@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 const baseUrl = (process.env.GEA_BASE_URL || 'https://solucionesgea.com').replace(/\/$/, '');
 const pages = [
   '/',
-  '/servicios/',
   '/servicios/electricista-medellin/',
   '/servicios/plomero-fugas-agua-medellin/',
   '/servicios/gas-medellin/',
