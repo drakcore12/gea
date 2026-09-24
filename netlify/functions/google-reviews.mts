@@ -66,6 +66,7 @@ export default async (request: Request) => {
       'googleMapsUri',
       'formattedAddress',
       'location',
+      'googleMapsLinks',
     ].join(',');
 
     const response = await fetch(
@@ -97,7 +98,10 @@ export default async (request: Request) => {
       name: place?.displayName?.text || 'Soluciones GEA',
       rating: Number(place?.rating) || null,
       reviewCount: Number(place?.userRatingCount) || 0,
-      googleProfileUrl: place?.googleMapsUri || GOOGLE_PROFILE_URL,
+      googleProfileUrl: place?.googleMapsLinks?.placeUri || place?.googleMapsUri || GOOGLE_PROFILE_URL,
+      writeReviewUrl: place?.googleMapsLinks?.writeAReviewUri || `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeId)}`,
+      reviewsUrl: place?.googleMapsLinks?.reviewsUri || place?.googleMapsUri || GOOGLE_PROFILE_URL,
+      directionsUrl: place?.googleMapsLinks?.directionsUri || null,
       address: place?.formattedAddress || 'Medellín, Antioquia',
       location: place?.location && Number.isFinite(place.location.latitude) && Number.isFinite(place.location.longitude)
         ? { latitude: place.location.latitude, longitude: place.location.longitude }
