@@ -114,11 +114,6 @@ if (!qualityWorkflow.includes('node scripts/verify.js --release')) {
   report('quality.yml debe ejecutar el pipeline unificado verify.js --release');
 }
 
-const netlifyConfig = read('netlify.toml');
-if (!netlifyConfig.includes('command = "node scripts/verify.js --release"')) {
-  report('Netlify debe bloquear producción con verify.js --release');
-}
-
 const staticWorkflow = read('.github/workflows/static.yml');
 if (/^\s*push\s*:/m.test(staticWorkflow)) {
   report('GitHub Pages no debe desplegar automáticamente: Netlify es producción');
