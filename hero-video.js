@@ -19,6 +19,7 @@
   const saveData = connection?.saveData === true;
   const slowConnection = ['slow-2g', '2g', '3g'].includes(connection?.effectiveType);
   const staticMode = reducedMotion || saveData;
+  let mobilePlaybackUnlocked = mobileQuery?.matches !== true;
 
   let activeSlotIndex = 0;
   let activeClipIndex = 0;
@@ -92,7 +93,7 @@
     videos.forEach((video) => video.pause());
   }
 
-  function scheduleNextPreload(delay = 1400) {
+  function scheduleNextPreload(delay = use720p() ? 6200 : 1400) {
     window.clearTimeout(preloadTimer);
     preloadTimer = window.setTimeout(() => {
       if (!hasStarted || staticMode || document.hidden || !heroVisible || isSwitching) return;
@@ -174,7 +175,7 @@
   }
 
   async function startPlayback() {
-    if (hasStarted || introIsOpen() || document.hidden || !heroVisible) return;
+    if (hasStarted || introIsOpen() || document.hidden || !heroVisible || !mobilePlaybackUnlocked) return;
     hasStarted = true;
 
     const first = prepareClip(0, 0, 'auto');
@@ -212,6 +213,21 @@
     }, { threshold: 0.05 });
 
     viewportObserver.observe(hero);
+  }
+
+  if (!mobilePlaybackUnlocked) {
+    const unlockMobilePlayback = () => {
+      if (mobilePlaybackUnlocked) return;
+      mobilePlaybackUnlocked = true;
+      window.removeEventListener('scroll', unlockMobilePlayback);
+      window.removeEventListener('pointerdown', unlockMobilePlayback);
+      window.removeEventListener('keydown', unlockMobilePlayback);
+      void startPlayback();
+    };
+
+    window.addEventListener('scroll', unlockMobilePlayback, { passive: true, once: true });
+    window.addEventListener('pointerdown', unlockMobilePlayback, { passive: true, once: true });
+    window.addEventListener('keydown', unlockMobilePlayback, { once: true });
   }
 
   if (introIsOpen()) {
