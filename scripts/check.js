@@ -41,6 +41,35 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function cssImportReferences(source) {
+  const references = [];
+  const lowerSource = source.toLowerCase();
+  let cursor = 0;
+
+  while (cursor < source.length) {
+    const importIndex = lowerSource.indexOf('@import', cursor);
+    if (importIndex < 0) break;
+
+    const urlIndex = lowerSource.indexOf('url(', importIndex + 7);
+    if (urlIndex < 0) break;
+
+    const closeIndex = source.indexOf(')', urlIndex + 4);
+    if (closeIndex < 0) break;
+
+    let reference = source.slice(urlIndex + 4, closeIndex).trim();
+    const first = reference.charAt(0);
+    const last = reference.charAt(reference.length - 1);
+    if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
+      reference = reference.slice(1, -1).trim();
+    }
+
+    if (reference) references.push(reference);
+    cursor = closeIndex + 1;
+  }
+
+  return references;
+}
+
 const allFiles = walk(root);
 const htmlPaths = allFiles.filter((file) => file.endsWith('.html') && !path.basename(file).startsWith('google'));
 const googleVerificationPaths = allFiles.filter((file) => file.endsWith('.html') && path.basename(file).startsWith('google'));
@@ -172,8 +201,8 @@ if (fs.existsSync(versionPath)) {
       for (const fullPath of cssPaths) {
         const file = path.relative(root, fullPath);
         const source = fs.readFileSync(fullPath, 'utf8');
-        for (const match of source.matchAll(/@import\s+url\(\s*["']?([^"')]+\.css(?:\?[^"')]*)?)["']?\s*\)/gi)) {
-          const reference = match[1];
+        for (const reference of cssImportReferences(source)) {
+          if (!reference.toLowerCase().includes('.css')) continue;
           if (!isExternalReference(reference) && !versionPattern.test(reference)) {
             report(`${file}: @import sin versión de deploy ${reference}`);
           }
