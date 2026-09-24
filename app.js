@@ -496,6 +496,23 @@
       return `${'★'.repeat(rounded)}${'☆'.repeat(5 - rounded)}`;
     };
 
+    const safeGoogleImageUrl = (value) => {
+      if (typeof value !== 'string' || !value.trim()) return null;
+
+      try {
+        const url = new URL(value);
+        const hostname = url.hostname.toLowerCase();
+        const isGoogleUserContent =
+          hostname === 'googleusercontent.com' ||
+          hostname.endsWith('.googleusercontent.com');
+
+        if (url.protocol !== 'https:' || !isGoogleUserContent) return null;
+        return url.href;
+      } catch (_) {
+        return null;
+      }
+    };
+
     const setFallback = () => {
       section.classList.add('is-fallback');
       listElement?.setAttribute('aria-busy', 'false');
@@ -591,6 +608,21 @@
         avatar.className = 'google-review-avatar';
         avatar.textContent = authorLabel.charAt(0).toUpperCase() || 'G';
         avatar.setAttribute('aria-hidden', 'true');
+
+        const photoUrl = safeGoogleImageUrl(review.author?.photoUri);
+        if (photoUrl) {
+          const image = document.createElement('img');
+          image.alt = '';
+          image.width = 42;
+          image.height = 42;
+          image.loading = 'lazy';
+          image.decoding = 'async';
+          image.referrerPolicy = 'no-referrer';
+          image.addEventListener('error', () => image.remove(), { once: true });
+          image.setAttribute('src', photoUrl);
+          avatar.appendChild(image);
+        }
+
         author.appendChild(avatar);
 
         const authorCopy = document.createElement('div');
