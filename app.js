@@ -488,6 +488,8 @@
     const addressElement = section.querySelector('[data-google-address]');
     const mapCard = section.querySelector('[data-google-map-card]');
     const mapPlaceholder = section.querySelector('[data-google-map-placeholder]');
+    const evidenceGallery = section.querySelector('[data-google-evidence-gallery]');
+    const evidenceLink = section.querySelector('[data-google-evidence-link]');
     let hasLoaded = false;
     let mapObserver = null;
 
@@ -516,6 +518,8 @@
     const setFallback = () => {
       section.classList.add('is-fallback');
       listElement?.setAttribute('aria-busy', 'false');
+      evidenceGallery?.setAttribute('aria-busy', 'false');
+      if (evidenceGallery) evidenceGallery.hidden = true;
       if (reviewCountElement) reviewCountElement.textContent = 'Consulta las calificaciones y opiniones directamente en Google.';
       if (mapPlaceholder) {
         const description = mapPlaceholder.querySelector('span');
@@ -532,6 +536,7 @@
       if (profileLink) profileLink.href = CONFIG.googleProfileUrl;
       if (writeReviewLink) writeReviewLink.href = CONFIG.googleWriteReviewUrl;
       if (secondaryProfileLink) secondaryProfileLink.href = CONFIG.googleProfileUrl;
+      if (evidenceLink) evidenceLink.href = CONFIG.googleProfileUrl;
 
       if (addressElement && payload.address) {
         addressElement.textContent = payload.address;
@@ -589,6 +594,46 @@
         reviewCountElement.textContent = count === 1
           ? '1 calificación publicada en Google'
           : `${count.toLocaleString('es-CO')} calificaciones publicadas en Google`;
+      }
+
+      if (evidenceGallery) {
+        evidenceGallery.replaceChildren();
+        evidenceGallery.setAttribute('aria-busy', 'false');
+
+        const photos = Array.isArray(payload.photos) ? payload.photos : [];
+        photos.forEach((photo, index) => {
+          if (typeof photo?.src !== 'string' || !photo.src.startsWith('/api/google-photo?name=')) return;
+
+          const card = document.createElement('figure');
+          card.className = 'google-evidence-card';
+
+          const image = document.createElement('img');
+          image.src = photo.src;
+          image.alt = `Evidencia visual de Soluciones GEA publicada en Google Maps ${index + 1}`;
+          image.loading = 'lazy';
+          image.decoding = 'async';
+          image.width = Number(photo.width) || 900;
+          image.height = Number(photo.height) || 675;
+          card.appendChild(image);
+
+          const names = Array.isArray(photo.attribution)
+            ? photo.attribution.map((name) => String(name).trim()).filter(Boolean)
+            : [];
+
+          const caption = document.createElement('figcaption');
+          caption.textContent = names.length
+            ? `Foto: ${names.join(', ')} · Google Maps`
+            : 'Foto publicada en Google Maps';
+          card.appendChild(caption);
+
+          evidenceGallery.appendChild(card);
+        });
+
+        if (!evidenceGallery.children.length) {
+          evidenceGallery.hidden = true;
+        } else {
+          evidenceGallery.hidden = false;
+        }
       }
 
       if (!listElement) return;
