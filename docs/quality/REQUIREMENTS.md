@@ -7,7 +7,7 @@ Versión: 1.0 — 2026-09-24
 - **FR-002** Iniciar solicitud por WhatsApp con datos del formulario.
 - **FR-003** Iniciar llamada desde enlaces publicados.
 - **FR-004** Mostrar horarios y atención de emergencias claramente.
-- **FR-005** Mostrar rating, total y hasta tres reseñas de Google cuando esté disponible.
+- **FR-005** Mostrar rating, total y todas las reseñas disponibles del Perfil de Negocio de Google cuando Business Profile API esté habilitada; usar Places como fallback seguro mientras no lo esté.
 - **FR-006** Abrir directamente el flujo de Google para escribir opinión.
 - **FR-007** Abrir perfil/ubicación/direcciones de Google.
 - **FR-008** Tema automático/manual sin bloquear contenido.
