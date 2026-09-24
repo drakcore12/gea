@@ -31,3 +31,7 @@ Tres páginas pilar:
 ## Futuro ecommerce
 
 Crear una sección `/tienda/` separada de las páginas de servicios para repuestos, medidores/contadores nuevos y usados, bombas, componentes eléctricos, accesorios de agua/plomería y gas.
+
+
+## Ingeniería
+La arquitectura y el sistema de QA versionados están definidos en `docs/engineering/`, `docs/quality/`, `docs/security/` y `docs/operations/`. Netlify bloquea producción mediante `node scripts/verify.js --release`.
