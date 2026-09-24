@@ -478,7 +478,13 @@
     const listElement = section.querySelector('[data-google-review-list]');
     const noticeElement = section.querySelector('[data-google-reviews-notice]');
     const profileLink = section.querySelector('[data-google-profile-link]');
+    const secondaryProfileLink = section.querySelector('[data-google-profile-link-secondary]');
+    const directionsLink = section.querySelector('[data-google-directions-link]');
+    const addressElement = section.querySelector('[data-google-address]');
+    const mapCard = section.querySelector('[data-google-map-card]');
+    const mapPlaceholder = section.querySelector('[data-google-map-placeholder]');
     let hasLoaded = false;
+    let mapObserver = null;
 
     const starString = (rating) => {
       const rounded = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
@@ -489,6 +495,10 @@
       section.classList.add('is-fallback');
       listElement?.setAttribute('aria-busy', 'false');
       if (reviewCountElement) reviewCountElement.textContent = 'Consulta las calificaciones y opiniones directamente en Google.';
+      if (mapPlaceholder) {
+        const description = mapPlaceholder.querySelector('span');
+        if (description) description.textContent = 'Abre el perfil oficial para consultar la ubicación.';
+      }
       if (noticeElement) {
         noticeElement.textContent = 'La conexión en tiempo real con Google todavía no está configurada. El perfil oficial sigue disponible mediante el botón superior.';
       }
@@ -497,8 +507,51 @@
     const renderReviews = (payload) => {
       section.classList.remove('is-fallback');
 
-      if (profileLink && payload.googleProfileUrl) {
-        profileLink.href = payload.googleProfileUrl;
+      if (payload.googleProfileUrl) {
+        if (profileLink) profileLink.href = payload.googleProfileUrl;
+        if (secondaryProfileLink) secondaryProfileLink.href = payload.googleProfileUrl;
+      }
+
+      if (addressElement && payload.address) {
+        addressElement.textContent = payload.address;
+      }
+
+      const latitude = Number(payload.location?.latitude);
+      const longitude = Number(payload.location?.longitude);
+      const hasLocation = Number.isFinite(latitude) && Number.isFinite(longitude);
+
+      if (directionsLink) {
+        directionsLink.href = hasLocation
+          ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${latitude},${longitude}`)}`
+          : (payload.googleProfileUrl || directionsLink.href);
+      }
+
+      if (mapCard && hasLocation) {
+        const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(`${latitude},${longitude}`)}&z=16&output=embed`;
+
+        const mountMap = () => {
+          if (mapCard.querySelector('iframe')) return;
+          const iframe = document.createElement('iframe');
+          iframe.src = mapSrc;
+          iframe.title = 'Ubicación de Soluciones GEA en Google Maps';
+          iframe.loading = 'lazy';
+          iframe.referrerPolicy = 'no-referrer-when-downgrade';
+          iframe.setAttribute('allowfullscreen', '');
+          if (mapPlaceholder) mapPlaceholder.remove();
+          mapCard.appendChild(iframe);
+        };
+
+        if ('IntersectionObserver' in window) {
+          mapObserver?.disconnect();
+          mapObserver = new IntersectionObserver((entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            mapObserver.disconnect();
+            mountMap();
+          }, { rootMargin: '120px 0px' });
+          mapObserver.observe(mapCard);
+        } else {
+          mountMap();
+        }
       }
 
       if (ratingElement) {
