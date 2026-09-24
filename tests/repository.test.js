@@ -81,9 +81,14 @@ test('Google Places secret stays server-side', () => {
   assert.doesNotMatch(app, /AIza[0-9A-Za-z_-]{30,}/);
 });
 
-test('Google external text avoids tainted URL sinks', () => {
+test('Google external data is constrained before DOM URL use', () => {
   const app = read('app.js');
+  const fn = read('netlify/functions/google-reviews.mts');
   assert.match(app, /text\.textContent = review\.text/);
+  assert.match(app, /safeGoogleImageUrl/);
+  assert.match(app, /hostname\.endsWith\('\.googleusercontent\.com'\)/);
+  assert.match(fn, /safeGooglePhotoUri/);
+  assert.match(fn, /hostname\.endsWith\('\.googleusercontent\.com'\)/);
   assert.doesNotMatch(app, /image\.src\s*=\s*review\.author\.photoUri/);
   assert.doesNotMatch(app, /authorName\.href\s*=\s*review\.author\.uri/);
   assert.doesNotMatch(app, /source\.href\s*=\s*review\.googleMapsUri/);
