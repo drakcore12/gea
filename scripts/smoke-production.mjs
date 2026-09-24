@@ -42,7 +42,8 @@ assert.ok(Number.isFinite(payload.rating), 'rating inválido');
 assert.ok(payload.rating >= 0 && payload.rating <= 5, 'rating fuera de rango');
 assert.ok(Number.isInteger(payload.reviewCount) && payload.reviewCount >= 0, 'reviewCount inválido');
 assert.ok(Array.isArray(payload.reviews), 'reviews debe ser array');
-assert.ok(payload.reviews.length <= 3, 'más de 3 reseñas');
+assert.ok(payload.reviews.length <= payload.reviewCount || payload.reviewCount === 0, 'cantidad de reseñas inconsistente');
+assert.ok(['places', 'business-profile'].includes(payload.source), 'fuente de reseñas inválida');
 assert.equal('apiKey' in payload, false, 'El payload no puede exponer apiKey');
 
 console.log('Production smoke PASS');
