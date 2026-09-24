@@ -9,14 +9,12 @@ permissions:
   contents: read
 
 jobs:
-  static-audit:
+  quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
 
@@ -25,16 +23,30 @@ jobs:
           node --check app.js
           node --check theme-init.js
           node --check service-pages.js
-          node --check home-ux.js
+          node --check home-redesign.js
+          node --check hero-video.js
+          node --check intro.js
+          node --check floating-whatsapp.js
+          node --check gea-motion.js
           node --check scripts/release.js
           node --check scripts/check.js
+          node --check scripts/quality-gate.js
+          node --check scripts/smoke-production.mjs
+          node --check tests/repository.test.js
 
-      - name: Validate source files
+      - name: Repository tests
+        run: node --test tests/repository.test.js
+
+      - name: Engineering quality gate
+        run: node scripts/quality-gate.js
+
+      - name: Validate source
         run: node scripts/check.js
 
       - name: Simulate production release
         env:
           COMMIT_REF: ${{ github.sha }}
+          DEPLOY_ID: quality-check
           CONTEXT: production
           URL: https://solucionesgea.com
         run: node scripts/release.js
