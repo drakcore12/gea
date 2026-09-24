@@ -213,10 +213,7 @@ function injectHomePriorityStyles(html, file) {
   if (path.relative(root, file) !== 'index.html') return html;
   if (/home-priority\.css/i.test(html)) return html;
 
-  const marker = /(<link\s+rel=["']stylesheet["']\s+href=["'][^"']*home-ux-theme\.css[^"']*["']\s*>)/i;
   const stylesheet = '  <link rel="stylesheet" href="./home-priority.css">';
-
-  if (marker.test(html)) return html.replace(marker, `$1\n${stylesheet}`);
   return html.replace(/<\/head>/i, `${stylesheet}\n</head>`);
 }
 
@@ -284,7 +281,6 @@ const htmlFiles = files.filter(
 const cssFiles = files.filter((file) => file.endsWith('.css'));
 const brandReferenceFiles = [
   path.join(root, 'app.js'),
-  path.join(root, 'home-ux.js'),
   path.join(root, 'scripts', 'check.js'),
 ].filter((file) => fs.existsSync(file));
 
