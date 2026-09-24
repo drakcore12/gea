@@ -25,6 +25,7 @@ flowchart LR
   S -->|contacto iniciado por usuario| W[WhatsApp]
   S -->|lazy /api/google-reviews| N[Netlify Function]
   N -->|API key server-side| G[Google Places]
+  N -->|OAuth server-side + paginación| GBP[Google Business Profile]
   S -->|solo con consentimiento| A[Google Analytics]
   GH[GitHub Actions] -->|quality gates| S
 ```
