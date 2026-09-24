@@ -106,13 +106,13 @@ if (fs.existsSync(path.join(root, 'docs/quality/REQUIREMENTS.md')) &&
 }
 
 const qualityWorkflow = read('.github/workflows/quality.yml');
-for (const command of [
-  'node --test tests/repository.test.js',
-  'node scripts/quality-gate.js',
-  'node scripts/check.js',
-  'node scripts/release.js',
-]) {
-  if (!qualityWorkflow.includes(command)) report(`quality.yml no ejecuta: ${command}`);
+if (!qualityWorkflow.includes('node scripts/verify.js --release')) {
+  report('quality.yml debe ejecutar el pipeline unificado verify.js --release');
+}
+
+const netlifyConfig = read('netlify.toml');
+if (!netlifyConfig.includes('command = "node scripts/verify.js --release"')) {
+  report('Netlify debe bloquear producción con verify.js --release');
 }
 
 const staticWorkflow = read('.github/workflows/static.yml');
