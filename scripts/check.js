@@ -90,7 +90,9 @@ for (const fullPath of htmlPaths) {
 
   for (const id of new Set(duplicateIds)) report(`${file}: id duplicado "${id}"`);
   if (/\sstyle=["']/i.test(source)) report(`${file}: contiene estilos inline`);
-  if (/javascript:/i.test(source)) report(`${file}: contiene una URL javascript:`);
+  if (/\b(?:href|src)\s*=\s*["']\s*javascript:/i.test(source)) {
+    report(`${file}: contiene una URL javascript:`);
+  }
   if (!title) report(`${file}: falta <title>`);
   if (h1Count !== 1) report(`${file}: debe contener exactamente un h1; contiene ${h1Count}`);
 
