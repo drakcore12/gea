@@ -772,26 +772,30 @@ html[data-theme="dark"] .home-ux .site-header {
   min-width:0;
 }
 
-.google-review-author img,
 .google-review-avatar {
+  position:relative;
   width:42px;
   height:42px;
   flex:0 0 42px;
-  border-radius:50%;
-  background:#eef3f8;
-}
-
-.google-review-author img {
-  object-fit:cover;
-}
-
-.google-review-avatar {
   display:grid;
   place-items:center;
+  overflow:hidden;
+  border-radius:50%;
+  background:#eef3f8;
   color:var(--gea-blue);
   font-size:.9rem;
   font-weight:900;
   text-transform:uppercase;
+}
+
+.google-review-avatar img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:inherit;
+  background:#eef3f8;
 }
 
 .google-review-author-copy {
