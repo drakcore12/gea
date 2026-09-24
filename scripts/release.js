@@ -173,12 +173,23 @@ function versionLocalAsset(reference, version) {
 }
 
 function injectBuildMeta(html, version) {
-  const withoutExisting = html.replace(/\s*<meta\s+name=["']gea-build["'][^>]*>\s*/gi, '\n');
+  const existing = findHtmlTag(
+    html,
+    'meta',
+    (tag) => readAttribute(tag, 'name')?.toLowerCase() === 'gea-build',
+  );
+  const withoutExisting = existing
+    ? replaceRange(html, existing.start, existing.end, '')
+    : html;
   const buildMeta = `  <meta name="gea-build" content="${version}">`;
-  const viewportPattern = /(<meta\s+name=["']viewport["'][^>]*>)/i;
+  const viewport = findHtmlTag(
+    withoutExisting,
+    'meta',
+    (tag) => readAttribute(tag, 'name')?.toLowerCase() === 'viewport',
+  );
 
-  if (viewportPattern.test(withoutExisting)) {
-    return withoutExisting.replace(viewportPattern, `$1\n${buildMeta}`);
+  if (viewport) {
+    return replaceRange(withoutExisting, viewport.end, viewport.end, `\n${buildMeta}`);
   }
 
   return withoutExisting.replace(/<head>/i, `<head>\n${buildMeta}`);
@@ -187,10 +198,14 @@ function injectBuildMeta(html, version) {
 function protectPreviewFromIndexing(html, context) {
   if (!['deploy-preview', 'branch-deploy'].includes(context)) return html;
 
-  const robotsPattern = /<meta\s+name=["']robots["']\s+content=["'][^"']*["']\s*\/?\s*>/i;
   const previewRobots = '<meta name="robots" content="noindex, nofollow, noarchive">';
+  const robots = findHtmlTag(
+    html,
+    'meta',
+    (tag) => readAttribute(tag, 'name')?.toLowerCase() === 'robots',
+  );
 
-  if (robotsPattern.test(html)) return html.replace(robotsPattern, previewRobots);
+  if (robots) return replaceRange(html, robots.start, robots.end, previewRobots);
   return html.replace(/<head>/i, `<head>\n  ${previewRobots}`);
 }
 
@@ -216,14 +231,18 @@ function versionHtmlAssets(html, version) {
 }
 
 function versionCssImports(css, version) {
-  return css.replace(
-    /@import\s+url\(\s*(["']?)([^"')]+\.css(?:\?[^"')#]*)?(?:#[^"')]*)?)\1\s*\)/gi,
-    (match, quote, reference) => {
-      const versioned = versionLocalAsset(reference, version);
-      const wrapper = quote || "'";
-      return `@import url(${wrapper}${versioned}${wrapper})`;
-    },
-  );
+  const imports = cssImportReferences(css);
+  if (!imports.length) return css;
+
+  let updated = css;
+  for (let index = imports.length - 1; index >= 0; index -= 1) {
+    const item = imports[index];
+    if (!item.reference.toLowerCase().includes('.css')) continue;
+    const versioned = versionLocalAsset(item.reference, version);
+    updated = replaceRange(updated, item.start, item.end, `'${versioned}'`);
+  }
+
+  return updated;
 }
 
 function injectBuildHeader(version) {
@@ -232,11 +251,19 @@ function injectBuildHeader(version) {
 
   const source = fs.readFileSync(headersPath, 'utf8');
   const buildHeader = `  X-GEA-Build: ${version}`;
-  const updated = /^\s*X-GEA-Build:\s*.*$/im.test(source)
-    ? source.replace(/^\s*X-GEA-Build:\s*.*$/im, buildHeader)
-    : source.replace(/^\/\*\s*$/m, `/*\n${buildHeader}`);
+  const lines = source.split(/\r?\n/);
+  const buildHeaderIndex = lines.findIndex(
+    (line) => line.trim().toLowerCase().startsWith('x-gea-build:'),
+  );
 
-  fs.writeFileSync(headersPath, updated);
+  if (buildHeaderIndex >= 0) {
+    lines[buildHeaderIndex] = buildHeader;
+  } else {
+    const headerBlockIndex = lines.findIndex((line) => line.trim() === '/*');
+    lines.splice(headerBlockIndex >= 0 ? headerBlockIndex + 1 : 0, 0, buildHeader);
+  }
+
+  fs.writeFileSync(headersPath, lines.join('\n'));
 }
 
 const commit = readCommit();
