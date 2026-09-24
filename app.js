@@ -468,6 +468,175 @@
     });
   }
 
+  function initializeGoogleReviews() {
+    const section = document.querySelector('[data-google-reviews]');
+    if (!section) return;
+
+    const ratingElement = section.querySelector('[data-google-rating]');
+    const reviewCountElement = section.querySelector('[data-google-review-count]');
+    const starsElement = section.querySelector('[data-google-stars]');
+    const listElement = section.querySelector('[data-google-review-list]');
+    const noticeElement = section.querySelector('[data-google-reviews-notice]');
+    const profileLink = section.querySelector('[data-google-profile-link]');
+    let hasLoaded = false;
+
+    const starString = (rating) => {
+      const rounded = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
+      return `${'★'.repeat(rounded)}${'☆'.repeat(5 - rounded)}`;
+    };
+
+    const setFallback = () => {
+      section.classList.add('is-fallback');
+      listElement?.setAttribute('aria-busy', 'false');
+      if (reviewCountElement) reviewCountElement.textContent = 'Consulta las calificaciones y opiniones directamente en Google.';
+      if (noticeElement) {
+        noticeElement.textContent = 'La conexión en tiempo real con Google todavía no está configurada. El perfil oficial sigue disponible mediante el botón superior.';
+      }
+    };
+
+    const renderReviews = (payload) => {
+      section.classList.remove('is-fallback');
+
+      if (profileLink && payload.googleProfileUrl) {
+        profileLink.href = payload.googleProfileUrl;
+      }
+
+      if (ratingElement) {
+        ratingElement.textContent = Number.isFinite(payload.rating)
+          ? Number(payload.rating).toFixed(1)
+          : '—';
+      }
+
+      if (starsElement) {
+        starsElement.textContent = starString(payload.rating);
+        starsElement.setAttribute('aria-label', `${payload.rating || 0} de 5 estrellas`);
+      }
+
+      if (reviewCountElement) {
+        const count = Number(payload.reviewCount) || 0;
+        reviewCountElement.textContent = count === 1
+          ? '1 calificación publicada en Google'
+          : `${count.toLocaleString('es-CO')} calificaciones publicadas en Google`;
+      }
+
+      if (!listElement) return;
+      listElement.replaceChildren();
+      listElement.setAttribute('aria-busy', 'false');
+
+      const reviews = Array.isArray(payload.reviews) ? payload.reviews : [];
+      reviews.forEach((review) => {
+        const card = document.createElement('article');
+        card.className = 'google-review-card';
+
+        const author = document.createElement('div');
+        author.className = 'google-review-author';
+
+        if (review.author?.photoUri) {
+          const image = document.createElement('img');
+          image.src = review.author.photoUri;
+          image.alt = '';
+          image.width = 42;
+          image.height = 42;
+          image.loading = 'lazy';
+          image.decoding = 'async';
+          image.referrerPolicy = 'no-referrer';
+          author.appendChild(image);
+        }
+
+        const authorCopy = document.createElement('div');
+        authorCopy.className = 'google-review-author-copy';
+
+        const authorName = document.createElement(review.author?.uri ? 'a' : 'strong');
+        authorName.textContent = review.author?.name || 'Usuario de Google';
+        if (authorName instanceof HTMLAnchorElement) {
+          authorName.href = review.author.uri;
+          authorName.target = '_blank';
+          authorName.rel = 'noopener noreferrer';
+        }
+        authorCopy.appendChild(authorName);
+
+        if (review.relativeTime) {
+          const time = document.createElement('small');
+          time.textContent = review.relativeTime;
+          authorCopy.appendChild(time);
+        }
+
+        author.appendChild(authorCopy);
+        card.appendChild(author);
+
+        const stars = document.createElement('div');
+        stars.className = 'google-review-stars';
+        stars.textContent = starString(review.rating);
+        stars.setAttribute('aria-label', `${review.rating || 0} de 5 estrellas`);
+        card.appendChild(stars);
+
+        if (review.text) {
+          const text = document.createElement('p');
+          text.className = 'google-review-text';
+          text.textContent = review.text;
+          card.appendChild(text);
+        }
+
+        if (review.googleMapsUri) {
+          const source = document.createElement('a');
+          source.className = 'google-review-source-link';
+          source.href = review.googleMapsUri;
+          source.target = '_blank';
+          source.rel = 'noopener noreferrer';
+          source.textContent = 'Ver en Google Maps';
+          card.appendChild(source);
+        }
+
+        listElement.appendChild(card);
+      });
+
+      if (!reviews.length) {
+        section.classList.add('is-fallback');
+      }
+
+      if (noticeElement) {
+        noticeElement.textContent = payload.orderingNotice ||
+          'Opiniones proporcionadas por Google Maps y atribuidas a sus autores.';
+      }
+    };
+
+    const load = async () => {
+      if (hasLoaded) return;
+      hasLoaded = true;
+
+      try {
+        const response = await fetch('/api/google-reviews', {
+          method: 'GET',
+          headers: { accept: 'application/json' },
+          cache: 'no-store',
+        });
+
+        const payload = await response.json();
+        if (!response.ok || !payload?.configured) {
+          setFallback();
+          return;
+        }
+
+        renderReviews(payload);
+      } catch (_) {
+        setFallback();
+      }
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        void load();
+      }, { rootMargin: '420px 0px' });
+
+      observer.observe(section);
+      return;
+    }
+
+    void load();
+  }
+
   function updateFooterYear() {
     document.querySelectorAll('[data-current-year]').forEach((element) => {
       element.textContent = String(new Date().getFullYear());
@@ -484,6 +653,7 @@
     initializeTrackedLinks();
     enhanceGeaCareMembershipCopy();
     initializeHomepageFaq();
+    initializeGoogleReviews();
     updateFooterYear();
   }
 
