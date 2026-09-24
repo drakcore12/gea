@@ -11,12 +11,12 @@ Netlify soluciones-gea es el único despliegue automático de producción.
 2. Quality checks;
 3. CodeQL;
 4. main;
-5. Netlify ejecuta release.js;
+5. Netlify ejecuta `scripts/release.js`;
 6. publicación;
 7. smoke.
 
 ## Gates
-Syntax, repository tests, quality-gate, check fuente, release simulation y check post-release.
+Para desarrollo/CI: syntax, repository tests, quality-gate, check fuente y release simulation. Netlify mantiene un release liviano para no bloquear correcciones de contenido/UI por controles no críticos.
 
 ## Rollback
 1. identificar último deploy sano;
