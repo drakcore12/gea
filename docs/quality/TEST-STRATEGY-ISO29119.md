@@ -29,3 +29,16 @@ Commit SHA, GitHub Actions, deploy Netlify, logs de scripts y evidencia manual c
 
 ## Incidentes
 Todo defecto que alcance producción se registra con impacto, reproducción, causa, corrección y prueba de regresión.
+
+
+## Artefactos controlados
+- REQUIREMENTS.md
+- RISK-REGISTER.md
+- TEST-PLAN.md
+- TEST-DESIGN.md
+- TEST-CASES.md
+- TEST-PROCEDURE.md
+- TRACEABILITY.md
+- TEST-INCIDENTS.md
+- TEST-REPORT.md
+- TEST-COMPLETION-REPORT.md
