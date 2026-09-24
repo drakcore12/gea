@@ -431,9 +431,6 @@ html[data-theme="dark"] .home-ux .site-header {
 .credential-item + .credential-item { border-left:1px solid rgba(255,255,255,.13); }
 .credential-number { font-size:3.2rem; line-height:1; color:#fff; }
 .credential-label { color:rgba(255,255,255,.7); font-size:.76rem; line-height:1.45; }
-.ret ie {}
-.ret ie {}
-.ret ie {}
 .retie-seal { width:78px; height:78px; display:grid; place-items:center; border:2px solid var(--gea-copper); border-radius:50%; color:#fff; font-family:"Space Mono",monospace; font-weight:700; font-size:.76rem; letter-spacing:.08em; box-shadow:inset 0 0 0 5px rgba(254,134,1,.1); transform:rotate(-7deg); }
 .brand-plates { display:flex; gap:7px; justify-content:center; }
 .nominal-plate { padding:7px 9px; border:1px solid rgba(255,255,255,.28); border-radius:7px; font-family:"Space Mono",monospace; font-size:.68rem; letter-spacing:.08em; color:#fff; background:rgba(255,255,255,.06); }
@@ -775,13 +772,26 @@ html[data-theme="dark"] .home-ux .site-header {
   min-width:0;
 }
 
-.google-review-author img {
+.google-review-author img,
+.google-review-avatar {
   width:42px;
   height:42px;
   flex:0 0 42px;
   border-radius:50%;
-  object-fit:cover;
   background:#eef3f8;
+}
+
+.google-review-author img {
+  object-fit:cover;
+}
+
+.google-review-avatar {
+  display:grid;
+  place-items:center;
+  color:var(--gea-blue);
+  font-size:.9rem;
+  font-weight:900;
+  text-transform:uppercase;
 }
 
 .google-review-author-copy {
@@ -875,6 +885,11 @@ html[data-theme="dark"] .google-reviews-heading h3 {
 
 html[data-theme="dark"] .google-rating-g {
   border-color:rgba(255,255,255,.14);
+}
+
+html[data-theme="dark"] .google-review-avatar {
+  background:rgba(255,255,255,.1);
+  color:#fff;
 }
 
 html[data-theme="dark"] .google-business-location {
