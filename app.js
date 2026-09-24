@@ -478,6 +478,7 @@
     const listElement = section.querySelector('[data-google-review-list]');
     const noticeElement = section.querySelector('[data-google-reviews-notice]');
     const profileLink = section.querySelector('[data-google-profile-link]');
+    const writeReviewLink = section.querySelector('[data-google-write-review-link]');
     const secondaryProfileLink = section.querySelector('[data-google-profile-link-secondary]');
     const directionsLink = section.querySelector('[data-google-directions-link]');
     const addressElement = section.querySelector('[data-google-address]');
@@ -507,9 +508,19 @@
     const renderReviews = (payload) => {
       section.classList.remove('is-fallback');
 
-      if (payload.googleProfileUrl) {
-        if (profileLink) profileLink.href = payload.googleProfileUrl;
-        if (secondaryProfileLink) secondaryProfileLink.href = payload.googleProfileUrl;
+      if (payload.googleProfileUrl && profileLink) {
+        profileLink.href = payload.googleProfileUrl;
+      }
+
+      if (writeReviewLink && payload.writeReviewUrl) {
+        writeReviewLink.href = payload.writeReviewUrl;
+      }
+
+      if (secondaryProfileLink) {
+        secondaryProfileLink.href =
+          payload.reviewsUrl ||
+          payload.googleProfileUrl ||
+          secondaryProfileLink.href;
       }
 
       if (addressElement && payload.address) {
@@ -521,9 +532,11 @@
       const hasLocation = Number.isFinite(latitude) && Number.isFinite(longitude);
 
       if (directionsLink) {
-        directionsLink.href = hasLocation
-          ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${latitude},${longitude}`)}`
-          : (payload.googleProfileUrl || directionsLink.href);
+        directionsLink.href =
+          payload.directionsUrl ||
+          (hasLocation
+            ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${latitude},${longitude}`)}`
+            : (payload.googleProfileUrl || directionsLink.href));
       }
 
       if (mapCard && hasLocation) {
