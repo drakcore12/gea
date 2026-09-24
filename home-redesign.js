@@ -147,7 +147,7 @@
   function startCounters() {
     if (countersStarted) return;
     countersStarted = true;
-    counters.forEach(animateCounter);
+    counters.forEach((counter) => animateCounter(counter));
   }
 
   function activateServiceCards() {
