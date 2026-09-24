@@ -488,8 +488,11 @@
     const addressElement = section.querySelector('[data-google-address]');
     const mapCard = section.querySelector('[data-google-map-card]');
     const mapPlaceholder = section.querySelector('[data-google-map-placeholder]');
-    const evidenceGallery = section.querySelector('[data-google-evidence-gallery]');
-    const evidenceLink = section.querySelector('[data-google-evidence-link]');
+    const evidenceSection = document.querySelector('[data-google-evidence-section]');
+    const evidenceGallery = document.querySelector('[data-google-evidence-gallery]');
+    const evidenceLink = document.querySelector('[data-google-evidence-link]');
+    const evidencePrev = document.querySelector('[data-evidence-prev]');
+    const evidenceNext = document.querySelector('[data-evidence-next]');
     let hasLoaded = false;
     let mapObserver = null;
 
@@ -515,11 +518,33 @@
       }
     };
 
+    const scrollEvidence = (direction) => {
+      if (!evidenceGallery) return;
+      const amount = Math.max(280, evidenceGallery.clientWidth * 0.82);
+      evidenceGallery.scrollBy({
+        left: direction * amount,
+        behavior: 'smooth',
+      });
+    };
+
+    evidencePrev?.addEventListener('click', () => scrollEvidence(-1));
+    evidenceNext?.addEventListener('click', () => scrollEvidence(1));
+
+    evidenceGallery?.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollEvidence(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollEvidence(1);
+      }
+    });
+
     const setFallback = () => {
       section.classList.add('is-fallback');
       listElement?.setAttribute('aria-busy', 'false');
       evidenceGallery?.setAttribute('aria-busy', 'false');
-      if (evidenceGallery) evidenceGallery.hidden = true;
+      if (evidenceSection) evidenceSection.hidden = true;
       if (reviewCountElement) reviewCountElement.textContent = 'Consulta las calificaciones y opiniones directamente en Google.';
       if (mapPlaceholder) {
         const description = mapPlaceholder.querySelector('span');
@@ -537,6 +562,7 @@
       if (writeReviewLink) writeReviewLink.href = CONFIG.googleWriteReviewUrl;
       if (secondaryProfileLink) secondaryProfileLink.href = CONFIG.googleProfileUrl;
       if (evidenceLink) evidenceLink.href = CONFIG.googleProfileUrl;
+      if (evidenceSection) evidenceSection.hidden = false;
 
       if (addressElement && payload.address) {
         addressElement.textContent = payload.address;
