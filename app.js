@@ -530,16 +530,6 @@
     evidencePrev?.addEventListener('click', () => scrollEvidence(-1));
     evidenceNext?.addEventListener('click', () => scrollEvidence(1));
 
-    evidenceGallery?.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        scrollEvidence(-1);
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        scrollEvidence(1);
-      }
-    });
-
     const setFallback = () => {
       section.classList.add('is-fallback');
       listElement?.setAttribute('aria-busy', 'false');
