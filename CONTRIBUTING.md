@@ -19,10 +19,9 @@ node --check service-pages.js
 node --check home-redesign.js
 node --check scripts/check.js
 node --check scripts/release.js
-node --check scripts/quality-gate.js
-node --test tests/repository.test.js
-node scripts/quality-gate.js
-node scripts/check.js
+node scripts/verify.js
+# Antes de release:
+node scripts/verify.js --release
 ```
 
 ## UI
