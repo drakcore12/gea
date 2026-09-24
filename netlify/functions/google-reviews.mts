@@ -1,5 +1,5 @@
 const GOOGLE_PROFILE_URL = 'https://share.google/o8vbV41rlIalXuJp7';
-const FALLBACK_QUERY = 'Soluciones GEA Ingeniería Integral Medellín Colombia';
+const GOOGLE_PLACE_ID = 'ChIJRe3_2HIrRI4RrBVCtwBbwqk';
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -11,28 +11,8 @@ function json(data: unknown, status = 200) {
   });
 }
 
-async function resolvePlaceId(apiKey: string) {
-  const configuredPlaceId = Netlify.env.get('GOOGLE_PLACE_ID')?.trim();
-  if (configuredPlaceId) return configuredPlaceId;
-
-  const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'X-Goog-Api-Key': apiKey,
-      'X-Goog-FieldMask': 'places.id,places.displayName',
-    },
-    body: JSON.stringify({
-      textQuery: FALLBACK_QUERY,
-      languageCode: 'es',
-      regionCode: 'CO',
-      maxResultCount: 1,
-    }),
-  });
-
-  if (!response.ok) return null;
-  const payload = await response.json();
-  return payload?.places?.[0]?.id || null;
+function resolvePlaceId() {
+  return Netlify.env.get('GOOGLE_PLACE_ID')?.trim() || GOOGLE_PLACE_ID;
 }
 
 function normalizeReview(review: any) {
@@ -69,7 +49,7 @@ export default async (request: Request) => {
   }
 
   try {
-    const placeId = await resolvePlaceId(apiKey);
+    const placeId = resolvePlaceId();
     if (!placeId) {
       return json({
         configured: false,
