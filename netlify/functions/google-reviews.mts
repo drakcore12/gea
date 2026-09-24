@@ -82,6 +82,7 @@ export default async (request: Request) => {
       'formattedAddress',
       'location',
       'googleMapsLinks',
+      'photos',
     ].join(',');
 
     const response = await fetch(
@@ -107,6 +108,22 @@ export default async (request: Request) => {
       ? place.reviews.slice(0, 3).map(normalizeReview)
       : [];
 
+    const photos = Array.isArray(place?.photos)
+      ? place.photos.slice(0, 6).map((photo: any) => ({
+          src: typeof photo?.name === 'string' && photo.name.startsWith(`places/${placeId}/photos/`)
+            ? `/api/google-photo?name=${encodeURIComponent(photo.name)}`
+            : null,
+          width: Number(photo?.widthPx) || null,
+          height: Number(photo?.heightPx) || null,
+          attribution: Array.isArray(photo?.authorAttributions)
+            ? photo.authorAttributions
+                .map((author: any) => String(author?.displayName || '').trim())
+                .filter(Boolean)
+                .slice(0, 2)
+            : [],
+        })).filter((photo: any) => photo.src)
+      : [];
+
     return json({
       configured: true,
       placeId,
@@ -122,6 +139,7 @@ export default async (request: Request) => {
         ? { latitude: place.location.latitude, longitude: place.location.longitude }
         : null,
       orderingNotice: 'Mostramos hasta 3 opiniones seleccionadas por relevancia por Google Maps.',
+      photos,
       reviews,
     });
   } catch {
