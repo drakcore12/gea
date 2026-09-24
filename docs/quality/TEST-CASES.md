@@ -4,7 +4,7 @@
 - **TC-002** Formulario con campos, labels y envío WhatsApp.
 - **TC-003** Enlaces tel: y número oficial.
 - **TC-004** Horarios y revisión responsive.
-- **TC-005** Contrato de /api/google-reviews.
+- **TC-005** Contrato de /api/google-reviews: fallback Places y listado completo paginado con Business Profile.
 - **TC-006** CTA directo para escribir reseña.
 - **TC-007** Perfil/direcciones controlados y mapa lazy.
 - **TC-008** Tema automático/manual.
