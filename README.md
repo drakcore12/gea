@@ -34,14 +34,14 @@ node --check service-pages.js
 node --check home-redesign.js
 node --check scripts/release.js
 node --check scripts/check.js
-node --check scripts/quality-gate.js
-node --test tests/repository.test.js
-node scripts/quality-gate.js
-node scripts/check.js
+node scripts/verify.js
+# Simulación completa de producción:
+node scripts/verify.js --release
 ```
 
 ## CI
-- Quality checks: syntax + tests + quality gate + release simulation.
+- Quality checks: ejecuta el mismo pipeline unificado que producción.
+- Netlify: ejecuta `node scripts/verify.js --release`; un gate fallido bloquea el deploy.
 - CodeQL security: push/PR + semanal.
 - Production smoke: diario/manual.
 - GitHub Pages: preview manual, no producción.
