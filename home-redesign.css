@@ -711,6 +711,78 @@ html[data-theme="dark"] .home-ux .site-header {
   font-size:.82rem;
 }
 
+.google-evidence-heading {
+  width:min(1040px,100%);
+  margin:34px auto 15px;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:18px;
+}
+
+.google-evidence-heading h3 {
+  margin:4px 0 0;
+  color:var(--gea-blue);
+  font-size:clamp(1.35rem,2.3vw,1.8rem);
+}
+
+.google-evidence-heading > a {
+  flex:0 0 auto;
+  color:var(--gea-blue-2);
+  font-size:.86rem;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.google-evidence-gallery {
+  width:min(1040px,100%);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+
+.google-evidence-card {
+  position:relative;
+  min-width:0;
+  aspect-ratio:4/3;
+  margin:0;
+  overflow:hidden;
+  border:1px solid rgba(1,25,73,.12);
+  border-radius:20px;
+  background:#eef3f8;
+  box-shadow:0 14px 36px rgba(1,25,73,.07);
+}
+
+.google-evidence-card img {
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.google-evidence-card figcaption {
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:10px;
+  padding:8px 10px;
+  border-radius:11px;
+  background:rgba(1,25,73,.82);
+  color:#fff;
+  font-size:.7rem;
+  line-height:1.35;
+  backdrop-filter:blur(8px);
+}
+
+.google-evidence-card--loading {
+  background:
+    linear-gradient(100deg,rgba(1,25,73,.03) 20%,rgba(1,25,73,.08) 35%,rgba(1,25,73,.03) 50%),
+    #eef3f8;
+  background-size:200% 100%;
+  animation:googleReviewSkeleton 1.25s linear infinite;
+}
+
 .google-reviews-heading {
   width:min(1040px,100%);
   margin:34px auto 15px;
@@ -865,6 +937,24 @@ html[data-theme="dark"] .google-reviews-section {
   background:#041630;
 }
 
+html[data-theme="dark"] .google-evidence-heading h3,
+html[data-theme="dark"] .google-evidence-heading > a {
+  color:#fff;
+}
+
+html[data-theme="dark"] .google-evidence-card {
+  border-color:rgba(255,255,255,.12);
+  background:#071f45;
+  box-shadow:none;
+}
+
+html[data-theme="dark"] .google-evidence-card--loading {
+  background:
+    linear-gradient(100deg,rgba(255,255,255,.035) 20%,rgba(255,255,255,.085) 35%,rgba(255,255,255,.035) 50%),
+    #071f45;
+  background-size:200% 100%;
+}
+
 html[data-theme="dark"] .google-rating-card,
 html[data-theme="dark"] .google-map-card,
 html[data-theme="dark"] .google-review-card {
@@ -965,9 +1055,14 @@ html[data-theme="dark"] .google-review-card--loading {
     min-height:280px;
   }
 
+  .google-evidence-heading,
   .google-reviews-heading {
     align-items:flex-start;
     flex-direction:column;
+  }
+
+  .google-evidence-gallery {
+    grid-template-columns:1fr 1fr;
   }
 
   .google-review-list {
@@ -980,6 +1075,10 @@ html[data-theme="dark"] .google-review-card--loading {
 }
 
 @media (max-width:420px) {
+  .google-evidence-gallery {
+    grid-template-columns:1fr;
+  }
+
   .google-rating-score strong {
     font-size:4.15rem;
   }
@@ -991,7 +1090,8 @@ html[data-theme="dark"] .google-review-card--loading {
 }
 
 @media (prefers-reduced-motion:reduce) {
-  .google-review-card--loading {
+  .google-review-card--loading,
+  .google-evidence-card--loading {
     animation:none;
   }
 }
