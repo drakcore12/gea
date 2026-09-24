@@ -1076,7 +1076,9 @@ html[data-theme='dark'] .services-hub-page .site-header { background: rgba(1,25,
 .service-detail-page .nav-wrap,
 .services-hub-page .nav-wrap { min-height: 76px; gap: 18px; }
 .service-detail-page .home-nav-cta,
-.services-hub-page .home-nav-cta { white-space: nowrap; border-radius: 999px; padding-inline: 18px; }
+.services-hub-page .home-nav-cta { white-space: nowrap; border-radius: 999px; padding-inline: 18px; background: var(--blue); color: #fff; }
+html[data-theme='dark'] .service-detail-page .home-nav-cta,
+html[data-theme='dark'] .services-hub-page .home-nav-cta { background: #fff; color: var(--blue); }
 @media (max-width: 760px) {
   .gea-footer-inner { grid-template-columns: 1fr auto; gap: 22px 10px; }
   .gea-footer-links { grid-row: 2; grid-column: 1 / -1; flex-wrap: wrap; gap: 10px 24px; }

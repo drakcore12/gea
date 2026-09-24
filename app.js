@@ -10,8 +10,8 @@
     googleProfileUrl: 'https://www.google.com/maps/search/?api=1&query=Soluciones%20G.E.A&query_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk',
     googleWriteReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJRe3_2HIrRI4RrBVCtwBbwqk',
     googleDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Soluciones%20G.E.A&destination_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk',
-    logoPositive: './assets/img/imagotipo-horizontal.svg',
-    logoNegative: './assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg',
+    logoPositive: '/assets/img/imagotipo-horizontal.svg',
+    logoNegative: '/assets/img/Soluciones_GEA_imagotipo_horizontal_blanco.svg',
     themeColors: Object.freeze({ light: '#ffffff', dark: '#011949' }),
   });
 
