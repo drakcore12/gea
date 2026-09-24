@@ -139,14 +139,9 @@ for (const fullPath of googleVerificationPaths) {
 }
 
 const requiredServicePages = [
-  'servicios/index.html',
-  'servicios/fugas-de-agua-y-gas-medellin/index.html',
-  'servicios/mantenimiento-cocinas-comerciales-medellin/index.html',
-  'servicios/redes-internas-de-gas-medellin/index.html',
-  'servicios/servicios-electricos-comerciales-medellin/index.html',
-  'servicios/lavado-de-tanques-medellin/index.html',
-  'servicios/bombas-y-presion-de-agua-medellin/index.html',
-  'servicios/gea-care-mantenimiento-preventivo-negocios-medellin/index.html',
+  'servicios/electricista-medellin/index.html',
+  'servicios/plomero-fugas-agua-medellin/index.html',
+  'servicios/gas-medellin/index.html',
 ];
 
 for (const file of requiredServicePages) {
