@@ -826,12 +826,42 @@ main > section[id^='seccion-gea-'] { scroll-margin-top: 110px; }
 .service-animate { opacity: 0; transform: translateY(18px); }
 .service-animate.is-service-visible { opacity: 1; transform: translateY(0); transition: opacity .45s ease, transform .45s ease, box-shadow .25s ease, border-color .25s ease; }
 
+.service-conditions { padding-block: 12px 32px; }
+.service-conditions-details {
+  max-width: 850px;
+  margin-inline: auto;
+  padding: 0 24px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.service-conditions-details summary {
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+.service-conditions-details summary::-webkit-details-marker { display: none; }
+.service-conditions-details summary::after { content: '+'; color: var(--water); font-size: 25px; font-weight: 400; transition: transform .2s ease; }
+.service-conditions-details[open] summary::after { transform: rotate(45deg); }
+.service-conditions-details ul { margin: 0; padding: 0 0 22px 19px; color: var(--muted); line-height: 1.7; }
+.service-conditions-details summary:focus-visible { outline: 3px solid var(--water); outline-offset: 3px; }
+html[data-theme='dark'] .service-conditions-details { background: #08275c; border-color: #315b96; }
+html[data-theme='dark'] .service-conditions-details summary { color: #eef4ff; }
+html[data-theme='dark'] .service-conditions-details ul { color: #c1cde0; }
+
 @media (max-width: 760px) {
   .service-guide { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; scroll-snap-type: x proximity; }
   .service-guide a { white-space: nowrap; scroll-snap-align: start; }
   .service-detail-page .service-hero::before { width: 70vw; top: -8%; right: -38%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .service-conditions-details summary::after { transition: none; }
   .service-animate { opacity: 1; transform: none; }
   .service-detail-page .service-hero .service-photo,
   .service-detail-page .feature-list li,
