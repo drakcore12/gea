@@ -98,12 +98,18 @@ test('security headers baseline is present', () => {
   assert.match(headers, /object-src 'none'/);
 });
 
-test('Google Places secret stays server-side', () => {
+test('Google review credentials stay server-side', () => {
   const fn = read('netlify/functions/google-reviews.mts');
   const app = read('app.js');
   assert.match(fn, /Netlify\.env\.get\(['"]GOOGLE_API_KEY['"]\)/);
+  assert.match(fn, /GBP_CLIENT_ID/);
+  assert.match(fn, /GBP_CLIENT_SECRET/);
+  assert.match(fn, /GBP_REFRESH_TOKEN/);
+  assert.match(fn, /nextPageToken/);
   assert.doesNotMatch(fn, /AIza[0-9A-Za-z_-]{30,}/);
   assert.doesNotMatch(app, /places\.googleapis\.com/);
+  assert.doesNotMatch(app, /mybusiness\.googleapis\.com/);
+  assert.doesNotMatch(app, /GBP_CLIENT_SECRET|GBP_REFRESH_TOKEN/);
   assert.doesNotMatch(app, /AIza[0-9A-Za-z_-]{30,}/);
 });
 
@@ -128,11 +134,14 @@ test('analytics is consent-driven', () => {
   assert.match(app, /googletagmanager\.com/);
 });
 
-test('reviews and map are lazy initialized', () => {
+test('reviews and map are lazy initialized and reviews can refresh', () => {
   const app = read('app.js');
   assert.match(app, /IntersectionObserver/);
   assert.match(app, /rootMargin:\s*['"]420px 0px['"]/);
   assert.match(app, /iframe\.loading\s*=\s*['"]lazy['"]/);
+  assert.match(app, /scheduleRefresh/);
+  assert.match(app, /document\.visibilityState/);
+  assert.match(app, /force:\s*true/);
 });
 
 test('engineering docs exist', () => {
