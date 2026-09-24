@@ -23,11 +23,8 @@ function normalizeReview(review: any) {
     text: review?.text?.text || review?.originalText?.text || '',
     relativeTime: review?.relativePublishTimeDescription || '',
     publishTime: review?.publishTime || null,
-    googleMapsUri: review?.googleMapsUri || null,
     author: {
       name: author?.displayName || 'Usuario de Google',
-      uri: author?.uri || null,
-      photoUri: author?.photoUri || null,
     },
   };
 }
