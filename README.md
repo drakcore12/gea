@@ -41,7 +41,8 @@ node scripts/verify.js --release
 
 ## CI
 - Quality checks: ejecuta el mismo pipeline unificado que producción.
-- Netlify: ejecuta `node scripts/verify.js --release`; un gate fallido bloquea el deploy.
+- Netlify: ejecuta el release liviano de producción con `node scripts/release.js`.
+- Las verificaciones ampliadas quedan en QA/CI para no convertir una web publicitaria en un pipeline innecesariamente pesado.
 - CodeQL security: push/PR + semanal.
 - Production smoke: diario/manual.
 - GitHub Pages: preview manual, no producción.
