@@ -15,6 +15,23 @@ function resolvePlaceId() {
   return Netlify.env.get('GOOGLE_PLACE_ID')?.trim() || GOOGLE_PLACE_ID;
 }
 
+function safeGooglePhotoUri(value: unknown) {
+  if (typeof value !== 'string' || !value.trim()) return null;
+
+  try {
+    const url = new URL(value);
+    const hostname = url.hostname.toLowerCase();
+    const isGoogleUserContent =
+      hostname === 'googleusercontent.com' ||
+      hostname.endsWith('.googleusercontent.com');
+
+    if (url.protocol !== 'https:' || !isGoogleUserContent) return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 function normalizeReview(review: any) {
   const author = review?.authorAttribution || {};
 
@@ -25,6 +42,7 @@ function normalizeReview(review: any) {
     publishTime: review?.publishTime || null,
     author: {
       name: author?.displayName || 'Usuario de Google',
+      photoUri: safeGooglePhotoUri(author?.photoUri),
     },
   };
 }
