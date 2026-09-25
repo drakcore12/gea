@@ -7,6 +7,7 @@ const pages = [
   '/servicios/plomero-fugas-agua-medellin/',
   '/servicios/gas-medellin/',
   '/privacidad.html',
+  '/condiciones-servicio.html',
 ];
 
 async function get(pathname) {
