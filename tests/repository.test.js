@@ -26,6 +26,7 @@ test('critical pages exist', () => {
     'servicios/plomero-fugas-agua-medellin/index.html',
     'servicios/gas-medellin/index.html',
     'privacidad.html',
+    'condiciones-servicio.html',
   ].forEach((file) => assert.equal(fs.existsSync(path.join(root, file)), true, file));
 });
 
@@ -166,6 +167,9 @@ test('legal and privacy controls are published and consent is explicit', () => {
   assert.match(home, /Autorizo a Soluciones GEA a tratar los datos/i);
   assert.match(home, /Soluciones GEA es una operación independiente/i);
   assert.match(home, /condiciones-servicio\.html/i);
+  assert.match(home, /data-consent-manage/i);
+  const head = home.match(/<head>[\s\S]*?<\/head>/i)?.[0] || '';
+  assert.doesNotMatch(head, /consent-banner/i);
 
   assert.doesNotMatch(privacy, /medición anónima/i);
   assert.match(privacy, /Ley 1581 de 2012/i);
