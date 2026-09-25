@@ -26,6 +26,7 @@ test('critical pages exist', () => {
     'servicios/plomero-fugas-agua-medellin/index.html',
     'servicios/gas-medellin/index.html',
     'privacidad.html',
+    'condiciones-servicio.html',
   ].forEach((file) => assert.equal(fs.existsSync(path.join(root, file)), true, file));
 });
 
@@ -153,4 +154,31 @@ test('engineering docs exist', () => {
     'docs/security/THREAT-MODEL.md',
     'docs/operations/RELEASE-ROLLBACK.md',
   ].forEach((file) => assert.equal(fs.existsSync(path.join(root, file)), true, file));
+});
+
+
+test('legal and privacy controls are published and consent is explicit', () => {
+  const home = read('index.html');
+  const privacy = read('privacidad.html');
+  const terms = read('condiciones-servicio.html');
+  const sitemap = read('sitemap.xml');
+
+  assert.match(home, /id=["']privacy-consent["'][^>]*type=["']checkbox["'][^>]*required/i);
+  assert.match(home, /Autorizo a Soluciones GEA a tratar los datos/i);
+  assert.match(home, /Soluciones GEA es una operación independiente/i);
+  assert.match(home, /condiciones-servicio\.html/i);
+  assert.match(home, /data-consent-manage/i);
+  const head = home.match(/<head>[\s\S]*?<\/head>/i)?.[0] || '';
+  assert.doesNotMatch(head, /consent-banner/i);
+
+  assert.doesNotMatch(privacy, /medición anónima/i);
+  assert.match(privacy, /Ley 1581 de 2012/i);
+  assert.match(privacy, /Carrera 141 #62-86/i);
+  assert.match(privacy, /revocatoria de la autorización/i);
+  assert.match(privacy, /Superintendencia de Industria y Comercio/i);
+
+  assert.match(terms, /Condiciones del servicio/i);
+  assert.match(terms, /no pertenece, representa ni actúa por cuenta de EPM/i);
+  assert.match(terms, /Superintendencia de Industria y Comercio/i);
+  assert.match(sitemap, /condiciones-servicio\.html/i);
 });
