@@ -176,9 +176,12 @@ test('legal and privacy controls are published and consent is explicit', () => {
   assert.match(privacy, /Carrera 141 #62-86/i);
   assert.match(privacy, /revocatoria de la autorización/i);
   assert.match(privacy, /Superintendencia de Industria y Comercio/i);
+  assert.match(privacy, /solucionesgea\.oficial@gmail\.com/i);
 
   assert.match(terms, /Condiciones del servicio/i);
   assert.match(terms, /no pertenece, representa ni actúa por cuenta de EPM/i);
   assert.match(terms, /Superintendencia de Industria y Comercio/i);
+  assert.match(terms, /solucionesgea\.oficial@gmail\.com/i);
+  assert.match(home, /"email":"solucionesgea\.oficial@gmail\.com"/i);
   assert.match(sitemap, /condiciones-servicio\.html/i);
 });
