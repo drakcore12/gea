@@ -6,7 +6,7 @@ Versión: 1.0
 ## Condiciones de prueba
 - navegación y descubrimiento de servicios;
 - contacto por llamada/WhatsApp;
-- disponibilidad y fallback de Google Reviews;
+- integridad y disponibilidad del snapshot local de Google Reviews;
 - consentimiento de Analytics;
 - tema/intro/reduced-motion;
 - SEO y datos estructurados;
@@ -17,8 +17,8 @@ Versión: 1.0
 ## Técnicas
 - clases válidas/inválidas para formulario;
 - boundary values para rating 0..5 y reviewCount >= 0;
-- negative testing cuando Google falla;
-- contract testing del DTO público;
+- negative testing sin JavaScript y sin conectividad con Google;
+- consistencia entre snapshot JSON y contenido HTML;
 - structural testing HTML/SEO;
 - risk-based regression para P0/P1;
 - exploratory testing para geometría responsive y motion.
