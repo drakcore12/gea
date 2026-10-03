@@ -1,22 +1,14 @@
 # ADR-0003 — Google Reviews detrás de serverless
 
-Estado: aceptado  
-Fecha: 2026-09-24
+Estado: sustituido por ADR-0004  
+Fecha original: 2026-09-24  
+Sustituido: 2026-10-03
 
-## Decisión
-El navegador consume solo `/api/google-reviews`. La Function mantiene todas las credenciales en Netlify. Cuando existe OAuth aprobado de Google Business Profile, pagina `accounts.locations.reviews.list` hasta recuperar todas las opiniones. Google Places permanece como fallback para rating, enlaces, ubicación, fotos y hasta tres reseñas destacadas.
+## Contexto histórico
+Esta decisión introdujo `/api/google-reviews`, Google Places y Google Business Profile detrás de una Netlify Function para mantener credenciales fuera del navegador.
 
-## Reglas
-- ninguna API key, client secret ni refresh token en cliente;
-- Business Profile API tiene prioridad cuando está configurada;
-- Places funciona como degradación segura;
-- el endpoint usa caché CDN corta y durable para limitar cuota sin almacenar datos sensibles en el navegador;
-- contenido externo se inserta con `textContent`;
-- URLs de navegación controladas por GEA;
-- Place ID controlado;
-- todas las reseñas disponibles se muestran cuando Business Profile API responde correctamente;
-- la UI refresca periódicamente solo con la pestaña visible;
-- error externo => fallback, no bloqueo.
+## Motivo de sustitución
+La necesidad actual no requiere datos en tiempo real. Mantener una integración externa añadía coste operativo, cuota, latencia, superficie de fallo y complejidad innecesaria para una sección que cambia con poca frecuencia.
 
-## Riesgos residuales
-Cuota/coste, latencia, revocación OAuth, disponibilidad de Google y eventual inconsistencia en páginas posteriores del listado de reseñas. Se mitigan con paginación defensiva, caché CDN, fallback, lazy loading y smoke monitoring.
+## Decisión vigente
+Ver **ADR-0004 — Snapshot local de reputación y evidencias**. El runtime ya no consume Google Reviews/Places API y las Functions asociadas se retiran.
