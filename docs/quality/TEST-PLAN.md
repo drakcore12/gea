@@ -5,13 +5,13 @@ Versión: 1.0
 Fecha: 2026-09-24
 
 ## Alcance
-Homepage, páginas de servicios, formulario/contacto, tema/intro, SEO técnico, Google Reviews, Netlify Function, release y headers.
+Homepage, páginas de servicios, formulario/contacto, tema/intro, SEO técnico, snapshot local de reseñas/evidencias, release y headers.
 
 ## Fuera de alcance
-Disponibilidad interna de WhatsApp/Google/Netlify y pruebas intrusivas contra terceros.
+Disponibilidad interna de WhatsApp/Google/Netlify y pruebas intrusivas contra terceros. La veracidad del snapshot se valida editorialmente contra evidencia externa al actualizarlo.
 
 ## Riesgos
-R-01 XSS/inyección; R-02 secreto expuesto; R-03 lead roto; R-04 SEO roto; R-05 layout móvil; R-06 proveedor Google; R-07 release/cache mezclado; R-08 accesibilidad.
+R-01 XSS/inyección; R-02 secreto expuesto; R-03 lead roto; R-04 SEO roto; R-05 layout móvil; R-06 snapshot de reputación desactualizado; R-07 release/cache mezclado; R-08 accesibilidad.
 
 ## Técnicas
 Análisis estático, pruebas negativas/fallback, contrato, smoke, revisión responsive y regresión basada en requisitos.
