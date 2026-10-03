@@ -5,7 +5,7 @@ Fecha: 2026-09-24
 Estado: baseline vivo
 
 ## Alcance
-Arquitectura static/serverless, SEO técnico, release, headers, Google Reviews y controles del repositorio.
+Arquitectura static-first, SEO técnico, release, headers, snapshot local de Google Reviews y controles del repositorio.
 
 ## Evidencia requerida por release
 - Quality checks verde.
