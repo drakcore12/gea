@@ -4,9 +4,9 @@
 - **TC-002** Formulario con campos, labels y envío WhatsApp.
 - **TC-003** Enlaces tel: y número oficial.
 - **TC-004** Horarios y revisión responsive.
-- **TC-005** Contrato de /api/google-reviews: fallback Places y listado completo paginado con Business Profile.
+- **TC-005** Snapshot local: rating, total, fecha de verificación y reseñas destacadas coinciden con la evidencia versionada.
 - **TC-006** CTA directo para escribir reseña.
-- **TC-007** Perfil/direcciones controlados y mapa lazy.
+- **TC-007** Perfil, escritura de reseña y direcciones usan enlaces externos explícitos sin iframe/API.
 - **TC-008** Tema automático/manual.
 - **TC-009** Intro: ver, saltar, Escape y reduced-motion.
 - **TC-010** Analytics no se carga estáticamente antes de consentimiento.
@@ -14,8 +14,8 @@
 - **TC-012** Sinks de alto riesgo + CodeQL.
 - **TC-013** Matriz 320/360/390/768/1024/1440 px.
 - **TC-014** Labels y navegación Tab/Shift+Tab/Enter/Escape.
-- **TC-015** Reviews/mapa diferidos.
-- **TC-016** Fallback ante Google no disponible.
+- **TC-015** Reviews visibles en HTML y evidencias servidas desde assets locales.
+- **TC-016** Sin Google o sin JavaScript, snapshot y evidencias siguen visibles.
 - **TC-017** Versionado de release.
 - **TC-018** CSP/HSTS/nosniff/Referrer/Permissions.
 - **TC-019** Límites de tamaño.
@@ -41,7 +41,7 @@
 4. Solo teclado.
 5. Intro y reduced-motion.
 6. Formulario válido/inválido.
-7. Google rating/mapa/direcciones/reseña.
+7. Snapshot de rating/reseñas, enlaces de Google y evidencias locales.
 8. Sin scroll horizontal.
 9. Footer/nav sin solapes.
 10. Registrar navegador, viewport, commit y resultado.
