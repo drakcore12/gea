@@ -7,7 +7,7 @@ Fecha: 2026-09-24
 Establecer una baseline reproducible de arquitectura, QA, seguridad y documentación para GEA.
 
 ## Entregables
-- arquitectura + 3 ADR;
+- arquitectura + ADR versionados;
 - requisitos + trazabilidad;
 - modelo ISO/IEC 25010;
 - estrategia/plan/diseño/procedimiento/casos ISO/IEC/IEEE 29119;
