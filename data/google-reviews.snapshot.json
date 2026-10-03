@@ -1,0 +1,37 @@
+{
+  "snapshot": {
+    "verifiedMonth": "2026-09",
+    "source": "Google Maps",
+    "realtime": false,
+    "note": "Snapshot local verificado. Consultar el perfil oficial de Google para cambios posteriores."
+  },
+  "business": {
+    "name": "Soluciones G.E.A",
+    "rating": 4.8,
+    "reviewCount": 27,
+    "address": "Cra. 141 #62-86, Medellín, Antioquia",
+    "profileUrl": "https://share.google/o8vbV41rlIalXuJp7",
+    "writeReviewUrl": "https://search.google.com/local/writereview?placeid=ChIJRe3_2HIrRI4RrBVCtwBbwqk",
+    "directionsUrl": "https://www.google.com/maps/dir/?api=1&destination=Soluciones%20G.E.A&destination_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk"
+  },
+  "reviews": [
+    {
+      "author": "Lala Vasquez Restrepo",
+      "rating": 5,
+      "relativeTimeAtSnapshot": "hace 1 mes",
+      "text": "Me ayudaron muchísimo en un momento muy complicado, da gusto encontrar empresas asi. Excelente servicio y entrega muy rápida...100 porciento recomendable."
+    },
+    {
+      "author": "Valentina Vásquez Restrepo",
+      "rating": 5,
+      "relativeTimeAtSnapshot": "hace 1 mes",
+      "text": "Son muy profesionales y hacen muy bien el trabajo. Altamente recomendado 👌"
+    },
+    {
+      "author": "carlos ariel cuartas gomez",
+      "rating": 5,
+      "relativeTimeAtSnapshot": "hace 1 mes",
+      "text": "Muy cumplidos responsables recomendados"
+    }
+  ]
+}
