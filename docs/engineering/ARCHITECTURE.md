@@ -1,14 +1,14 @@
 # Arquitectura de Soluciones GEA
 
 Estado: vigente  
-Última revisión: 2026-09-24
+Última revisión: 2026-10-03
 
 ## Propósito
 solucionesgea.com se diseña como una web empresarial rápida, segura, indexable y de baja complejidad operativa. No se introduce un framework o backend persistente mientras los requisitos no lo exijan.
 
 ## Principios
 1. Static-first: HTML, CSS y JavaScript nativos.
-2. Serverless only when needed: secretos y llamadas privilegiadas viven en Netlify Functions.
+2. Serverless only when needed: no mantener Functions cuando el requisito puede resolverse con contenido local estático.
 3. No secrets in browser or repository.
 4. Progressive enhancement y fallbacks ante terceros.
 5. Analytics solo después de consentimiento.
@@ -23,19 +23,17 @@ solucionesgea.com se diseña como una web empresarial rápida, segura, indexable
 flowchart LR
   U[Visitante] -->|HTTPS| S[solucionesgea.com]
   S -->|contacto iniciado por usuario| W[WhatsApp]
-  S -->|lazy /api/google-reviews| N[Netlify Function]
-  N -->|API key server-side| G[Google Places]
-  N -->|OAuth server-side + paginación| GBP[Google Business Profile]
+  S -->|enlaces explícitos del usuario| G[Google Maps / Perfil de Negocio]
   S -->|solo con consentimiento| A[Google Analytics]
   GH[GitHub Actions] -->|quality gates| S
 ```
 
 ## Contenedores
 ### Sitio estático
-Contenido, SEO, navegación, formulario, tema, intro, accesibilidad y renderizado de reseñas.
+Contenido, SEO, navegación, formulario, tema, intro, accesibilidad, reseñas verificadas y evidencias locales.
 
-### Netlify Function google-reviews
-Lee credenciales desde entorno, consulta Google Places, normaliza un DTO mínimo y nunca expone secretos.
+### Snapshot de reputación
+El rating, total y reseñas destacadas se conservan como snapshot local versionado. La página indica que no son datos en tiempo real y ofrece enlaces directos al perfil oficial de Google para consultar cambios posteriores. No existe llamada a Google Reviews/Places desde el runtime del sitio.
 
 ### Pipeline
 - `scripts/release.js`: versionado, build metadata, protección de previews.
@@ -46,8 +44,8 @@ Lee credenciales desde entorno, consulta Google Places, normaliza un DTO mínimo
 ### WhatsApp
 Los datos del formulario se validan en navegador y se convierten en un mensaje que el usuario decide enviar. GEA no los persiste en backend propio.
 
-### Google Reviews
-El navegador solicita `/api/google-reviews` cerca del viewport. La Function consulta Google. El cliente usa `textContent` para contenido externo y URLs controladas para navegación. El mapa es lazy.
+### Reseñas y evidencias
+Las reseñas verificadas forman parte del HTML y su fuente auditable se conserva en `data/google-reviews.snapshot.json`. Las evidencias se sirven desde assets locales. Los enlaces a Google solo se abren por acción explícita del usuario.
 
 ### Analytics
 Sin consentimiento no se carga Analytics y ninguna funcionalidad principal depende de él.
@@ -65,13 +63,13 @@ Regla: no crear una hoja global nueva para corregir un override. Se modifica el 
 
 ## Límites de confianza
 - Browser: manipulable, sin secretos.
-- Netlify Function: límite confiable para credenciales.
-- Google/WhatsApp/Analytics/Maps: externos; su fallo no debe romper el sitio.
+- No existe Function ni secreto para reseñas.
+- Google/WhatsApp/Analytics: externos; su fallo no debe romper el contenido principal ni ocultar la reputación ya verificada.
 - GitHub Actions: evidencia reproducible, no sustituto de revisión humana.
 
 ## Degradación
 - Sin JS: la intro no bloquea el contenido.
-- Sin Google: fallback al perfil.
+- Sin Google: el snapshot local y las evidencias siguen visibles; solo fallan los enlaces externos al abrirlos.
 - Sin Analytics: sitio funcional.
 - Error de ruta: 404 explícito.
 
