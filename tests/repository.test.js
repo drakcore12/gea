@@ -149,6 +149,27 @@ test('review snapshot is present in HTML and does not require JavaScript to appe
   assert.doesNotMatch(html, /google-review-card--loading/);
 });
 
+test('home interactive guidance stays lightweight and directly accessible', () => {
+  const html = read('index.html');
+  const runtime = read('home-redesign.js');
+  const motion = read('gea-motion.js');
+  const floating = read('floating-whatsapp.css');
+
+  assert.doesNotMatch(html, /data-gea-intro/);
+  assert.doesNotMatch(html, /intro\.js/);
+  assert.match(html, /data-live-status/);
+  assert.match(html, /data-diagnosis="gas-smell"/);
+  assert.match(html, /data-diagnosis-result/);
+  assert.match(html, /data-coverage-location="Medellín"/);
+  assert.match(html, /prefers-reduced-motion|diagnosis-option/);
+  assert.match(runtime, /America\/Bogota/);
+  assert.match(runtime, /IntersectionObserver/);
+  assert.match(runtime, /initializeQuickDiagnosis/);
+  assert.match(runtime, /initializeCoverage/);
+  assert.match(motion, /prefers-reduced-motion/);
+  assert.match(floating, /prefers-reduced-motion: no-preference/);
+});
+
 test('engineering docs exist', () => {
   [
     'docs/engineering/ARCHITECTURE.md',
