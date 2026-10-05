@@ -114,14 +114,19 @@ async function fetchNewPlaces(apiKey: string) {
   return response.json();
 }
 
-async function fetchLegacyPlaces(apiKey: string) {
+async function fetchLegacyPlaces(
+  apiKey: string,
+  reviewsSort: 'newest' | 'most_relevant',
+  language?: string,
+) {
   const params = new URLSearchParams({
     place_id: GOOGLE_PLACE_ID,
     fields: 'name,rating,user_ratings_total,reviews,formatted_address,url,geometry',
-    reviews_sort: 'newest',
-    language: 'es',
+    reviews_sort: reviewsSort,
     key: apiKey,
   });
+
+  if (language) params.set('language', language);
 
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/place/details/json?${params.toString()}`,
@@ -160,12 +165,13 @@ export default async (request: Request) => {
   }
 
   try {
-    const [newPlace, legacyPlace] = await Promise.all([
+    const [newPlace, legacyNewest, legacyRelevant] = await Promise.all([
       fetchNewPlaces(apiKey),
-      fetchLegacyPlaces(apiKey),
+      fetchLegacyPlaces(apiKey, 'newest', 'es'),
+      fetchLegacyPlaces(apiKey, 'most_relevant'),
     ]);
 
-    if (!newPlace && !legacyPlace) {
+    if (!newPlace && !legacyNewest && !legacyRelevant) {
       return json({
         configured: true,
         reason: 'google_places_failed',
@@ -175,11 +181,15 @@ export default async (request: Request) => {
     const relevant = Array.isArray(newPlace?.reviews)
       ? newPlace.reviews.map(normalizeNewReview)
       : [];
-    const newest = Array.isArray(legacyPlace?.reviews)
-      ? legacyPlace.reviews.map(normalizeLegacyReview)
+    const newest = Array.isArray(legacyNewest?.reviews)
+      ? legacyNewest.reviews.map(normalizeLegacyReview)
       : [];
-    const reviews = mergeUnique(relevant, newest).slice(0, 6);
+    const broadlyRelevant = Array.isArray(legacyRelevant?.reviews)
+      ? legacyRelevant.reviews.map(normalizeLegacyReview)
+      : [];
+    const reviews = mergeUnique(relevant, newest, broadlyRelevant).slice(0, 6);
 
+    const legacyPlace = legacyNewest || legacyRelevant;
     const legacyLocation = legacyPlace?.geometry?.location;
     const latitude = Number(newPlace?.location?.latitude ?? legacyLocation?.lat);
     const longitude = Number(newPlace?.location?.longitude ?? legacyLocation?.lng);
@@ -213,7 +223,7 @@ export default async (request: Request) => {
         newPlace?.googleMapsLinks?.directionsUri ||
         `https://www.google.com/maps/dir/?api=1&destination_place_id=${GOOGLE_PLACE_ID}`,
       orderingNotice:
-        'Reseñas reales de Google combinadas entre relevantes y más recientes.',
+        'Reseñas reales de Google combinadas entre relevantes y más recientes, sin duplicados.',
       reviews,
     });
   } catch {
