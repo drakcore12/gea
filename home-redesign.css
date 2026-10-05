@@ -1663,3 +1663,252 @@ html[data-theme="dark"] .home-ux .gea-faq-item summary:hover {
   }
 }
 /* ---------- /FAQ redesign 2026 ---------- */
+
+
+/* Interactive service guidance */
+.gea-live-status {
+  width: fit-content;
+  max-width: 100%;
+  margin: 18px auto 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  background: rgba(1,25,73,.34);
+  color: rgba(255,255,255,.94);
+  font-size: .82rem;
+  font-weight: 750;
+  backdrop-filter: blur(10px);
+}
+.gea-live-status__dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: #f4b740;
+}
+.gea-live-status.is-open .gea-live-status__dot {
+  background: #57bb2d;
+  box-shadow: 0 0 0 5px rgba(87,187,45,.15);
+}
+.gea-live-status.is-closed .gea-live-status__dot {
+  background: #fe8601;
+}
+
+.quick-diagnosis,
+.coverage-section { background: var(--gea-paper); }
+.safety-section { background: color-mix(in srgb, var(--gea-paper) 93%, var(--gea-blue-2) 7%); }
+
+.diagnosis-options {
+  width: min(1040px,100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 12px;
+}
+.diagnosis-option {
+  --diagnosis-accent: var(--gea-blue-2);
+  min-height: 150px;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  padding: 20px;
+  border: 1px solid var(--gea-line);
+  border-radius: 20px;
+  background: var(--gea-panel);
+  color: var(--gea-blue);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(1,25,73,.055);
+  transition: transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.diagnosis-option > span { font-size: 1.55rem; line-height: 1; }
+.diagnosis-option strong { font-size: .98rem; line-height: 1.25; }
+.diagnosis-option small { color: var(--gea-muted); line-height: 1.4; }
+.diagnosis-option--gas { --diagnosis-accent: var(--gea-gas); }
+.diagnosis-option--water { --diagnosis-accent: var(--gea-water); }
+.diagnosis-option--electric { --diagnosis-accent: var(--gea-copper); }
+.diagnosis-option:hover,
+.diagnosis-option:focus-visible,
+.diagnosis-option.is-selected {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb,var(--diagnosis-accent) 62%,var(--gea-line));
+  box-shadow: 0 16px 34px rgba(1,25,73,.09);
+}
+.diagnosis-option.is-selected {
+  background: color-mix(in srgb,var(--diagnosis-accent) 8%,var(--gea-panel));
+}
+.diagnosis-option:focus-visible,
+.coverage-chips button:focus-visible {
+  outline: 3px solid #ffb52c;
+  outline-offset: 3px;
+}
+.diagnosis-result,
+.coverage-result {
+  width: min(1040px,100%);
+  margin: 18px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 24px;
+  border: 1px solid rgba(0,91,231,.18);
+  border-radius: 22px;
+  background: var(--gea-panel);
+  box-shadow: 0 16px 40px rgba(1,25,73,.07);
+}
+.diagnosis-result[hidden],
+.coverage-result[hidden] { display: none; }
+.diagnosis-result__eyebrow {
+  margin: 0 0 5px;
+  color: var(--gea-blue-2);
+  font-size: .7rem;
+  font-weight: 850;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.diagnosis-result h3 { margin: 0; color: var(--gea-blue); font-size: 1.35rem; }
+.diagnosis-result p:not(.diagnosis-result__eyebrow) { margin: 7px 0 0; color: var(--gea-muted); line-height: 1.55; }
+.diagnosis-result__safety {
+  padding: 10px 12px;
+  border-left: 3px solid var(--gea-copper);
+  background: rgba(254,134,1,.07);
+  color: var(--gea-ink) !important;
+  font-size: .84rem;
+}
+.diagnosis-result__actions { flex: 0 0 auto; display: grid; gap: 9px; justify-items: stretch; }
+.diagnosis-service-link { color: var(--gea-blue-2); font-weight: 800; text-align: center; text-decoration: none; }
+.diagnosis-noscript { text-align: center; }
+
+.safety-grid {
+  width: min(1040px,100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 14px;
+}
+.safety-card {
+  border: 1px solid var(--gea-line);
+  border-radius: 20px;
+  background: var(--gea-panel);
+  box-shadow: 0 10px 26px rgba(1,25,73,.05);
+  overflow: hidden;
+}
+.safety-card summary {
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  color: var(--gea-blue);
+  cursor: pointer;
+  list-style: none;
+}
+.safety-card summary::-webkit-details-marker { display: none; }
+.safety-card summary > span:first-child { font-size: 1.45rem; }
+.safety-card__plus { font-size: 1.35rem; transition: transform .2s ease; }
+.safety-card[open] .safety-card__plus { transform: rotate(45deg); }
+.safety-card > div { padding: 0 18px 18px; color: var(--gea-muted); line-height: 1.6; font-size: .9rem; }
+.safety-card > div p { margin: 0; }
+
+.coverage-chips {
+  width: min(900px,100%);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.coverage-chips button {
+  min-height: 44px;
+  padding: 0 17px;
+  border: 1px solid var(--gea-line);
+  border-radius: 999px;
+  background: var(--gea-panel);
+  color: var(--gea-blue);
+  font: inherit;
+  font-weight: 780;
+  cursor: pointer;
+  transition: transform .18s ease,border-color .18s ease,background .18s ease;
+}
+.coverage-chips button:hover,
+.coverage-chips button.is-selected {
+  transform: translateY(-1px);
+  border-color: rgba(0,91,231,.42);
+  background: rgba(0,91,231,.07);
+}
+.coverage-result > div { display: grid; gap: 5px; }
+.coverage-result strong { color: var(--gea-blue); font-size: 1.15rem; }
+.coverage-result span { color: var(--gea-muted); line-height: 1.5; }
+
+.service-card-electric.is-energized .home-service-icon { animation: gea-electric-icon .65s ease both; }
+.service-card-water.is-energized .home-service-icon { animation: gea-water-icon .7s ease both; }
+.service-card-gas.is-energized .home-service-icon { animation: gea-gas-icon .75s ease both; }
+@keyframes gea-electric-icon {
+  0%,100% { transform: translateY(0) rotate(0); filter: none; }
+  35% { transform: translateY(-2px) rotate(-5deg); filter: drop-shadow(0 0 7px rgba(254,134,1,.55)); }
+  65% { transform: translateY(0) rotate(3deg); }
+}
+@keyframes gea-water-icon {
+  0% { transform: translateY(-5px); opacity: .75; }
+  60% { transform: translateY(2px); opacity: 1; }
+  100% { transform: translateY(0); }
+}
+@keyframes gea-gas-icon {
+  0%,100% { transform: scale(1) rotate(0); }
+  35% { transform: scale(1.06,.96) rotate(-2deg); }
+  65% { transform: scale(.98,1.05) rotate(2deg); }
+}
+
+html[data-theme="dark"] .diagnosis-option,
+html[data-theme="dark"] .diagnosis-result,
+html[data-theme="dark"] .safety-card,
+html[data-theme="dark"] .coverage-chips button,
+html[data-theme="dark"] .coverage-result { background: #071f45; }
+html[data-theme="dark"] .diagnosis-option,
+html[data-theme="dark"] .diagnosis-result h3,
+html[data-theme="dark"] .safety-card summary,
+html[data-theme="dark"] .coverage-chips button,
+html[data-theme="dark"] .coverage-result strong { color: #fff; }
+html[data-theme="dark"] .safety-section { background: #051a39; }
+html[data-theme="dark"] .diagnosis-result__safety { color: #fff !important; }
+
+@media (max-width: 900px) {
+  .diagnosis-options { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .diagnosis-result,
+  .coverage-result { align-items: stretch; flex-direction: column; }
+  .diagnosis-result__actions { width: 100%; }
+  .safety-grid { grid-template-columns: 1fr; }
+  .google-review-list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(86vw,360px);
+    grid-template-columns: none;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 2px 2px 12px;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .google-review-list::-webkit-scrollbar { display: none; }
+  .google-review-card { scroll-snap-align: start; }
+}
+@media (max-width: 560px) {
+  .diagnosis-options { grid-template-columns: 1fr; }
+  .diagnosis-option { min-height: 116px; }
+  .coverage-chips { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diagnosis-option,
+  .coverage-chips button,
+  .safety-card__plus,
+  .home-service-icon { animation: none !important; transition: none !important; transform: none !important; }
+}
