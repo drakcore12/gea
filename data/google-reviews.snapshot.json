@@ -19,19 +19,22 @@
       "author": "Lala Vasquez Restrepo",
       "rating": 5,
       "relativeTimeAtSnapshot": "hace 1 mes",
-      "text": "Me ayudaron muchísimo en un momento muy complicado, da gusto encontrar empresas asi. Excelente servicio y entrega muy rápida...100 porciento recomendable."
+      "text": "Me ayudaron muchísimo en un momento muy complicado, da gusto encontrar empresas asi. Excelente servicio y entrega muy rápida...100 porciento recomendable.",
+      "avatar": "/assets/img/reviews/avatar-lala-vasquez.svg"
     },
     {
       "author": "Valentina Vásquez Restrepo",
       "rating": 5,
       "relativeTimeAtSnapshot": "hace 1 mes",
-      "text": "Son muy profesionales y hacen muy bien el trabajo. Altamente recomendado 👌"
+      "text": "Son muy profesionales y hacen muy bien el trabajo. Altamente recomendado 👌",
+      "avatar": "/assets/img/reviews/avatar-valentina-vasquez.svg"
     },
     {
       "author": "carlos ariel cuartas gomez",
       "rating": 5,
       "relativeTimeAtSnapshot": "hace 1 mes",
-      "text": "Muy cumplidos responsables recomendados"
+      "text": "Muy cumplidos responsables recomendados",
+      "avatar": "/assets/img/reviews/avatar-carlos-cuartas.svg"
     }
   ]
 }
