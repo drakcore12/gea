@@ -479,6 +479,44 @@
     const list = section.querySelector('.google-review-list');
     const notice = section.querySelector('.google-reviews-notice');
 
+    const prepareAvatar = (image, name, photoUri = '') => {
+      const avatar = image.parentElement;
+      const initials = document.createElement('span');
+      initials.className = 'google-review-avatar__fallback';
+      initials.textContent = String(name || 'Google').trim().split(/\s+/)
+        .slice(0, 2).map((part) => part.charAt(0)).join('');
+      avatar.prepend(initials);
+
+      // Keep initials visible until the photo has actually decoded.
+      image.dataset.reviewAvatarSrc = 'true';
+      image.referrerPolicy = 'no-referrer';
+      image.addEventListener('load', () => image.classList.add('is-loaded'));
+      let directPhoto = '';
+      try {
+        const url = new URL(photoUri);
+        if (url.protocol === 'https:' &&
+            (url.hostname === 'googleusercontent.com' || url.hostname.endsWith('.googleusercontent.com'))) {
+          directPhoto = url.href;
+        }
+      } catch { /* No valid Google photo available. */ }
+      image.addEventListener('error', () => {
+        image.classList.remove('is-loaded');
+        if (directPhoto) {
+          const nextSource = directPhoto;
+          directPhoto = '';
+          image.src = nextSource;
+        } else {
+          image.remove();
+        }
+      });
+      if (image.complete && image.naturalWidth > 0) image.classList.add('is-loaded');
+    };
+
+    section.querySelectorAll('.google-review-avatar img').forEach((image) => {
+      const name = image.closest('.google-review-author')?.querySelector('strong')?.textContent;
+      prepareAvatar(image, name);
+    });
+
     const fallbackReviews = Array.from(
       section.querySelectorAll('.google-review-list .google-review-card'),
     ).map((card) => ({
@@ -515,7 +553,7 @@
         merged.push(review);
       });
 
-      return merged.slice(0, 6);
+      return merged.slice(0, 5);
     };
 
     const render = (payload) => {
@@ -561,6 +599,9 @@
           image.loading = 'lazy';
           image.decoding = 'async';
 
+          avatar.appendChild(image);
+          prepareAvatar(image, review.author?.name, review.author?.photoUri);
+
           if (review.author?.photoUri) {
             image.src = `/api/google-review-photo?src=${encodeURIComponent(review.author.photoUri)}`;
           } else if (review.fallbackAvatar) {
@@ -570,8 +611,6 @@
               review.author?.name || 'Usuario de Google',
             )}`;
           }
-
-          avatar.appendChild(image);
 
           const copy = document.createElement('div');
           copy.className = 'google-review-author-copy';
@@ -608,8 +647,8 @@
       }
 
       if (notice) {
-        notice.textContent = reviews.length >= 6
-          ? 'Mostramos 6 reseñas reales de Google, combinando relevantes y recientes.'
+        notice.textContent = reviews.length >= 5
+          ? 'Mostramos 5 reseñas reales de Google, combinando relevantes y recientes.'
           : 'Mostramos las reseñas que Google permite recuperar mediante su API.';
       }
     };

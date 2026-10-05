@@ -85,6 +85,7 @@ export default async (request: Request) => {
     const placeResponse = await fetch(
       `https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}?languageCode=es&regionCode=CO`,
       {
+        signal: AbortSignal.timeout(8000),
         headers: {
           'X-Goog-Api-Key': apiKey,
           'X-Goog-FieldMask': 'reviews',
@@ -105,6 +106,7 @@ export default async (request: Request) => {
     if (!photoUri) return fallback(request, author);
 
     const photoResponse = await fetch(photoUri, {
+      signal: AbortSignal.timeout(8000),
       headers: { accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' },
     });
 

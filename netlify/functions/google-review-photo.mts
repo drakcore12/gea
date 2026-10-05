@@ -26,6 +26,7 @@ export default async (request: Request) => {
 
   try {
     const response = await fetch(photoUri, {
+      signal: AbortSignal.timeout(8000),
       headers: {
         accept: 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
       },

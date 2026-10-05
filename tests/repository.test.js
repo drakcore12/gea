@@ -120,10 +120,10 @@ test('Google review fallback stays published while live API hydrates it', () => 
   assert.doesNotMatch(html, /antes de la verificación/i);
   assert.match(app, /\/api\/google-reviews/);
   assert.match(app, /\/api\/google-review-photo\?src=/);
-  assert.match(app, /merged\.slice\(0, 6\)/);
+  assert.match(app, /merged\.slice\(0, 5\)/);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-reviews.mts')), true);
-  assert.match(read('netlify/functions/google-reviews.mts'), /reviews_sort: 'newest'/);
-  assert.match(read('netlify/functions/google-reviews.mts'), /mergeUnique\(relevant, newest, broadlyRelevant\)\.slice\(0, 6\)/);
+  assert.match(read('netlify/functions/google-reviews.mts'), /fetchLegacyPlaces\(apiKey, 'newest', 'es'\)/);
+  assert.match(read('netlify/functions/google-reviews.mts'), /mergeUnique\(relevant, newest, broadlyRelevant\)\.slice\(0, 5\)/);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-review-photo.mts')), true);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-photo.mts')), false);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-review-avatar.mts')), true);
@@ -151,7 +151,7 @@ test('review snapshot is present in HTML and does not require JavaScript to appe
   const html = read('index.html');
   assert.match(html, /Opiniones destacadas/);
   assert.match(html, /google-review-card/);
-  assert.match(html, /Datos y opiniones verificados en septiembre de 2026/i);
+  assert.match(html, /Calificación y opiniones verificadas en Google en septiembre de 2026/i);
   assert.doesNotMatch(html, /google-review-card--loading/);
 });
 
@@ -238,4 +238,58 @@ test('legal and privacy controls are published and consent is explicit', () => {
   assert.match(terms, /solucionesgea\.oficial@gmail\.com/i);
   assert.match(home, /"email":"solucionesgea\.oficial@gmail\.com"/i);
   assert.match(sitemap, /condiciones-servicio\.html/i);
+});
+
+
+test('Google reviews return five photos even if a legacy request fails', async () => {
+  const { default: handler } = await import('../netlify/functions/google-reviews.mts');
+  const originalFetch = global.fetch;
+  const originalNetlify = global.Netlify;
+  global.Netlify = { env: { get: () => 'test-key' } };
+  global.fetch = async (url) => {
+    if (String(url).includes('maps.googleapis.com')) throw new Error('Legacy unavailable');
+    return Response.json({
+      rating: 4.8, userRatingCount: 27,
+      reviews: Array.from({ length: 7 }, (_, index) => ({
+        rating: 5, text: { text: `Review ${index}` },
+        authorAttribution: { displayName: `Author ${index}`, photoUri: `https://lh3.googleusercontent.com/avatar${index}` },
+      })),
+    });
+  };
+  try {
+    const response = await handler(new Request('https://example.com/api/google-reviews'));
+    assert.equal(response.status, 200);
+    const payload = await response.json();
+    assert.equal(payload.reviews.length, 5);
+    assert.equal(payload.reviews[0].author.photoUri, 'https://lh3.googleusercontent.com/avatar0');
+  } finally {
+    global.fetch = originalFetch;
+    global.Netlify = originalNetlify;
+  }
+});
+
+test('avatar uses the Google photo once, then leaves initials after failure', () => {
+  const source = read('app.js');
+  const body = source.split("const prepareAvatar = (image, name, photoUri = '') => {")[1]
+    .split('\n    };')[0];
+  const prepare = new Function('document', 'image', 'name', 'photoUri', body);
+  const events = {};
+  const classes = new Set();
+  let initials;
+  const image = {
+    parentElement: { prepend: (element) => { initials = element; } },
+    dataset: {}, complete: false,
+    classList: { add: (name) => classes.add(name), remove: (name) => classes.delete(name) },
+    addEventListener: (name, callback) => { events[name] = callback; },
+    remove: () => { image.removed = true; },
+  };
+  prepare({ createElement: () => ({}) }, image, 'Miguel Noreña', 'https://lh3.googleusercontent.com/photo');
+  assert.equal(initials.textContent, 'MN');
+  events.error();
+  assert.equal(image.src, 'https://lh3.googleusercontent.com/photo');
+  events.load();
+  assert.equal(classes.has('is-loaded'), true);
+  events.error();
+  assert.equal(classes.has('is-loaded'), false);
+  assert.equal(image.removed, true);
 });

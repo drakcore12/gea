@@ -103,6 +103,7 @@ async function fetchNewPlaces(apiKey: string) {
   const response = await fetch(
     `https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}?languageCode=es&regionCode=CO`,
     {
+      signal: AbortSignal.timeout(8000),
       headers: {
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': fields,
@@ -130,7 +131,7 @@ async function fetchLegacyPlaces(
 
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/place/details/json?${params.toString()}`,
-    { headers: { accept: 'application/json' } },
+    { signal: AbortSignal.timeout(8000), headers: { accept: 'application/json' } },
   );
 
   if (!response.ok) return null;
@@ -165,11 +166,14 @@ export default async (request: Request) => {
   }
 
   try {
-    const [newPlace, legacyNewest, legacyRelevant] = await Promise.all([
+    const results = await Promise.allSettled([
       fetchNewPlaces(apiKey),
       fetchLegacyPlaces(apiKey, 'newest', 'es'),
       fetchLegacyPlaces(apiKey, 'most_relevant'),
     ]);
+
+    const [newPlace, legacyNewest, legacyRelevant] = results.map((result) =>
+      result.status === 'fulfilled' ? result.value : null);
 
     if (!newPlace && !legacyNewest && !legacyRelevant) {
       return json({
@@ -187,7 +191,7 @@ export default async (request: Request) => {
     const broadlyRelevant = Array.isArray(legacyRelevant?.reviews)
       ? legacyRelevant.reviews.map(normalizeLegacyReview)
       : [];
-    const reviews = mergeUnique(relevant, newest, broadlyRelevant).slice(0, 6);
+    const reviews = mergeUnique(relevant, newest, broadlyRelevant).slice(0, 5);
 
     const legacyPlace = legacyNewest || legacyRelevant;
     const legacyLocation = legacyPlace?.geometry?.location;
