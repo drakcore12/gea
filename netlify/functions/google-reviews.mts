@@ -111,7 +111,13 @@ async function fetchNewPlaces(apiKey: string) {
     },
   );
 
-  if (!response.ok) return null;
+  if (!response.ok) {
+    const payload = await response.json().catch(() => null);
+    const reason = payload?.error?.details?.find((detail: any) =>
+      typeof detail?.reason === 'string')?.reason;
+    const safeReason = /^[A-Z_]{1,80}$/.test(reason || '') ? reason : 'UNKNOWN';
+    throw new Error(`places_http_${response.status}_${safeReason}`);
+  }
   return response.json();
 }
 
@@ -134,9 +140,12 @@ async function fetchLegacyPlaces(
     { signal: AbortSignal.timeout(8000), headers: { accept: 'application/json' } },
   );
 
-  if (!response.ok) return null;
+  if (!response.ok) throw new Error(`legacy_http_${response.status}`);
   const payload = await response.json();
-  if (payload?.status !== 'OK' || !payload?.result) return null;
+  if (payload?.status !== 'OK' || !payload?.result) {
+    const status = /^[A-Z_]{1,80}$/.test(payload?.status || '') ? payload.status : 'UNKNOWN';
+    throw new Error(`legacy_${status}`);
+  }
   return payload.result;
 }
 
@@ -157,6 +166,7 @@ export default async (request: Request) => {
     return json({ error: 'Method not allowed' }, 405);
   }
 
+  try {
   const apiKey = resolveApiKey();
   if (!apiKey) {
     return json({
@@ -165,7 +175,6 @@ export default async (request: Request) => {
     }, 503);
   }
 
-  try {
     const results = await Promise.allSettled([
       fetchNewPlaces(apiKey),
       fetchLegacyPlaces(apiKey, 'newest', 'es'),
@@ -177,9 +186,15 @@ export default async (request: Request) => {
 
     if (!newPlace && !legacyNewest && !legacyRelevant) {
       return json({
-        configured: true,
+        configured: false,
         reason: 'google_places_failed',
-      }, 502);
+        upstream: results.map((result) => {
+          if (result.status === 'fulfilled') return 'empty_response';
+          const message = String(result.reason?.message || '');
+          if (/^(places_http_\d{3}_[A-Z_]+|legacy_(http_\d{3}|[A-Z_]+))$/.test(message)) return message;
+          return result.reason?.name === 'TimeoutError' ? 'timeout' : 'request_failed';
+        }),
+      }, 503);
     }
 
     const relevant = Array.isArray(newPlace?.reviews)
@@ -232,9 +247,9 @@ export default async (request: Request) => {
     });
   } catch {
     return json({
-      configured: true,
+      configured: false,
       reason: 'unexpected_error',
-    }, 502);
+    }, 503);
   }
 };
 
