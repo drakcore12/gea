@@ -44,6 +44,14 @@
     if (price) reactiveSections.push(price);
     setDelay(Array.from(document.querySelectorAll('.price-tag')), 90, 170);
 
+    const diagnosis = document.querySelector('.quick-diagnosis');
+    const safety = document.querySelector('.safety-section');
+    const coverage = document.querySelector('.coverage-section');
+    [diagnosis, safety, coverage].forEach((section) => {
+      addReveal(section, 'section');
+      if (section) reactiveSections.push(section);
+    });
+
     const services = document.querySelector('.services-section');
     addReveal(services, 'section');
     if (services) reactiveSections.push(services);
