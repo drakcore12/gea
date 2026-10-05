@@ -479,26 +479,67 @@
     const list = section.querySelector('.google-review-list');
     const notice = section.querySelector('.google-reviews-notice');
 
+    const fallbackReviews = Array.from(
+      section.querySelectorAll('.google-review-list .google-review-card'),
+    ).map((card) => ({
+      rating: (card.querySelector('.google-review-stars')?.textContent.match(/★/g) || []).length || 5,
+      text: card.querySelector('.google-review-text')?.textContent?.trim() || '',
+      relativeTime: '',
+      author: {
+        name: card.querySelector('.google-review-author-copy strong')?.textContent?.trim() || 'Usuario de Google',
+        photoUri: null,
+      },
+      fallbackAvatar: card.querySelector('.google-review-avatar img')?.getAttribute('src') || '',
+      source: 'verified-fallback',
+    }));
+
     const stars = (value) => {
       const rounded = Math.max(0, Math.min(5, Math.round(Number(value) || 0)));
       return `${'★'.repeat(rounded)}${'☆'.repeat(5 - rounded)}`;
     };
 
+    const reviewKey = (review) => {
+      const name = String(review?.author?.name || '').trim().toLowerCase();
+      const text = String(review?.text || '').trim().toLowerCase();
+      return `${name}::${text}`;
+    };
+
+    const mergeReviews = (liveReviews) => {
+      const seen = new Set();
+      const merged = [];
+
+      [...liveReviews, ...fallbackReviews].forEach((review) => {
+        const key = reviewKey(review);
+        if (!key || seen.has(key)) return;
+        seen.add(key);
+        merged.push(review);
+      });
+
+      return merged.slice(0, 6);
+    };
+
     const render = (payload) => {
-      if (rating && Number.isFinite(payload.rating)) rating.textContent = Number(payload.rating).toFixed(1);
+      if (rating && Number.isFinite(payload.rating)) {
+        rating.textContent = Number(payload.rating).toFixed(1);
+      }
+
       if (ratingStars) {
         ratingStars.textContent = stars(payload.rating);
         ratingStars.setAttribute('aria-label', `${payload.rating || 0} de 5 estrellas`);
       }
+
       if (reviewCount) {
         const count = Number(payload.reviewCount) || 0;
         reviewCount.textContent = count === 1
           ? '1 calificación publicada en Google'
           : `${count.toLocaleString('es-CO')} calificaciones publicadas en Google`;
       }
+
       if (address && payload.address) address.textContent = payload.address;
 
-      const reviews = Array.isArray(payload.reviews) ? payload.reviews : [];
+      const liveReviews = Array.isArray(payload.reviews) ? payload.reviews : [];
+      const reviews = mergeReviews(liveReviews);
+
       if (list && reviews.length) {
         list.replaceChildren();
 
@@ -519,7 +560,17 @@
           image.height = 42;
           image.loading = 'lazy';
           image.decoding = 'async';
-          image.src = `/api/google-review-avatar?author=${encodeURIComponent(review.author?.name || 'Usuario de Google')}`;
+
+          if (review.author?.photoUri) {
+            image.src = `/api/google-review-photo?src=${encodeURIComponent(review.author.photoUri)}`;
+          } else if (review.fallbackAvatar) {
+            image.src = review.fallbackAvatar;
+          } else {
+            image.src = `/api/google-review-avatar?author=${encodeURIComponent(
+              review.author?.name || 'Usuario de Google',
+            )}`;
+          }
+
           avatar.appendChild(image);
 
           const copy = document.createElement('div');
@@ -557,7 +608,9 @@
       }
 
       if (notice) {
-        notice.textContent = 'Calificación, reseñas y autores cargados directamente desde Google Maps.';
+        notice.textContent = reviews.length >= 6
+          ? 'Mostramos 6 reseñas reales de Google, combinando relevantes y recientes.'
+          : 'Mostramos las reseñas que Google permite recuperar mediante su API.';
       }
     };
 
