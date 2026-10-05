@@ -149,9 +149,9 @@ async function fetchLegacyPlaces(
   return payload.result;
 }
 
-function json(data: unknown, status = 200) {
+function json(data: unknown, status = 200, diagnostic = false) {
   return new Response(JSON.stringify(data), {
-    status,
+    status: diagnostic && status === 503 ? 200 : status,
     headers: {
       'content-type': 'application/json; charset=utf-8',
       'cache-control': status === 200
@@ -166,14 +166,16 @@ export default async (request: Request) => {
     return json({ error: 'Method not allowed' }, 405);
   }
 
+  const diagnostic = new URL(request.url).searchParams.get('diagnostic') === '1';
+
   try {
-  const apiKey = resolveApiKey();
-  if (!apiKey) {
-    return json({
-      configured: false,
-      reason: 'missing_api_key',
-    }, 503);
-  }
+    const apiKey = resolveApiKey();
+    if (!apiKey) {
+      return json({
+        configured: false,
+        reason: 'missing_api_key',
+      }, 503, diagnostic);
+    }
 
     const results = await Promise.allSettled([
       fetchNewPlaces(apiKey),
@@ -194,7 +196,7 @@ export default async (request: Request) => {
           if (/^(places_http_\d{3}_[A-Z_]+|legacy_(http_\d{3}|[A-Z_]+))$/.test(message)) return message;
           return result.reason?.name === 'TimeoutError' ? 'timeout' : 'request_failed';
         }),
-      }, 503);
+      }, 503, diagnostic);
     }
 
     const relevant = Array.isArray(newPlace?.reviews)
@@ -249,7 +251,7 @@ export default async (request: Request) => {
     return json({
       configured: false,
       reason: 'unexpected_error',
-    }, 503);
+    }, 503, diagnostic);
   }
 };
 
