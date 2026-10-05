@@ -37,10 +37,10 @@ for (const header of [
 }
 
 const homeHtml = await home.text();
-assert.match(homeHtml, /data-review-snapshot="2026-09"/, 'Falta el snapshot estático de reseñas');
+assert.match(homeHtml, /data-google-reviews/, 'Falta la sección de reseñas conectada a Google');
 assert.match(homeHtml, />4\.8<\//, 'Falta rating verificado 4.8');
 assert.match(homeHtml, /27 calificaciones publicadas en Google/, 'Falta total verificado de calificaciones');
 assert.match(homeHtml, /Lala Vasquez Restrepo/, 'Faltan opiniones verificadas');
-assert.doesNotMatch(homeHtml, /\/api\/google-reviews/, 'La homepage no debe depender de Google Reviews API');
+assert.match(homeHtml, /\/api\/google-map-embed/, 'Falta el mapa de Google servido por Netlify');
 
 console.log('Production smoke PASS');
