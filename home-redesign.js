@@ -197,7 +197,7 @@
     'gas-smell': {
       title: 'Revisión prioritaria de gas',
       copy: 'Por el síntoma, conviene revisar la instalación de gas y descartar una fuga o conexión defectuosa.',
-      safety: 'Si el olor es intenso, sal del lugar y contacta primero la línea de emergencias de tu proveedor. No accione interruptores ni generes llamas.',
+      safety: 'Si el olor es intenso, sal del lugar y contacta primero la línea de emergencias de tu proveedor. No acciones interruptores ni generes llamas.',
       service: '/servicios/gas-medellin/',
       message: 'Hola, Soluciones GEA. Percibo olor a gas y necesito orientación/revisión. Mi ubicación es: ',
     },
