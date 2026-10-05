@@ -20,236 +20,6 @@
   <meta name="twitter:description" content="Electricidad, plomería y gas en Medellín: diagnóstico, reparación e instalaciones para hogares y negocios.">
   <title>Electricista, Plomero y Gas en Medellín | Soluciones GEA</title>
   <link rel="icon" href="./assets/img/isotipo-color-transparente.ico" sizes="any"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/isotipo.svg">
-  <!-- Critical mobile intro path: discover the LCP asset immediately and paint the gate without waiting for the full site CSS. -->
-  <style data-gea-critical-intro>:root {
-  --gea-intro-bg: #ffffff;
-  --gea-intro-ink: #082a58;
-}
-
-.gea-intro {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483000;
-  display: grid;
-  place-items: center;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-  background: var(--gea-intro-bg);
-  isolation: isolate;
-}
-
-/* While the gate owns the viewport, keep the page behind it out of paint/LCP/CLS.
-   visibility preserves layout, so revealing the page later does not move geometry. */
-body[data-gea-intro-active] > :not(.gea-intro) {
-  visibility: hidden;
-}
-
-
-body[data-gea-intro-active] > :not(.gea-intro),
-body[data-gea-intro-active] > :not(.gea-intro) * {
-  animation-play-state: paused !important;
-}
-
-.gea-intro__gate {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  padding: max(28px, env(safe-area-inset-top)) 24px max(28px, env(safe-area-inset-bottom));
-  background:
-    radial-gradient(circle at 50% 45%, rgba(22, 116, 223, 0.055), transparent 34%),
-    var(--gea-intro-bg);
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 320ms ease, visibility 320ms ease, transform 320ms cubic-bezier(.22, .8, .3, 1);
-}
-
-.gea-intro__gate-content {
-  width: min(86vw, 380px);
-  display: grid;
-  justify-items: center;
-  gap: 30px;
-  text-align: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-.gea-intro__gate-logo {
-  display: block;
-  width: clamp(138px, 16vw, 178px);
-  height: auto;
-  filter: drop-shadow(0 20px 38px rgba(8, 42, 88, 0.12));
-}
-
-.gea-intro__gate-actions {
-  display: grid;
-  gap: 12px;
-  width: min(100%, 290px);
-}
-
-.gea-intro__start {
-  width: 100%;
-  min-width: 0;
-  min-height: 54px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 11px;
-  padding: 0 24px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 16px;
-  background: linear-gradient(135deg, #082a58 0%, #0b356f 100%);
-  color: #ffffff;
-  box-shadow: 0 14px 30px rgba(8, 42, 88, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  font: 800 15px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
-  cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
-}
-
-.gea-intro__start svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.gea-intro__secondary {
-  background: transparent;
-  color: var(--gea-intro-ink);
-  border: 1px solid currentColor;
-  box-shadow: none;
-}
-
-.gea-intro__gate.is-leaving {
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(1.015);
-  pointer-events: none;
-}
-
-.gea-intro__start:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, #0b356f 0%, #10427f 100%);
-  box-shadow: 0 18px 34px rgba(8, 42, 88, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-
-.gea-intro__start:active {
-  transform: translateY(0) scale(0.985);
-}
-
-.gea-intro__start:focus-visible {
-  outline: 3px solid #1674df;
-  outline-offset: 4px;
-}
-
-.gea-intro__secondary:hover {
-  background: rgba(22, 116, 223, 0.08);
-}
-
-/* The standalone skip button must never appear on the gate.
-   It becomes visible only after JS moves it into the playing controls. */
-.gea-intro:not(.is-playing) > .gea-intro__skip {
-  display: none !important;
-}
-
-html[data-theme="dark"] .gea-intro {
-  --gea-intro-bg: #011949;
-  --gea-intro-ink: #ffffff;
-  background: #011949;
-}
-
-html[data-theme="dark"] .gea-intro__gate {
-  background:
-    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.08), transparent 36%),
-    #011949;
-}
-
-html[data-theme="dark"] .gea-intro__gate-logo {
-  filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.26));
-}
-
-html[data-theme="dark"] .gea-intro__gate-logo path {
-  fill: #ffffff;
-}
-
-html[data-theme="dark"] .gea-intro__start {
-  border-color: rgba(255, 255, 255, 0.76);
-  background: #ffffff;
-  color: #011949;
-}
-
-html[data-theme="dark"] .gea-intro__secondary {
-  background: transparent;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.76);
-}
-
-html[data-theme="dark"] .gea-intro__secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  border-color: #ffffff;
-}
-
-@media (max-width: 700px), (orientation: portrait) {
-  .gea-intro__gate-content {
-    width: min(84vw, 340px);
-    gap: 26px;
-  }
-
-  .gea-intro__gate-logo {
-    width: clamp(136px, 39vw, 166px);
-  }
-
-  .gea-intro__start {
-    min-height: 52px;
-    border-radius: 15px;
-    font-size: 14px;
-  }
-}
-
-@media (max-height: 520px) and (orientation: landscape) {
-  .gea-intro__gate-content {
-    grid-template-columns: 1fr;
-    width: min(70vw, 320px);
-    gap: 10px;
-    align-items: center;
-  }
-
-  .gea-intro__gate-logo {
-    grid-row: auto;
-    width: min(24vh, 116px);
-  }
-
-  .gea-intro__gate-actions {
-    gap: 8px;
-  }
-
-  .gea-intro__start {
-    min-height: 44px;
-    border-radius: 13px;
-  }
-}
-
-/* No JavaScript: never trap the visitor behind an intro that cannot run. */
-.no-js .gea-intro {
-  display: none !important;
-}
-
-html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
-  visibility: visible !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gea-intro {
-    display: none !important;
-  }
-}
-</style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script>
@@ -285,43 +55,12 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
   <link rel="stylesheet" href="./service-media.css" data-service-media="true" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./hero-video.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./nav-logo.css" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="./intro.css" media="print" onload="this.media='all'">
-  <script src="/intro.js" defer></script>
   <link rel="stylesheet" href="./home-redesign.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./home-gauge-section.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="./no-js.css"></noscript>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"HomeAndConstructionBusiness","@id":"https://solucionesgea.com/#business","name":"Soluciones GEA","alternateName":"Soluciones GEA Ingeniería Integral","url":"https://solucionesgea.com/","telephone":"+573017605677","email":"solucionesgea.oficial@gmail.com","image":"https://solucionesgea.com/assets/img/imagotipo-horizontal.svg","logo":"https://solucionesgea.com/assets/img/imagotipo-horizontal.svg","description":"Servicios técnicos de electricidad, plomería, agua y gas para hogares, comercios y empresas en Medellín y el Valle de Aburrá.","knowsAbout":["instalaciones eléctricas","mantenimiento eléctrico","plomería","fugas de agua","bombas y presión de agua","redes internas de gas","mantenimiento de gas","mantenimiento técnico comercial"],"contactPoint":{"@type":"ContactPoint","telephone":"+573017605677","email":"solucionesgea.oficial@gmail.com","contactType":"customer service","areaServed":"CO","availableLanguage":"es"},"address":{"@type":"PostalAddress","streetAddress":"Carrera 141 #62-86","addressLocality":"Medellín","addressRegion":"Antioquia","addressCountry":"CO"},"areaServed":["Medellín","Bello","Envigado","Itagüí","Sabaneta","La Estrella"],"sameAs":["https://share.google/o8vbV41rlIalXuJp7","https://www.facebook.com/share/1EoStaCKFL/","https://www.instagram.com/solucionesgea_oficial?stkn=MW9mdzRvcW90dGs1NQ==","https://www.tiktok.com/@solucionesgea_oficial"]},{"@type":"ItemList","name":"Servicios principales de Soluciones GEA en Medellín","itemListElement":[{"@type":"ListItem","position":1,"name":"Electricista en Medellín","url":"https://solucionesgea.com/servicios/electricista-medellin/"},{"@type":"ListItem","position":2,"name":"Plomero y fugas de agua en Medellín","url":"https://solucionesgea.com/servicios/plomero-fugas-agua-medellin/"},{"@type":"ListItem","position":3,"name":"Servicio de gas en Medellín","url":"https://solucionesgea.com/servicios/gas-medellin/"}]}]}</script>
 </head>
-<body class="home-ux" data-gea-intro-active>
-  <div class="gea-intro" data-gea-intro role="region" aria-label="Presentación de Soluciones GEA">
-    <!--
-      Critical intro gate is server-rendered so mobile browsers can paint it
-      without waiting for intro.js. JavaScript only enhances it afterwards.
-    -->
-    <div class="gea-intro__gate" data-gea-intro-gate>
-      <div class="gea-intro__gate-content">
-        <svg class="gea-intro__gate-logo" data-gea-intro-gate-logo width="220" height="220" viewBox="90 50 1357 1323" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Soluciones GEA" focusable="false"><title>Soluciones GEA</title><desc>Identidad visual de Soluciones GEA.</desc><g id='a' clip-rule='evenodd' fill-rule='evenodd' shape-rendering='geometricPrecision'><path id='b' d='m767 89-17 1-16 2-7 1-10 2-4 1-15 4-6 2-11 4-5 2-7 3-18 9-7 4-8 5-6 4-4 4-4 2-5 4-7 6-23 23-5 6-8 10-3 5-12 19-8 16-5 7v2l-1 2-3 5-6 9-5 9-4 9-5 9-6 9-4 9-5 9-6 9-3 5-1 2v2l-5 7-17 32-5 7-4 7-4 9-6 9-9 18-5 9-4 5-1 2v2l-3 5-6 9-4 9-6 9-3 6v4l2 4 8 11 7 13 10 14 2 5 3 3 5 8 2 5 2 3 3 3 2 5 3 3 2 3v2l3 3 5 8 6 11 7 11 3 3 2 5 4 5 2 5 3 3 3 5 4 8 11 16 3 5 2 5 6 8 5 10 7 10 3 5 3 7 7 10 3 7 3 3 6 11v2l6 9 1 4 8 13 3 6 5 12 2 2v2l2 2 8 17 4 9 1 5 7 14 8 20 4 11 6 17 6 19 4 14 7 28 2 9 3 15 2 12 2 13 1 7 1 9 1 11 1 14 1 24v14l-1 20-1 10-1 9-2 14-2 5v6l-2 5v5l-2 4v4l-3 11-5 16-1 3-6 15-5 12-3 6-7 12v2l-1 2-9 15-7 11-3 3-1 3-4 5-7 8-2 4-4 5-1 1-8 9-17 17-8 6-6 6-4 2-8 7-12 8-8 4-4 3h525l-2-2-5-2-18-11-4-3-4-4-4-2-4-3-5-4-6-5-27-27-6-7-5-6-8-11-3-4-1-3-3-3-2-3-9-15-4-7-1-4-1-2-2-2-1-2-1-4-2-2-3-7-2-7-2-2-1-3-6-16-5-16-2-8-1-8-2-4-3-16-1-6v-7l-2-7-1-13-1-28 1-32 1-14 1-10 1-8 2-14 2-6v-6l2-11 2-5v-5l2-9 3-8 1-8 6-22 3-6 3-13 6-17 4-11 5-13 2-5 5-12 4-7 2-7 2-2 4-11 9-19 1-2 4-6 2-6 8-13 1-2 1-4 5-9 6-11 4-5 3-5v-2l4-7 4-5 2-5 9-13 7-13 10-16 3-3 7-11 6-11 8-11 4-8 3-3 1-3 3-3 8-14 3-3 2-3 6-11 3-3 1-3 5-6 14-23 9-12 6-9 6-11 5-6 4-6 1-2v-4l-2-4-2-2-1-2-1-4-4-5v-2l-5-9-6-9-5-9-20-38-6-9-5-11-5-7-5-11-5-7-11-22-9-14-1-2-1-4-6-9-16-29-5-11-11-20-6-9v-2l-4-5v-2l-6-10-12-18-3-4-5-6-6-7-20-20-6-5-13-10-12-8-5-3-9-5-14-7-12-5-5-2h-3l-6-3-3-1-7-2h-4l-8-3-4-1-6-1-7-1-15-2-23-1zm38 229h6l4 1 2 1 7 7 2 4 1 3v7l-1 6-2 6v6l-2 10-2 5-1 5-2 11v6l-3 8-1 5-1 10-2 4-1 5-2 16-1 5-2 4-1 5-2 11v6l-3 9-1 5v5l-2 10-2 4-1 5-1 10-2 10-2 4v6l-2 10-3 10v6l1 3 1 2 5 5 4 2h123l6 2 5 2 5 4 5 5 3 6 2 6v12l-1 4-3 6-6 8-4 8-21 32-19 32-5 8-6 8-5 8-2 5-8 11-12 21-9 13-5 8-2 5-6 8-4 8-6 8-5 8-2 5-9 13v2l-2 3-5 8-3 3-2 5-14 23-6 8-1 3-3 3-3 7-9 13-4 8-3 5-3 3-2 3v2l-7 7-2 1-5 2h-4l-4-1-6-3-5-5-2-3-1-3v-12l1-6 3-10 1-5v-5l2-10 2-5 2-10 1-10 4-15 1-10 2-5 2-10 1-11 1-5 3-10 1-5v-5l1-5 3-10 2-15 3-10 2-10 1-12 2-4 2-10 1-6v-9l-1-3-1-2-3-3-4-2-4-1h-17l-1 1h-16-24-8l-56-1-5-2-2-1-3-2-8-8-2-3-1-2-1-3-1-5v-8l1-5 1-3 2-4 4-5 2-5 10-16 11-16 4-8 6-8 23-37 7-13 8-11 7-13 11-16 2-5 5-8 4-5 5-8 2-5 5-8 11-16 21-34 4-8 3-5 3-3 2-5 5-8 9-13 5-8 2-5 5-6 3-5 2-5 6-9 2-2h1l3-3 2-1z' fill='#FE8601'/><path id='c' d='m393 508-1 2-4 6-4 8-3 5-3 3-2 5-15 23-3 5-2 5-3 5-8 13-4 5-8 13-3 5-2 5-23 38-15 23-2 5-4 5-3 5-2 5-3 5-3 3-5 10-6 8-2 5-4 5v2l-3 3-11 20-3 5-3 3-6 12-3 3-9 15v2l-4 5-2 5-4 5v2l-4 5-10 17-10 18-13 26-5 11-2 7-4 7-1 5-3 5-3 8-1 3v3l-3 6-1 6-2 3-2 7-2 11-3 7-3 15-2 12-2 13-1 10-1 15v34l2 9v10l1 8 1 7 1 6 3 14 2 7 3 10 5 15 2 5 3 5 1 5 6 13 2 2v2l6 11 9 15 6 7 4 7 5 5 2 4 4 5 7 8 20 20 12 10 8 6 13 9 15 9 15 8h3l9 5 3 1h3l15 6 7 2 8 2h6l6 2 8 1 11 1h31l7-2h9l11-2 9-2 8-2 12-4 13-5 11-5 19-10 3-3 3-1 3-2 3-3 6-3 5-4 9-7 30-30 3-5 5-5 8-11 8-12 3-5 8-14 2-4 7-15 2-7 2-2 1-3 3-8 1-6 3-6 1-7 3-7 4-18v-6l2-5v-7l2-7 1-11 1-20v-16l-1-22-1-16-2-8v-9l-2-14-2-11-1-5-2-5v-5l-1-5-2-4-2-13-4-11v-4l-2-3-1-4-1-7-2-6-2-3-1-3-1-6-2-3v-3l-1-3-9-24-8-20-8-18-3-7-3-4-1-4-1-2-3-4-11-22-1-4-1-2-4-5-1-4-1-2-6-9v-2l-8-14-7-12-3-5-4-5-2-5-4-5-6-12-3-5-3-3-10-16-2-5-6-8-2-5-5-8-3-3v-2l-3-3-4-8-5-6-5-10-3-3-2-5-8-11-4-8-8-11-4-8-3-5-3-3-5-8-7-11-2-5-4-5v-1zm-27 243h2l16 16 5 6 12 16 5 8 4 7 7 14 3 7 5 13 2 7 5 20v8l2 8 1 20v9l-1 19-2 9v10l-2 7-1 10-1 12v6l1 11 1 4 1 3 1 2h5l5-2 5-3 3-3h1l4-4 4-5 3-4 4-7 2-4 3-7 1-3 1-6 2-3 1-4 1-5v-6l1-2 2-1 3 3 6 8 6 9 6 10 7 13 10 25 2 6 2 7 2 8v5l2 5v6l2 6 1 11v31l-1 12-2 5v5l-2 5v5l-2 7-1 3-4 11-5 11-6 11-2 3-9 13-5 6-12 12-7 6-5 4-4 3-8 5h-2l-5 4-9 4-7 3-5 2h-3l-1 1-3-1v-3l4-8v-3l2-3v-4l2-4v-6l2-5 1-13v-2l-1-16-3-12-4-12-2-5-5-10-4-7-2-3-5-6-1-3-7-8-3-4-4-6-8-13-4-9-2-5-3-9-1-5h-2l-17 17-8 10-8 12-3 5-8 16-3 7v3l-2 3v3l-2 2-1 5-1 4-2 12v33l2 11 3 12 1 3 4 10 4 9 2 2-1 3h-3l-4-2-5-2-11-6-5-3-7-5-4-3-5-4-20-20-4-5-8-12-4-7-6-12v-3l-4-7v-3l-2-3-2-7-2-8-2-10-1-9-1-8v-23l1-9 1-8 1-6 1-7 2-4v-5l4-11v-4l2-2v-3l4-10 8-18 2-2v-2l6-11 6-10 16-24 8-11 3-4 7-8 2-4 8-9 14-20 4-6 5-8 3-5 4-7v-2l5-8 3-8 2-2 7-21 1-4v-4l2-4 2-10 1-11v-13z' fill='#57BB2D'/><path id='d' d='m1145 510-4 4-7 10-1 3-3 3-1 3-2 3-5 6-2 3-3 6-3 3-2 5-7 9-5 9-3 3-6 9-9 14-13 20-11 17-6 11-8 11-13 21-5 8-2 5-3 3-4 7-3 5v2l-2 3-2 2-2 3v2l-4 5-10 18-6 11-1 2v2l-1 2-3 4-2 6-5 10-3 4-1 2-8 17-7 16-2 5-1 5-3 5-2 5-5 13-7 19-5 19-2 3-4 14-3 11-3 13-1 9-3 9-3 17-3 21-2 18-1 15v47l1 10 1 8 2 14 1 6 4 14v5l2 7 7 21 3 8 4 7 2 7 1 2 2 2 5 12 4 7 9 15 2 3 5 7 3 4 5 5 3 5 4 5 25 25 12 10 12 9 11 7 5 3 9 5 14 7 7 3 5 2 11 4 6 2 4 1h4l8 3 12 2 9 1 11 1h28l9-1 10-1 10-2 16-4 7-2 14-5 9-4 22-11 5-4 5-2 13-9 8-6 5-4 7-6 23-23 6-7 4-5 5-6 10-14 7-11 3-5 5-9 8-16 4-9 2-5 4-11v-3l2-3 4-14 1-4 3-14 1-5 1-6 1-7 1-9 1-12v-42l-1-13-1-10-1-8-1-6-1-5-2-5v-5l-1-5-2-8-4-15-5-16-1-3-4-11-2-5-3-5-1-5-3-7-4-9-5-11-1-2-2-2-4-10-9-17-4-7-7-12-4-5v-2l-6-10-7-10-3-5-2-5-4-5-5-10-7-10-2-5-9-15-9-13-2-5-4-5-2-5-4-5-2-5-6-8-5-10-7-10-2-5-4-5-2-5-9-13-2-5-4-5-3-5-2-5-3-5-3-3-6-12-6-8-3-5-2-5-9-13-2-5-10-15-5-8-3-7-3-3-2-5-3-3v-2l-9-15-2-3zm3 249h2l2 2v1l6 7 3 4 1 3 4 4 7 10 1 3 14 18 1 3 13 19 8 10 7 12 9 12 2 3 4 8 5 6 2 5 3 3 6 9 4 7 4 8 7 10 6 10 5 9 13 26 4 10 5 14 1 3 2 8 3 11 1 5 1 6 1 7 1 9v32l-1 8-1 7-1 6-1 5-2 3-3 14-1 3-5 12-2 2v2l-2 2-1 4-1 2-6 10-4 6-4 4-2 4-5 6-17 17-8 6-7 5-8 5-16 8-10 4-20 5-6 1-10 1h-19l-9-1-7-1-4-2-8-1-4-1-6-2-10-4-12-6-8-5-9-6-12-10-10-10-6-7-5-6-1-3-3-3-2-3-1-3-3-3-8-16-3-7-3-8v-3l-2-3-1-3-2-8-2-9-1-5-1-9v-13l-1-1v-12l1-16 1-8 4-20 2-8 2-3 1-7 2-6 5-13 4-9 13-26 5-9 4-5v-2l7-12 6-10 9-13 2-5 15-24 3-3 8-14 22-34 3-3 27-42z' fill='#005BE7'/></g></svg>
-        <div class="gea-intro__gate-actions">
-          <button class="gea-intro__start" type="button" data-gea-intro-start>
-            <span>Ver presentación</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M5 12h14"></path>
-              <path d="m14 7 5 5-5 5"></path>
-            </svg>
-          </button>
-          <button class="gea-intro__start gea-intro__secondary" type="button" data-gea-intro-enter>Entrar a la página</button>
-        </div>
-      </div>
-    </div>
-    <button class="gea-intro__skip" type="button" data-gea-intro-skip aria-label="Saltar presentación" title="Saltar presentación">
-      <span class="gea-intro__skip-label">Saltar</span>
-      <svg class="gea-intro__skip-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="m5 4 10 8-10 8V4Z"></path>
-        <path d="M19 5v14"></path>
-      </svg>
-    </button>
-  </div>
-
+<body class="home-ux">
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
   <header class="site-header">
@@ -365,7 +104,67 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
             <a class="button gea-hero-primary" href="https://wa.me/573017605677?text=Hola%2C%20GEA.%20Quiero%20consultar%20un%20servicio.">Consultar por WhatsApp</a>
             <a class="button gea-hero-secondary" href="tel:+573017605677">Llamar al 301 760 5677</a>
           </div>
-          <p class="gea-hero-hours">Hogares y negocios · Atención de 6:00 a.m. a 6:00 p.m.</p>
+          <div class="gea-live-status" data-live-status role="status" aria-live="polite">
+            <span class="gea-live-status__dot" aria-hidden="true"></span>
+            <span data-live-status-text>Horario de atención: 6:00 a.m. a 6:00 p.m.</span>
+          </div>
+          <p class="gea-hero-hours">Hogares y negocios · Medellín y municipios con cobertura confirmada</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="diagnostico" class="home-section quick-diagnosis" aria-labelledby="diagnosis-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Diagnóstico rápido</p>
+          <h2 id="diagnosis-title">¿Qué está pasando?</h2>
+          <p>Elige el síntoma que más se parece a tu caso. Te orientamos hacia el servicio adecuado y dejamos el mensaje listo para WhatsApp.</p>
+        </div>
+        <div class="diagnosis-options" role="list" aria-label="Síntomas frecuentes">
+          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-smell"><span aria-hidden="true">🔥</span><strong>Huele a gas</strong><small>Olor fuerte o sospecha de fuga</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="breaker"><span aria-hidden="true">⚡</span><strong>Se dispara el breaker</strong><small>Cortes, chispas o sobrecarga</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="no-power"><span aria-hidden="true">💡</span><strong>Hay un punto sin energía</strong><small>Toma, interruptor o iluminación</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="water-leak"><span aria-hidden="true">💧</span><strong>Hay fuga o humedad</strong><small>Goteo, filtración o tubería</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="low-pressure"><span aria-hidden="true">🚿</span><strong>Hay poca presión</strong><small>Flujo irregular o bomba</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-installation"><span aria-hidden="true">🔧</span><strong>Necesito instalar o revisar gas</strong><small>Red, punto, calentador o conexión</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--neutral" data-diagnosis="unknown"><span aria-hidden="true">?</span><strong>No sé qué está fallando</strong><small>Cuéntanos los síntomas</small></button>
+        </div>
+        <div class="diagnosis-result" data-diagnosis-result hidden aria-live="polite">
+          <div>
+            <p class="diagnosis-result__eyebrow">Servicio recomendado</p>
+            <h3 data-diagnosis-title></h3>
+            <p data-diagnosis-copy></p>
+            <p class="diagnosis-result__safety" data-diagnosis-safety hidden></p>
+          </div>
+          <div class="diagnosis-result__actions">
+            <a class="button button-primary" data-diagnosis-whatsapp href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Enviar caso por WhatsApp</a>
+            <a class="diagnosis-service-link" data-diagnosis-service href="#servicios">Ver servicio →</a>
+          </div>
+        </div>
+        <noscript><p class="diagnosis-noscript">Puedes describirnos el problema directamente por <a href="https://wa.me/573017605677">WhatsApp</a>.</p></noscript>
+      </div>
+    </section>
+
+    <section class="home-section safety-section" aria-labelledby="safety-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Mientras coordinamos la atención</p>
+          <h2 id="safety-title">Qué hacer ante una falla</h2>
+          <p>Medidas básicas para reducir el riesgo mientras recibes orientación. Si existe peligro inmediato, aléjate de la zona y contacta al servicio de emergencias correspondiente.</p>
+        </div>
+        <div class="safety-grid">
+          <details class="safety-card safety-card--gas">
+            <summary><span aria-hidden="true">🔥</span><strong>Si percibes olor a gas</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
+            <div><p>Evita encender o apagar interruptores y no generes llamas. Ventila solo si puedes hacerlo sin exponerte al riesgo y cierra la llave de gas únicamente si es seguro. Si el olor es intenso, sal del lugar y contacta la línea de emergencias de tu proveedor.</p></div>
+          </details>
+          <details class="safety-card safety-card--electric">
+            <summary><span aria-hidden="true">⚡</span><strong>Si hay chispas u olor a quemado</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
+            <div><p>No manipules cables ni equipos afectados. Si puedes hacerlo de forma segura, corta la energía desde el interruptor general y mantén a las personas alejadas de humedad o partes expuestas.</p></div>
+          </details>
+          <details class="safety-card safety-card--water">
+            <summary><span aria-hidden="true">💧</span><strong>Si hay una fuga de agua</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
+            <div><p>Cierra la llave de paso si está accesible y es seguro hacerlo. Aleja equipos eléctricos del agua sin tocarlos si están energizados y evita intervenir tuberías ocultas por tu cuenta.</p></div>
+          </details>
         </div>
       </div>
     </section>
@@ -482,8 +281,8 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
         <div class="credentials-shell">
           <span class="credential-rail credential-rail--left" aria-hidden="true"></span>
           <div class="credentials-grid">
-            <div class="credential-item"><strong class="credential-number">30</strong><span class="credential-label">años de experiencia</span></div>
-            <div class="credential-item"><strong class="credential-number">~100</strong><span class="credential-label">trabajos realizados por GEA</span></div>
+            <div class="credential-item"><strong class="credential-number" data-counter-target="30">30</strong><span class="credential-label">años de experiencia</span></div>
+            <div class="credential-item"><strong class="credential-number" data-counter-target="100" data-counter-prefix="~">~100</strong><span class="credential-label">trabajos realizados por GEA</span></div>
             <div class="credential-item"><span class="retie-seal" aria-hidden="true">RETIE</span><span class="credential-label">criterios técnicos aplicables a instalaciones eléctricas</span></div>
             <div class="credential-item"><strong class="credential-number" aria-hidden="true">✓</strong><span class="credential-label">experiencia técnica en procesos relacionados con EPM</span></div>
           </div>
@@ -513,6 +312,29 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
           <li><span aria-hidden="true">04</span><h3>Trabajo autorizado</h3><p>Realizamos lo acordado y te explicamos la intervención y las recomendaciones.</p></li>
         </ol>
         <a class="button button-primary" href="#contacto">Solicitar una visita</a>
+      </div>
+    </section>
+
+    <section id="cobertura-interactiva" class="home-section coverage-section" aria-labelledby="coverage-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Cobertura</p>
+          <h2 id="coverage-title">¿Llegamos hasta ti?</h2>
+          <p>Selecciona tu municipio para preparar la solicitud. La disponibilidad final se confirma antes de programar la visita.</p>
+        </div>
+        <div class="coverage-chips" role="group" aria-label="Municipios con cobertura">
+          <button type="button" data-coverage-location="Medellín">Medellín</button>
+          <button type="button" data-coverage-location="Bello">Bello</button>
+          <button type="button" data-coverage-location="Envigado">Envigado</button>
+          <button type="button" data-coverage-location="Itagüí">Itagüí</button>
+          <button type="button" data-coverage-location="Sabaneta">Sabaneta</button>
+          <button type="button" data-coverage-location="La Estrella">La Estrella</button>
+          <button type="button" data-coverage-location="Otro municipio" data-coverage-confirm>Otro municipio</button>
+        </div>
+        <div class="coverage-result" data-coverage-result hidden aria-live="polite">
+          <div><strong data-coverage-title></strong><span data-coverage-copy></span></div>
+          <a class="button button-primary" data-coverage-whatsapp href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Solicitar visita</a>
+        </div>
       </div>
     </section>
 
@@ -748,7 +570,7 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
           <label for="detalle">Cuéntanos qué está pasando<textarea id="detalle" required name="detalle" maxlength="1000" rows="5"></textarea></label>
           <label class="privacy-consent" for="privacy-consent"><input id="privacy-consent" name="privacyConsent" type="checkbox" required><span>Autorizo a Soluciones GEA a tratar los datos de esta solicitud para responderme, preparar la cotización, coordinar el servicio y atender garantías o reclamaciones, conforme a la <a href="/privacidad.html">Política de tratamiento de datos y privacidad</a>.</span></label>
           <button class="button button-primary button-large" type="button" data-lead-submit>Enviar solicitud por WhatsApp</button>
-          <p class="form-note">Al continuar se abrirá WhatsApp con la información ingresada. La solicitud no obliga a contratar; el alcance y las condiciones se confirman antes de ejecutar el trabajo. Consulte las <a href="/condiciones-servicio.html">condiciones del servicio</a>.</p>
+          <p class="form-note">Al continuar se abrirá WhatsApp con la información ingresada. La solicitud no obliga a contratar; el alcance y las condiciones se confirman antes de ejecutar el trabajo. Consulta las <a href="/condiciones-servicio.html">condiciones del servicio</a>.</p>
         </form>
       </div>
     </section>
