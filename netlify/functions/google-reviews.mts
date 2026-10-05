@@ -34,7 +34,7 @@ function safeGooglePhotoUri(value: unknown) {
   }
 }
 
-function normalizeReview(review: any) {
+function normalizeNewReview(review: any) {
   const author = review?.authorAttribution || {};
 
   return {
@@ -46,7 +46,92 @@ function normalizeReview(review: any) {
       name: String(author?.displayName || 'Usuario de Google').trim(),
       photoUri: safeGooglePhotoUri(author?.photoUri),
     },
+    source: 'relevant',
   };
+}
+
+function normalizeLegacyReview(review: any) {
+  return {
+    rating: Number(review?.rating) || 0,
+    text: String(review?.text || ''),
+    relativeTime: String(review?.relative_time_description || ''),
+    publishTime: Number.isFinite(Number(review?.time))
+      ? new Date(Number(review.time) * 1000).toISOString()
+      : null,
+    author: {
+      name: String(review?.author_name || 'Usuario de Google').trim(),
+      photoUri: safeGooglePhotoUri(review?.profile_photo_url),
+    },
+    source: 'newest',
+  };
+}
+
+function reviewKey(review: any) {
+  const name = String(review?.author?.name || '').trim().toLowerCase();
+  const text = String(review?.text || '').trim().toLowerCase();
+  return `${name}::${text}`;
+}
+
+function mergeUnique(...groups: any[][]) {
+  const seen = new Set<string>();
+  const merged: any[] = [];
+
+  for (const group of groups) {
+    for (const review of group) {
+      const key = reviewKey(review);
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      merged.push(review);
+    }
+  }
+
+  return merged;
+}
+
+async function fetchNewPlaces(apiKey: string) {
+  const fields = [
+    'displayName',
+    'rating',
+    'userRatingCount',
+    'reviews',
+    'formattedAddress',
+    'location',
+    'googleMapsUri',
+    'googleMapsLinks',
+  ].join(',');
+
+  const response = await fetch(
+    `https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}?languageCode=es&regionCode=CO`,
+    {
+      headers: {
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': fields,
+      },
+    },
+  );
+
+  if (!response.ok) return null;
+  return response.json();
+}
+
+async function fetchLegacyPlaces(apiKey: string) {
+  const params = new URLSearchParams({
+    place_id: GOOGLE_PLACE_ID,
+    fields: 'name,rating,user_ratings_total,reviews,formatted_address,url,geometry',
+    reviews_sort: 'newest',
+    language: 'es',
+    key: apiKey,
+  });
+
+  const response = await fetch(
+    `https://maps.googleapis.com/maps/api/place/details/json?${params.toString()}`,
+    { headers: { accept: 'application/json' } },
+  );
+
+  if (!response.ok) return null;
+  const payload = await response.json();
+  if (payload?.status !== 'OK' || !payload?.result) return null;
+  return payload.result;
 }
 
 function json(data: unknown, status = 200) {
@@ -55,7 +140,7 @@ function json(data: unknown, status = 200) {
     headers: {
       'content-type': 'application/json; charset=utf-8',
       'cache-control': status === 200
-        ? 'public, max-age=900, s-maxage=21600'
+        ? 'public, max-age=600, s-maxage=3600'
         : 'no-store',
     },
   });
@@ -75,63 +160,60 @@ export default async (request: Request) => {
   }
 
   try {
-    const fields = [
-      'displayName',
-      'rating',
-      'userRatingCount',
-      'reviews',
-      'formattedAddress',
-      'location',
-      'googleMapsUri',
-      'googleMapsLinks',
-    ].join(',');
+    const [newPlace, legacyPlace] = await Promise.all([
+      fetchNewPlaces(apiKey),
+      fetchLegacyPlaces(apiKey),
+    ]);
 
-    const response = await fetch(
-      `https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}?languageCode=es&regionCode=CO`,
-      {
-        headers: {
-          'X-Goog-Api-Key': apiKey,
-          'X-Goog-FieldMask': fields,
-        },
-      },
-    );
-
-    if (!response.ok) {
+    if (!newPlace && !legacyPlace) {
       return json({
         configured: true,
         reason: 'google_places_failed',
-        upstreamStatus: response.status,
       }, 502);
     }
 
-    const place = await response.json();
-    const reviews = Array.isArray(place?.reviews)
-      ? place.reviews.slice(0, 5).map(normalizeReview)
+    const relevant = Array.isArray(newPlace?.reviews)
+      ? newPlace.reviews.map(normalizeNewReview)
       : [];
+    const newest = Array.isArray(legacyPlace?.reviews)
+      ? legacyPlace.reviews.map(normalizeLegacyReview)
+      : [];
+    const reviews = mergeUnique(relevant, newest).slice(0, 6);
+
+    const legacyLocation = legacyPlace?.geometry?.location;
+    const latitude = Number(newPlace?.location?.latitude ?? legacyLocation?.lat);
+    const longitude = Number(newPlace?.location?.longitude ?? legacyLocation?.lng);
 
     return json({
       configured: true,
       placeId: GOOGLE_PLACE_ID,
-      name: place?.displayName?.text || 'Soluciones GEA',
-      rating: Number(place?.rating) || null,
-      reviewCount: Number(place?.userRatingCount) || 0,
-      address: place?.formattedAddress || 'Cra. 141 #62-86, Medellín, Antioquia',
-      location: place?.location && Number.isFinite(place.location.latitude) && Number.isFinite(place.location.longitude)
-        ? {
-            latitude: place.location.latitude,
-            longitude: place.location.longitude,
-          }
+      name:
+        newPlace?.displayName?.text ||
+        legacyPlace?.name ||
+        'Soluciones GEA',
+      rating: Number(newPlace?.rating ?? legacyPlace?.rating) || null,
+      reviewCount:
+        Number(newPlace?.userRatingCount ?? legacyPlace?.user_ratings_total) || 0,
+      address:
+        newPlace?.formattedAddress ||
+        legacyPlace?.formatted_address ||
+        'Cra. 141 #62-86, Medellín, Antioquia',
+      location: Number.isFinite(latitude) && Number.isFinite(longitude)
+        ? { latitude, longitude }
         : null,
       googleProfileUrl:
-        place?.googleMapsLinks?.placeUri ||
-        place?.googleMapsUri ||
+        newPlace?.googleMapsLinks?.placeUri ||
+        newPlace?.googleMapsUri ||
+        legacyPlace?.url ||
         'https://share.google/o8vbV41rlIalXuJp7',
       writeReviewUrl:
-        place?.googleMapsLinks?.writeAReviewUri ||
+        newPlace?.googleMapsLinks?.writeAReviewUri ||
         `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`,
       directionsUrl:
-        place?.googleMapsLinks?.directionsUri ||
+        newPlace?.googleMapsLinks?.directionsUri ||
         `https://www.google.com/maps/dir/?api=1&destination_place_id=${GOOGLE_PLACE_ID}`,
+      orderingNotice:
+        'Reseñas reales de Google combinadas entre relevantes y más recientes.',
       reviews,
     });
   } catch {
