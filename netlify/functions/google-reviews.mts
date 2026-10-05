@@ -106,7 +106,7 @@ export default async (request: Request) => {
 
     const place = await response.json();
     const reviews = Array.isArray(place?.reviews)
-      ? place.reviews.slice(0, 3).map(normalizeReview)
+      ? place.reviews.slice(0, 5).map(normalizeReview)
       : [];
 
     return json({
