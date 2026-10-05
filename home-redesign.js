@@ -274,6 +274,59 @@
     });
   }
 
+  function initializeReviewAvatarLoading() {
+    const avatars = Array.from(document.querySelectorAll('img[data-review-avatar-src]'));
+    if (!avatars.length) return;
+
+    const loadAvatar = (image) => {
+      if (image.src) return;
+      const source = image.dataset.reviewAvatarSrc;
+      if (!source) return;
+      image.addEventListener('load', () => image.classList.add('is-loaded'), { once: true });
+      image.src = source;
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      avatars.forEach(loadAvatar);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        loadAvatar(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, {
+      rootMargin: '280px 0px',
+      threshold: 0.01,
+    });
+
+    avatars.forEach((image) => observer.observe(image));
+  }
+
+  function initializeGoogleMapLoader() {
+    const card = document.querySelector('[data-google-map-card]');
+    const button = document.querySelector('[data-google-map-load]');
+    const placeholder = document.querySelector('[data-google-map-placeholder]');
+    if (!card || !button || !placeholder) return;
+
+    button.addEventListener('click', () => {
+      if (card.querySelector('iframe')) return;
+
+      const iframe = document.createElement('iframe');
+      iframe.title = 'Mapa de ubicación de Soluciones GEA';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.src = 'https://www.google.com/maps?q=Cra.%20141%20%2362-86%2C%20Medell%C3%ADn%2C%20Antioquia&output=embed';
+      iframe.allowFullscreen = true;
+
+      placeholder.hidden = true;
+      card.appendChild(iframe);
+      card.classList.add('is-map-loaded');
+    }, { once: true });
+  }
+
   function initializeCoverage() {
     const result = document.querySelector('[data-coverage-result]');
     if (!result) return;
@@ -313,6 +366,8 @@
     window.setInterval(updateLiveStatus, 60000);
     initializeQuickDiagnosis();
     initializeCoverage();
+    initializeReviewAvatarLoading();
+    initializeGoogleMapLoader();
     observeOnce(document.querySelector('.credentials-section'), startCounters, 0.45);
     observeOnce(document.querySelector('#servicios .service-hub-grid'), activateServiceCards, 0.25);
   }
