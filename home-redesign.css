@@ -1912,3 +1912,25 @@ html[data-theme="dark"] .diagnosis-result__safety { color: #fff !important; }
   .safety-card__plus,
   .home-service-icon { animation: none !important; transition: none !important; transform: none !important; }
 }
+
+.diagnosis-option > span:first-child,
+.safety-card summary > span:first-child {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+}
+.diagnosis-option > span:first-child img,
+.safety-card summary > span:first-child img {
+  width: 30px;
+  height: 30px;
+  display: block;
+  object-fit: contain;
+}
+.diagnosis-option__unknown {
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  color: var(--gea-blue-2);
+  font-weight: 900;
+  font-size: 1rem !important;
+}
