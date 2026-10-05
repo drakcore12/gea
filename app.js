@@ -468,6 +468,112 @@
     });
   }
 
+  function initializeGoogleReviews() {
+    const section = document.querySelector('[data-google-reviews]');
+    if (!section) return;
+
+    const rating = section.querySelector('.google-rating-score strong');
+    const ratingStars = section.querySelector('.google-rating-stars');
+    const reviewCount = section.querySelector('.google-rating-main p');
+    const address = section.querySelector('.google-business-location span');
+    const list = section.querySelector('.google-review-list');
+    const notice = section.querySelector('.google-reviews-notice');
+
+    const stars = (value) => {
+      const rounded = Math.max(0, Math.min(5, Math.round(Number(value) || 0)));
+      return `${'★'.repeat(rounded)}${'☆'.repeat(5 - rounded)}`;
+    };
+
+    const render = (payload) => {
+      if (rating && Number.isFinite(payload.rating)) rating.textContent = Number(payload.rating).toFixed(1);
+      if (ratingStars) {
+        ratingStars.textContent = stars(payload.rating);
+        ratingStars.setAttribute('aria-label', `${payload.rating || 0} de 5 estrellas`);
+      }
+      if (reviewCount) {
+        const count = Number(payload.reviewCount) || 0;
+        reviewCount.textContent = count === 1
+          ? '1 calificación publicada en Google'
+          : `${count.toLocaleString('es-CO')} calificaciones publicadas en Google`;
+      }
+      if (address && payload.address) address.textContent = payload.address;
+
+      const reviews = Array.isArray(payload.reviews) ? payload.reviews : [];
+      if (list && reviews.length) {
+        list.replaceChildren();
+
+        reviews.forEach((review) => {
+          const card = document.createElement('article');
+          card.className = 'google-review-card';
+
+          const author = document.createElement('div');
+          author.className = 'google-review-author';
+
+          const avatar = document.createElement('span');
+          avatar.className = 'google-review-avatar';
+          avatar.setAttribute('aria-hidden', 'true');
+
+          const image = document.createElement('img');
+          image.alt = '';
+          image.width = 42;
+          image.height = 42;
+          image.loading = 'lazy';
+          image.decoding = 'async';
+          image.src = `/api/google-review-avatar?author=${encodeURIComponent(review.author?.name || 'Usuario de Google')}`;
+          avatar.appendChild(image);
+
+          const copy = document.createElement('div');
+          copy.className = 'google-review-author-copy';
+
+          const name = document.createElement('strong');
+          name.textContent = review.author?.name || 'Usuario de Google';
+          copy.appendChild(name);
+
+          if (review.relativeTime) {
+            const time = document.createElement('small');
+            time.textContent = review.relativeTime;
+            copy.appendChild(time);
+          }
+
+          author.append(avatar, copy);
+          card.appendChild(author);
+
+          const reviewStars = document.createElement('div');
+          reviewStars.className = 'google-review-stars';
+          reviewStars.textContent = stars(review.rating);
+          reviewStars.setAttribute('role', 'img');
+          reviewStars.setAttribute('aria-label', `${review.rating || 0} de 5 estrellas`);
+          card.appendChild(reviewStars);
+
+          if (review.text) {
+            const text = document.createElement('p');
+            text.className = 'google-review-text';
+            text.textContent = review.text;
+            card.appendChild(text);
+          }
+
+          list.appendChild(card);
+        });
+      }
+
+      if (notice) {
+        notice.textContent = 'Calificación, reseñas y autores cargados directamente desde Google Maps.';
+      }
+    };
+
+    fetch('/api/google-reviews', {
+      headers: { accept: 'application/json' },
+      cache: 'no-store',
+    })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (payload?.configured) render(payload);
+      })
+      .catch(() => {
+        // El contenido verificado del HTML permanece como fallback.
+      });
+  }
+
   function initializeEvidenceCarousel() {
     const gallery = document.querySelector('[data-local-evidence-gallery]');
     const previous = document.querySelector('[data-evidence-prev]');
@@ -502,6 +608,7 @@
     initializeTrackedLinks();
     enhanceGeaCareMembershipCopy();
     initializeHomepageFaq();
+    initializeGoogleReviews();
     initializeEvidenceCarousel();
     updateFooterYear();
   }
