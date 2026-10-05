@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-label="Avatar con iniciales VV">
+  <circle cx="48" cy="48" r="48" fill="#011949"/>
+  <circle cx="48" cy="48" r="43" fill="#16843f"/>
+  <text x="48" y="56" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#ffffff">VV</text>
+</svg>
