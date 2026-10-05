@@ -108,6 +108,11 @@ test('Google reviews are a local verified snapshot without runtime API dependenc
   assert.equal(snapshot.business.rating, 4.8);
   assert.equal(snapshot.business.reviewCount, 27);
   assert.equal(snapshot.reviews.length, 3);
+  for (const review of snapshot.reviews) {
+    assert.equal(typeof review.avatar, 'string');
+    assert.equal(review.avatar.startsWith('/assets/img/reviews/'), true);
+    assert.equal(fs.existsSync(path.join(root, review.avatar.replace(/^\//, ''))), true, review.avatar);
+  }
   assert.match(html, /data-review-snapshot="2026-09"/);
   assert.match(html, />4\.8<\//);
   assert.match(html, /27 calificaciones publicadas en Google/);
