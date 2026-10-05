@@ -119,8 +119,12 @@ test('Google review fallback stays published while live API hydrates it', () => 
   assert.match(html, /Lala Vasquez Restrepo/);
   assert.doesNotMatch(html, /antes de la verificación/i);
   assert.match(app, /\/api\/google-reviews/);
+  assert.match(app, /\/api\/google-review-photo\?src=/);
+  assert.match(app, /merged\.slice\(0, 6\)/);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-reviews.mts')), true);
-  assert.match(read('netlify/functions/google-reviews.mts'), /slice\(0, 5\)/);
+  assert.match(read('netlify/functions/google-reviews.mts'), /reviews_sort: 'newest'/);
+  assert.match(read('netlify/functions/google-reviews.mts'), /mergeUnique\(relevant, newest\)\.slice\(0, 6\)/);
+  assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-review-photo.mts')), true);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-photo.mts')), false);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-review-avatar.mts')), true);
 });
