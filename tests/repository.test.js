@@ -183,8 +183,7 @@ test('Google reviewer photos and map preview use constrained same-origin endpoin
   assert.doesNotMatch(html, /data-google-map-load/);
   assert.doesNotMatch(html, /<iframe[^>]+google\.com\/maps/i);
 
-  assert.match(runtime, /initializeReviewAvatarLoading/);
-  assert.match(runtime, /\/api\/google-review-avatar\?author=/);
+  assert.doesNotMatch(runtime, /initializeReviewAvatarLoading/);
   assert.doesNotMatch(runtime, /initializeGoogleMapLoader/);
 
   assert.match(avatarFn, /REVIEWERS = new Map/);
