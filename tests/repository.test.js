@@ -145,7 +145,7 @@ test('review snapshot is present in HTML and does not require JavaScript to appe
   const html = read('index.html');
   assert.match(html, /Opiniones destacadas/);
   assert.match(html, /google-review-card/);
-  assert.match(html, /snapshot estático/i);
+  assert.match(html, /Datos y opiniones verificados en septiembre de 2026/i);
   assert.doesNotMatch(html, /google-review-card--loading/);
 });
 
