@@ -177,7 +177,7 @@ test('Google reviewer photos and map preview use constrained same-origin endpoin
   const avatarFn = read('netlify/functions/google-review-avatar.mts');
   const mapFn = read('netlify/functions/google-map-preview.mts');
 
-  assert.match(html, /data-review-avatar-src="\/assets\/img\/reviews\/avatar-lala-vasquez\.svg"/);
+  assert.match(html, /src="\/api\/google-review-avatar\?author=Lala%20Vasquez%20Restrepo"/);
   assert.match(html, /src="\/api\/google-map-preview"/);
   assert.match(html, /Abrir en Google Maps/);
   assert.doesNotMatch(html, /data-google-map-load/);
