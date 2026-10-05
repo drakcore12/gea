@@ -7,7 +7,7 @@ Versión: 1.0 — 2026-09-24
 - **FR-002** Iniciar solicitud por WhatsApp con datos del formulario.
 - **FR-003** Iniciar llamada desde enlaces publicados.
 - **FR-004** Mostrar horarios y atención de emergencias claramente.
-- **FR-005** Mostrar rating, total y todas las reseñas disponibles del Perfil de Negocio de Google cuando Business Profile API esté habilitada; usar Places como fallback seguro mientras no lo esté.
+- **FR-005** Mostrar un snapshot local y verificable del rating, total y reseñas destacadas de Google, con fecha de verificación visible y sin consultas a APIs en tiempo de ejecución.
 - **FR-006** Abrir directamente el flujo de Google para escribir opinión.
 - **FR-007** Abrir perfil/ubicación/direcciones de Google.
 - **FR-008** Tema automático/manual sin bloquear contenido.
@@ -19,8 +19,8 @@ Versión: 1.0 — 2026-09-24
 - **NFR-002** Datos de usuario/terceros no llegan a sinks HTML ejecutables sin control.
 - **NFR-003** Responsive desde 320 px sin overflow horizontal estructural.
 - **NFR-004** Controles operables por teclado, con nombre accesible y foco visible.
-- **NFR-005** Maps/Reviews/Analytics fuera del camino crítico inicial.
-- **NFR-006** Degradación segura ante fallo de JS/Google/Analytics.
+- **NFR-005** Reseñas y evidencias visibles desde HTML/assets locales; Analytics fuera del camino crítico inicial.
+- **NFR-006** Reseñas/evidencias siguen visibles sin JavaScript ni disponibilidad de Google; Analytics continúa siendo opcional.
 - **NFR-007** Assets locales versionados por deploy.
 - **NFR-008** CSP, HSTS, nosniff, Referrer-Policy y Permissions-Policy.
 - **NFR-009** Límites de tamaño/complejidad definidos por quality gate.

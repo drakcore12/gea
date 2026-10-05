@@ -11,6 +11,7 @@ const requiredDocs = [
   'docs/engineering/ADRs/0001-static-serverless.md',
   'docs/engineering/ADRs/0002-netlify-production.md',
   'docs/engineering/ADRs/0003-google-reviews-boundary.md',
+  'docs/engineering/ADRs/0004-static-reputation-snapshot.md',
   'docs/quality/REQUIREMENTS.md',
   'docs/quality/QUALITY-MODEL-ISO25010.md',
   'docs/quality/TEST-STRATEGY-ISO29119.md',

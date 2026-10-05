@@ -36,15 +36,11 @@ for (const header of [
   assert.ok(home.headers.get(header), `Falta header ${header}`);
 }
 
-const reviews = await get('/api/google-reviews');
-const payload = await reviews.json();
-assert.equal(payload.configured, true, 'Google Reviews no está configurado');
-assert.ok(Number.isFinite(payload.rating), 'rating inválido');
-assert.ok(payload.rating >= 0 && payload.rating <= 5, 'rating fuera de rango');
-assert.ok(Number.isInteger(payload.reviewCount) && payload.reviewCount >= 0, 'reviewCount inválido');
-assert.ok(Array.isArray(payload.reviews), 'reviews debe ser array');
-assert.ok(payload.reviews.length <= payload.reviewCount || payload.reviewCount === 0, 'cantidad de reseñas inconsistente');
-assert.ok(['places', 'business-profile'].includes(payload.source), 'fuente de reseñas inválida');
-assert.equal('apiKey' in payload, false, 'El payload no puede exponer apiKey');
+const homeHtml = await home.text();
+assert.match(homeHtml, /data-review-snapshot="2026-09"/, 'Falta el snapshot estático de reseñas');
+assert.match(homeHtml, />4\.8<\//, 'Falta rating verificado 4.8');
+assert.match(homeHtml, /27 calificaciones publicadas en Google/, 'Falta total verificado de calificaciones');
+assert.match(homeHtml, /Lala Vasquez Restrepo/, 'Faltan opiniones verificadas');
+assert.doesNotMatch(homeHtml, /\/api\/google-reviews/, 'La homepage no debe depender de Google Reviews API');
 
 console.log('Production smoke PASS');

@@ -6,7 +6,7 @@ GEA adopta los principios públicos de ISO/IEC/IEEE 29119-2:2021 para gobernar/g
 
 ## Riesgo
 P0: secretos, XSS, caída de sitio, contacto roto, release corrupto.  
-P1: Google Reviews, navegación, SEO, responsive, consentimiento.  
+P1: integridad del snapshot de reseñas, navegación, SEO, responsive, consentimiento.  
 P2: motion y detalle visual.
 
 ## Capas

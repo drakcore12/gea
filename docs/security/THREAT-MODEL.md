@@ -1,28 +1,27 @@
 # Modelo de amenazas — Soluciones GEA
 
-Versión: 1.0 — 2026-09-24
+Versión: 1.1 — 2026-10-03
 
 ## Activos
-Disponibilidad/reputación, API key Google, integridad SEO, datos pre-envío a WhatsApp, consentimiento y pipeline.
+Disponibilidad/reputación, integridad del snapshot de reseñas, integridad SEO, datos pre-envío a WhatsApp, consentimiento y pipeline.
 
 ## Límites
 1. visitante ↔ navegador;
 2. navegador ↔ Netlify;
-3. Function ↔ Google;
-4. GitHub Actions ↔ Netlify;
-5. navegador ↔ WhatsApp/Analytics/Maps.
+3. GitHub Actions ↔ Netlify;
+4. navegador ↔ WhatsApp/Analytics/Google mediante acciones explícitas.
 
 | ID | Amenaza | Control |
 | --- | --- | --- |
-| T-01 | XSS desde reseñas/entrada | textContent, URLs controladas, CSP, CodeQL |
-| T-02 | API key expuesta | Netlify.env, gate, server-side |
-| T-03 | abuso de key | restricción API/cuota |
+| T-01 | Manipulación/falsificación del snapshot de reseñas | snapshot versionado, revisión humana, pruebas de regresión, fecha visible |
+| T-02 | Secreto expuesto | no existen credenciales de Google Reviews; secret scan + gate |
+| T-03 | Dependencia externa rompe reputación visible | rating/reseñas/evidencias locales en HTML/assets |
 | T-04 | clickjacking | frame-ancestors none + DENY |
 | T-05 | MIME confusion | nosniff |
 | T-06 | downgrade | HSTS + upgrade-insecure-requests |
 | T-07 | fuga referrer | strict-origin-when-cross-origin |
 | T-08 | permisos innecesarios | Permissions-Policy |
-| T-09 | Google caído | fallback + lazy |
+| T-09 | enlaces externos no disponibles | contenido principal permanece funcional |
 | T-10 | analytics sin permiso | consent gating |
 | T-11 | release mezclado | asset version + build id |
 | T-12 | cambio inseguro | CI + CodeQL + ADR |

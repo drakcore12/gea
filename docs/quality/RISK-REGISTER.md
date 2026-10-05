@@ -9,7 +9,7 @@ Versión: 1.0 — 2026-09-24
 | R-03 | Contacto/lead roto | Media | Alto | P0 | repository tests, manual, smoke | Monitor |
 | R-04 | SEO técnico roto | Media | Alto | P1 | check.js, sitemap/canonical tests | Monitor |
 | R-05 | Regresión responsive/accesibilidad | Media | Alto | P1 | matriz manual + static checks | Monitor |
-| R-06 | Google Places no disponible/cuota | Media | Medio | P1 | fallback, lazy, smoke | Aceptado con mitigación |
+| R-06 | Snapshot de reputación queda desactualizado | Media | Medio | P1 | fecha visible, fuente versionada, enlace al perfil oficial, revisión periódica | Aceptado con mitigación |
 | R-07 | Release/cache inconsistente | Baja | Alto | P1 | versionado + verify --release | Mitigado |
 | R-08 | Barrera de accesibilidad | Media | Alto | P1 | labels, teclado, foco, reduced-motion | Monitor |
 
