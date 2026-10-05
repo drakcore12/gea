@@ -4,6 +4,13 @@
   const overlay = document.querySelector('[data-gea-intro]');
   if (!overlay) return;
 
+  const introSeenKey = 'gea-intro-seen-v1';
+  let introAlreadySeen = false;
+  try {
+    introAlreadySeen = sessionStorage.getItem(introSeenKey) === '1';
+    if (!introAlreadySeen) sessionStorage.setItem(introSeenKey, '1');
+  } catch (_) {}
+
   const skipButton = overlay.querySelector('[data-gea-intro-skip]');
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const pageRegions = document.querySelectorAll('.site-header, main, .site-footer, .skip-link');
@@ -268,7 +275,7 @@
 
   }
 
-  if (reducedMotion) {
+  if (introAlreadySeen || reducedMotion) {
     finishIntro({ immediate: true });
     return;
   }
