@@ -151,15 +151,5 @@
     metaThemeColor.content = theme === 'dark' ? darkThemeColor : lightThemeColor;
   }
 
-  if (isHomePage()) {
-    // Keep the synthetic/mobile critical path focused on the intro gate.
-    // Home-only styles, motion and helpers start after the visitor leaves it.
-    window.addEventListener('gea:intro-closed', startEnhancements, { once: true });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      if (!document.querySelector('[data-gea-intro]')) startEnhancements();
-    }, { once: true });
-  } else {
-    startEnhancements();
-  }
+  startEnhancements();
 })();
