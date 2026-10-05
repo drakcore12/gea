@@ -274,28 +274,6 @@
     });
   }
 
-  function initializeReviewAvatarLoading() {
-    const avatarImages = Array.from(document.querySelectorAll('img[data-review-avatar-src]'));
-
-    avatarImages.forEach((image) => {
-      const fallback = image.dataset.reviewAvatarSrc;
-      const authorName = image.closest('.google-review-card')
-        ?.querySelector('.google-review-author-copy strong')
-        ?.textContent
-        ?.trim();
-
-      if (!fallback || !authorName) return;
-
-      image.addEventListener('load', () => image.classList.add('is-loaded'));
-      image.addEventListener('error', () => {
-        const fallbackUrl = new URL(fallback, window.location.href).href;
-        if (image.src !== fallbackUrl) image.src = fallback;
-      });
-
-      image.src = `/api/google-review-avatar?author=${encodeURIComponent(authorName)}`;
-    });
-  }
-
   function initializeCoverage() {
     const result = document.querySelector('[data-coverage-result]');
     if (!result) return;
@@ -335,7 +313,6 @@
     window.setInterval(updateLiveStatus, 60000);
     initializeQuickDiagnosis();
     initializeCoverage();
-    initializeReviewAvatarLoading();
     observeOnce(document.querySelector('.credentials-section'), startCounters, 0.45);
     observeOnce(document.querySelector('#servicios .service-hub-grid'), activateServiceCards, 0.25);
   }
