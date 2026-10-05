@@ -1934,3 +1934,50 @@ html[data-theme="dark"] .diagnosis-result__safety { color: #fff !important; }
   font-weight: 900;
   font-size: 1rem !important;
 }
+
+
+.google-review-avatar__fallback {
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:.8rem;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+.google-review-avatar img[data-review-avatar-src] {
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.google-review-avatar img[data-review-avatar-src].is-loaded {
+  opacity:1;
+}
+.google-map-placeholder__actions {
+  width:min(100%,360px);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:9px;
+  margin-top:8px;
+}
+.google-map-placeholder__actions .button {
+  min-width:0;
+}
+.google-map-placeholder small {
+  color:var(--gea-muted);
+  font-size:.72rem;
+}
+.google-map-card.is-map-loaded {
+  background:#edf3f8;
+}
+@media (max-width:560px) {
+  .google-map-placeholder__actions {
+    display:grid;
+    grid-template-columns:1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .google-review-avatar img[data-review-avatar-src] {
+    transition:none;
+  }
+}
