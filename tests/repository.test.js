@@ -99,7 +99,7 @@ test('security headers baseline is present', () => {
   assert.match(headers, /object-src 'none'/);
 });
 
-test('Google reviews are a local verified snapshot without runtime API dependency', () => {
+test('Google review content stays in the local verified snapshot', () => {
   const html = read('index.html');
   const app = read('app.js');
   const snapshot = JSON.parse(read('data/google-reviews.snapshot.json'));
@@ -121,6 +121,7 @@ test('Google reviews are a local verified snapshot without runtime API dependenc
   assert.doesNotMatch(app, /\/api\/google-reviews/);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-reviews.mts')), false);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-photo.mts')), false);
+  assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-review-avatar.mts')), true);
 });
 
 test('local evidence gallery uses repository assets and no Google photo proxy', () => {
@@ -170,19 +171,27 @@ test('home interactive guidance stays lightweight and directly accessible', () =
   assert.match(floating, /prefers-reduced-motion: no-preference/);
 });
 
-test('Google reputation media and location load independently', () => {
+test('Google reviewer photos and map preview use constrained same-origin endpoints', () => {
   const html = read('index.html');
   const runtime = read('home-redesign.js');
+  const avatarFn = read('netlify/functions/google-review-avatar.mts');
+  const mapFn = read('netlify/functions/google-map-preview.mts');
 
   assert.match(html, /data-review-avatar-src="\/assets\/img\/reviews\/avatar-lala-vasquez\.svg"/);
-  assert.match(html, /google-review-avatar__fallback/);
-  assert.match(html, /data-google-map-load/);
+  assert.match(html, /src="\/api\/google-map-preview"/);
   assert.match(html, /Abrir en Google Maps/);
+  assert.doesNotMatch(html, /data-google-map-load/);
   assert.doesNotMatch(html, /<iframe[^>]+google\.com\/maps/i);
+
   assert.match(runtime, /initializeReviewAvatarLoading/);
-  assert.match(runtime, /initializeGoogleMapLoader/);
-  assert.match(runtime, /IntersectionObserver/);
-  assert.match(runtime, /output=embed/);
+  assert.match(runtime, /\/api\/google-review-avatar\?author=/);
+  assert.doesNotMatch(runtime, /initializeGoogleMapLoader/);
+
+  assert.match(avatarFn, /REVIEWERS = new Map/);
+  assert.match(avatarFn, /hostname\.endsWith\('\.googleusercontent\.com'\)/);
+  assert.match(avatarFn, /path: '\/api\/google-review-avatar'/);
+  assert.match(mapFn, /maps\.googleapis\.com\/maps\/api\/staticmap/);
+  assert.match(mapFn, /path: '\/api\/google-map-preview'/);
 });
 
 test('engineering docs exist', () => {
