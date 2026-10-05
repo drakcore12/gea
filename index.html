@@ -476,8 +476,8 @@
             </div>
           </article>
 
-          <div class="google-map-card" aria-label="Ubicación de Soluciones GEA">
-            <div class="google-map-placeholder">
+          <div class="google-map-card" aria-label="Ubicación de Soluciones GEA" data-google-map-card>
+            <div class="google-map-placeholder" data-google-map-placeholder>
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Z"></path>
                 <path d="M9 3v15"></path>
@@ -485,7 +485,11 @@
               </svg>
               <strong>Ubicación de Soluciones GEA</strong>
               <span>Cra. 141 #62-86 · Medellín, Antioquia</span>
-              <a class="button button-secondary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Soluciones%20G.E.A&amp;destination_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk" target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a>
+              <div class="google-map-placeholder__actions">
+                <button class="button button-primary" type="button" data-google-map-load>Ver mapa aquí</button>
+                <a class="button button-secondary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Soluciones%20G.E.A&amp;destination_place_id=ChIJRe3_2HIrRI4RrBVCtwBbwqk" target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a>
+              </div>
+              <small>El mapa interactivo se carga solo cuando lo solicitas.</small>
             </div>
           </div>
         </div>
@@ -502,7 +506,8 @@
           <article class="google-review-card">
             <div class="google-review-author">
               <span class="google-review-avatar" aria-hidden="true">
-                <img src="/assets/img/reviews/avatar-lala-vasquez.svg" width="42" height="42" loading="lazy" decoding="async" alt="">
+                <span class="google-review-avatar__fallback">LV</span>
+                <img data-review-avatar-src="/assets/img/reviews/avatar-lala-vasquez.svg" width="42" height="42" decoding="async" alt="">
               </span>
               <div class="google-review-author-copy">
                 <strong>Lala Vasquez Restrepo</strong>
@@ -517,7 +522,8 @@
           <article class="google-review-card">
             <div class="google-review-author">
               <span class="google-review-avatar" aria-hidden="true">
-                <img src="/assets/img/reviews/avatar-valentina-vasquez.svg" width="42" height="42" loading="lazy" decoding="async" alt="">
+                <span class="google-review-avatar__fallback">VV</span>
+                <img data-review-avatar-src="/assets/img/reviews/avatar-valentina-vasquez.svg" width="42" height="42" decoding="async" alt="">
               </span>
               <div class="google-review-author-copy">
                 <strong>Valentina Vásquez Restrepo</strong>
@@ -532,7 +538,8 @@
           <article class="google-review-card">
             <div class="google-review-author">
               <span class="google-review-avatar" aria-hidden="true">
-                <img src="/assets/img/reviews/avatar-carlos-cuartas.svg" width="42" height="42" loading="lazy" decoding="async" alt="">
+                <span class="google-review-avatar__fallback">CC</span>
+                <img data-review-avatar-src="/assets/img/reviews/avatar-carlos-cuartas.svg" width="42" height="42" decoding="async" alt="">
               </span>
               <div class="google-review-author-copy">
                 <strong>carlos ariel cuartas gomez</strong>
