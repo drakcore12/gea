@@ -99,7 +99,7 @@ test('security headers baseline is present', () => {
   assert.match(headers, /object-src 'none'/);
 });
 
-test('Google review content stays in the local verified snapshot', () => {
+test('Google review fallback stays published while live API hydrates it', () => {
   const html = read('index.html');
   const app = read('app.js');
   const snapshot = JSON.parse(read('data/google-reviews.snapshot.json'));
@@ -113,11 +113,10 @@ test('Google review content stays in the local verified snapshot', () => {
     assert.equal(review.avatar.startsWith('/assets/img/reviews/'), true);
     assert.equal(fs.existsSync(path.join(root, review.avatar.replace(/^\//, ''))), true, review.avatar);
   }
-  assert.match(html, /data-review-snapshot="2026-09"/);
+  assert.match(html, /data-google-reviews/);
   assert.match(html, />4\.8<\//);
   assert.match(html, /27 calificaciones publicadas en Google/);
   assert.match(html, /Lala Vasquez Restrepo/);
-  assert.match(html, /data-google-reviews/);
   assert.match(app, /\/api\/google-reviews/);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-reviews.mts')), true);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-photo.mts')), false);
@@ -175,7 +174,7 @@ test('Google reviewer photos and map preview use constrained same-origin endpoin
   const html = read('index.html');
   const runtime = read('home-redesign.js');
   const avatarFn = read('netlify/functions/google-review-avatar.mts');
-  const mapFn = read('netlify/functions/google-map-preview.mts');
+  const mapEmbedFn = read('netlify/functions/google-map-embed.mts');
 
   assert.match(html, /src="\/api\/google-review-avatar\?author=Lala%20Vasquez%20Restrepo"/);
   assert.match(html, /src="\/api\/google-map-embed"/);
@@ -189,9 +188,9 @@ test('Google reviewer photos and map preview use constrained same-origin endpoin
   assert.match(avatarFn, /REVIEWERS = new Map/);
   assert.match(avatarFn, /hostname\.endsWith\('\.googleusercontent\.com'\)/);
   assert.match(avatarFn, /path: '\/api\/google-review-avatar'/);
-  assert.match(read('netlify/functions/google-map-embed.mts'), /places\.googleapis\.com/);
-  assert.match(read('netlify/functions/google-map-embed.mts'), /google\.com\/maps/);
-  assert.match(read('netlify/functions/google-map-embed.mts'), /path: '\/api\/google-map-embed'/);
+  assert.match(mapEmbedFn, /places\.googleapis\.com/);
+  assert.match(mapEmbedFn, /google\.com\/maps/);
+  assert.match(mapEmbedFn, /path: '\/api\/google-map-embed'/);
 });
 
 test('engineering docs exist', () => {
