@@ -293,3 +293,30 @@ test('avatar uses the Google photo once, then leaves initials after failure', ()
   assert.equal(classes.has('is-loaded'), false);
   assert.equal(image.removed, true);
 });
+
+
+test('Google failures return safe diagnostic codes without credential or error text', async () => {
+  const { default: handler } = await import('../netlify/functions/google-reviews.mts');
+  const originalFetch = global.fetch;
+  const originalNetlify = global.Netlify;
+  global.Netlify = { env: { get: () => 'private-test-key' } };
+  global.fetch = async (url) => String(url).includes('places.googleapis.com')
+    ? Response.json({ error: { message: 'private-test-key should never be returned', details: [{ reason: 'API_KEY_HTTP_REFERRER_BLOCKED' }] } }, { status: 403 })
+    : Response.json({ status: 'REQUEST_DENIED', error_message: 'private-test-key' });
+  try {
+    const response = await handler(new Request('https://example.com/api/google-reviews'));
+    assert.equal(response.status, 503);
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+    const body = await response.text();
+    assert.doesNotMatch(body, /private-test-key/);
+    assert.deepEqual(JSON.parse(body).upstream, ['places_http_403_API_KEY_HTTP_REFERRER_BLOCKED', 'legacy_REQUEST_DENIED', 'legacy_REQUEST_DENIED']);
+    assert.equal(JSON.parse(body).configured, false);
+    const diagnostic = await handler(new Request('https://example.com/api/google-reviews?diagnostic=1'));
+    assert.equal(diagnostic.status, 200);
+    assert.equal(diagnostic.headers.get('cache-control'), 'no-store');
+    assert.deepEqual((await diagnostic.json()).upstream, JSON.parse(body).upstream);
+  } finally {
+    global.fetch = originalFetch;
+    global.Netlify = originalNetlify;
+  }
+});
