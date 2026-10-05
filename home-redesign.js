@@ -109,18 +109,37 @@
     window.setInterval(rotateContext, 3200);
   }
 
-  function setCounter(counter) {
-    const target = Number.parseInt(counter.dataset.counterTarget || '', 10);
-    if (!Number.isFinite(target)) return;
-
+  function setCounter(counter, value) {
+    const prefix = counter.dataset.counterPrefix || '';
     const suffix = counter.dataset.counterSuffix || '';
-    counter.textContent = `${formatNumber(target)}${suffix}`;
+    counter.textContent = `${prefix}${formatNumber(value)}${suffix}`;
   }
 
   function startCounters() {
     if (countersStarted) return;
     countersStarted = true;
-    counters.forEach((counter) => setCounter(counter));
+
+    counters.forEach((counter) => {
+      const target = Number.parseInt(counter.dataset.counterTarget || '', 10);
+      if (!Number.isFinite(target)) return;
+
+      if (reducedMotion) {
+        setCounter(counter, target);
+        return;
+      }
+
+      const duration = 1050;
+      const started = performance.now();
+      const tick = (now) => {
+        const progress = Math.min(1, (now - started) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCounter(counter, Math.round(target * eased));
+        if (progress < 1) window.requestAnimationFrame(tick);
+      };
+
+      setCounter(counter, 0);
+      window.requestAnimationFrame(tick);
+    });
   }
 
   function activateServiceCards() {
@@ -151,9 +170,150 @@
     observer.observe(element);
   }
 
+  function bogotaHour() {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'America/Bogota',
+      hour: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+
+    return Number.parseInt(parts.find((part) => part.type === 'hour')?.value || '0', 10);
+  }
+
+  function updateLiveStatus() {
+    const status = document.querySelector('[data-live-status]');
+    const text = document.querySelector('[data-live-status-text]');
+    if (!status || !text) return;
+
+    const active = bogotaHour() >= 6 && bogotaHour() < 18;
+    status.classList.toggle('is-open', active);
+    status.classList.toggle('is-closed', !active);
+    text.textContent = active
+      ? 'Horario de atención activo · 6:00 a.m. a 6:00 p.m.'
+      : 'Fuera de horario · escríbenos y respondemos a primera hora';
+  }
+
+  const DIAGNOSIS = {
+    'gas-smell': {
+      title: 'Revisión prioritaria de gas',
+      copy: 'Por el síntoma, conviene revisar la instalación de gas y descartar una fuga o conexión defectuosa.',
+      safety: 'Si el olor es intenso, sal del lugar y contacta primero la línea de emergencias de tu proveedor. No accione interruptores ni generes llamas.',
+      service: '/servicios/gas-medellin/',
+      message: 'Hola, Soluciones GEA. Percibo olor a gas y necesito orientación/revisión. Mi ubicación es: ',
+    },
+    breaker: {
+      title: 'Electricista · diagnóstico de circuito',
+      copy: 'Un breaker que se dispara puede indicar sobrecarga, corto o una falla en el circuito. Recomendamos diagnóstico eléctrico.',
+      safety: 'No fuerces el breaker a permanecer encendido si vuelve a dispararse.',
+      service: '/servicios/electricista-medellin/',
+      message: 'Hola, Soluciones GEA. Se está disparando un breaker y necesito una revisión eléctrica. Mi ubicación es: ',
+    },
+    'no-power': {
+      title: 'Electricista · punto sin energía',
+      copy: 'Podemos revisar tomas, interruptores, iluminación, tablero y circuitos accesibles para encontrar el origen de la falla.',
+      service: '/servicios/electricista-medellin/',
+      message: 'Hola, Soluciones GEA. Tengo un punto sin energía y necesito una revisión eléctrica. Mi ubicación es: ',
+    },
+    'water-leak': {
+      title: 'Plomería · fuga o humedad',
+      copy: 'Podemos revisar fugas visibles, conexiones, tuberías y señales de humedad para identificar el origen probable.',
+      safety: 'Si puedes hacerlo con seguridad, cierra la llave de paso y evita que el agua alcance instalaciones eléctricas.',
+      service: '/servicios/plomero-fugas-agua-medellin/',
+      message: 'Hola, Soluciones GEA. Tengo una fuga o humedad y necesito una revisión de plomería. Mi ubicación es: ',
+    },
+    'low-pressure': {
+      title: 'Plomería · presión y bombas',
+      copy: 'La baja presión puede relacionarse con la red interna, válvulas, obstrucciones o el sistema de bombeo. Podemos diagnosticarlo.',
+      service: '/servicios/plomero-fugas-agua-medellin/',
+      message: 'Hola, Soluciones GEA. Tengo baja presión de agua y necesito una revisión. Mi ubicación es: ',
+    },
+    'gas-installation': {
+      title: 'Servicio técnico de gas',
+      copy: 'Revisamos redes internas, puntos, conexiones, reguladores, calentadores y adecuaciones según el alcance.',
+      service: '/servicios/gas-medellin/',
+      message: 'Hola, Soluciones GEA. Necesito revisar o instalar una red/punto de gas. Mi ubicación es: ',
+    },
+    unknown: {
+      title: 'Orientación inicial',
+      copy: 'No necesitas conocer el nombre técnico de la falla. Cuéntanos qué notas, dónde ocurre y desde cuándo.',
+      service: '#servicios',
+      message: 'Hola, Soluciones GEA. No sé exactamente qué está fallando. Los síntomas que noto son: ',
+    },
+  };
+
+  function initializeQuickDiagnosis() {
+    const result = document.querySelector('[data-diagnosis-result]');
+    if (!result) return;
+
+    const title = result.querySelector('[data-diagnosis-title]');
+    const copy = result.querySelector('[data-diagnosis-copy]');
+    const safety = result.querySelector('[data-diagnosis-safety]');
+    const whatsapp = result.querySelector('[data-diagnosis-whatsapp]');
+    const service = result.querySelector('[data-diagnosis-service]');
+
+    document.querySelectorAll('[data-diagnosis]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const selected = DIAGNOSIS[button.dataset.diagnosis];
+        if (!selected) return;
+
+        document.querySelectorAll('[data-diagnosis]').forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('is-selected', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+
+        title.textContent = selected.title;
+        copy.textContent = selected.copy;
+        safety.hidden = !selected.safety;
+        safety.textContent = selected.safety || '';
+        whatsapp.href = `https://wa.me/573017605677?text=${encodeURIComponent(selected.message)}`;
+        service.href = selected.service;
+        result.hidden = false;
+        result.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+      });
+    });
+  }
+
+  function initializeCoverage() {
+    const result = document.querySelector('[data-coverage-result]');
+    if (!result) return;
+
+    const title = result.querySelector('[data-coverage-title]');
+    const copy = result.querySelector('[data-coverage-copy]');
+    const whatsapp = result.querySelector('[data-coverage-whatsapp]');
+
+    document.querySelectorAll('[data-coverage-location]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const location = button.dataset.coverageLocation || '';
+        const needsConfirmation = button.hasAttribute('data-coverage-confirm');
+
+        document.querySelectorAll('[data-coverage-location]').forEach((item) => {
+          item.classList.toggle('is-selected', item === button);
+        });
+
+        title.textContent = needsConfirmation
+          ? 'Confirmemos cobertura en tu municipio'
+          : `Sí atendemos ${location}`;
+        copy.textContent = needsConfirmation
+          ? 'Escríbenos tu municipio o sector y te confirmamos disponibilidad antes de programar.'
+          : 'La disponibilidad se confirma según el tipo de servicio y el horario solicitado.';
+        whatsapp.href = `https://wa.me/573017605677?text=${encodeURIComponent(
+          needsConfirmation
+            ? 'Hola, Soluciones GEA. Quiero confirmar cobertura. Mi municipio/sector es: '
+            : `Hola, Soluciones GEA. Estoy en ${location} y quiero solicitar una visita técnica. El servicio que necesito es: `,
+        )}`;
+        result.hidden = false;
+      });
+    });
+  }
+
   function initializePageMotion() {
     initializeHeroContextRotator();
-    observeOnce(document.querySelector('.counter-strip'), startCounters, 0.55);
+    updateLiveStatus();
+    window.setInterval(updateLiveStatus, 60000);
+    initializeQuickDiagnosis();
+    initializeCoverage();
+    observeOnce(document.querySelector('.credentials-section'), startCounters, 0.45);
     observeOnce(document.querySelector('#servicios .service-hub-grid'), activateServiceCards, 0.25);
   }
 
