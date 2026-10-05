@@ -276,90 +276,24 @@
 
   function initializeReviewAvatarLoading() {
     const avatarImages = Array.from(document.querySelectorAll('img[data-review-avatar-src]'));
-    if (!avatarImages.length) return;
-
-    const normalizeName = (value) => String(value || '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim()
-      .toLowerCase();
-
-    const safeGoogleImageUrl = (value) => {
-      if (typeof value !== 'string' || !value.trim()) return null;
-
-      try {
-        const url = new URL(value);
-        const hostname = url.hostname.toLowerCase();
-        const isGoogleUserContent =
-          hostname === 'googleusercontent.com' ||
-          hostname.endsWith('.googleusercontent.com');
-
-        if (url.protocol !== 'https:' || !isGoogleUserContent) return null;
-        return url.href;
-      } catch (_) {
-        return null;
-      }
-    };
 
     avatarImages.forEach((image) => {
       const fallback = image.dataset.reviewAvatarSrc;
-      if (!fallback) return;
+      const authorName = image.closest('.google-review-card')
+        ?.querySelector('.google-review-author-copy strong')
+        ?.textContent
+        ?.trim();
+
+      if (!fallback || !authorName) return;
+
       image.addEventListener('load', () => image.classList.add('is-loaded'));
-      image.src = fallback;
-    });
-
-    fetch('/api/google-review-avatars', {
-      method: 'GET',
-      headers: { accept: 'application/json' },
-      cache: 'default',
-    })
-      .then((response) => response.ok ? response.json() : null)
-      .then((payload) => {
-        if (!payload?.configured || !Array.isArray(payload.reviews)) return;
-
-        const photosByAuthor = new Map(
-          payload.reviews
-            .map((review) => [normalizeName(review?.name), safeGoogleImageUrl(review?.photoUri)])
-            .filter(([name, photoUri]) => name && photoUri),
-        );
-
-        avatarImages.forEach((image) => {
-          const authorName = image.closest('.google-review-card')
-            ?.querySelector('.google-review-author-copy strong')
-            ?.textContent;
-          const photoUri = photosByAuthor.get(normalizeName(authorName));
-          if (!photoUri) return;
-
-          const fallback = image.dataset.reviewAvatarSrc;
-          image.referrerPolicy = 'no-referrer';
-          image.addEventListener('error', () => {
-            if (fallback && image.src !== new URL(fallback, window.location.href).href) {
-              image.src = fallback;
-            }
-          }, { once: true });
-          image.src = photoUri;
-        });
-      })
-      .catch(() => {
-        // Los SVG locales siguen funcionando como fallback.
+      image.addEventListener('error', () => {
+        const fallbackUrl = new URL(fallback, window.location.href).href;
+        if (image.src !== fallbackUrl) image.src = fallback;
       });
-  }
 
-  function initializeGoogleMapLoader() {
-    const card = document.querySelector('[data-google-map-card]');
-    const placeholder = document.querySelector('[data-google-map-placeholder]');
-    if (!card || !placeholder || card.querySelector('iframe')) return;
-
-    const iframe = document.createElement('iframe');
-    iframe.title = 'Mapa de ubicación de Soluciones GEA';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    iframe.src = 'https://www.google.com/maps?q=Cra.%20141%20%2362-86%2C%20Medell%C3%ADn%2C%20Antioquia&output=embed';
-    iframe.allowFullscreen = true;
-
-    placeholder.hidden = true;
-    card.appendChild(iframe);
-    card.classList.add('is-map-loaded');
+      image.src = `/api/google-review-avatar?author=${encodeURIComponent(authorName)}`;
+    });
   }
 
   function initializeCoverage() {
@@ -402,7 +336,6 @@
     initializeQuickDiagnosis();
     initializeCoverage();
     initializeReviewAvatarLoading();
-    initializeGoogleMapLoader();
     observeOnce(document.querySelector('.credentials-section'), startCounters, 0.45);
     observeOnce(document.querySelector('#servicios .service-hub-grid'), activateServiceCards, 0.25);
   }
