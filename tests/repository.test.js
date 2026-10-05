@@ -117,9 +117,9 @@ test('Google review content stays in the local verified snapshot', () => {
   assert.match(html, />4\.8<\//);
   assert.match(html, /27 calificaciones publicadas en Google/);
   assert.match(html, /Lala Vasquez Restrepo/);
-  assert.doesNotMatch(html, /data-google-reviews/);
-  assert.doesNotMatch(app, /\/api\/google-reviews/);
-  assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-reviews.mts')), false);
+  assert.match(html, /data-google-reviews/);
+  assert.match(app, /\/api\/google-reviews/);
+  assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-reviews.mts')), true);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-photo.mts')), false);
   assert.equal(fs.existsSync(path.join(root, 'netlify/functions/google-review-avatar.mts')), true);
 });
@@ -178,7 +178,7 @@ test('Google reviewer photos and map preview use constrained same-origin endpoin
   const mapFn = read('netlify/functions/google-map-preview.mts');
 
   assert.match(html, /src="\/api\/google-review-avatar\?author=Lala%20Vasquez%20Restrepo"/);
-  assert.match(html, /src="\/api\/google-map-preview"/);
+  assert.match(html, /src="\/api\/google-map-embed"/);
   assert.match(html, /Abrir en Google Maps/);
   assert.doesNotMatch(html, /data-google-map-load/);
   assert.doesNotMatch(html, /<iframe[^>]+google\.com\/maps/i);
@@ -189,8 +189,9 @@ test('Google reviewer photos and map preview use constrained same-origin endpoin
   assert.match(avatarFn, /REVIEWERS = new Map/);
   assert.match(avatarFn, /hostname\.endsWith\('\.googleusercontent\.com'\)/);
   assert.match(avatarFn, /path: '\/api\/google-review-avatar'/);
-  assert.match(mapFn, /maps\.googleapis\.com\/maps\/api\/staticmap/);
-  assert.match(mapFn, /path: '\/api\/google-map-preview'/);
+  assert.match(read('netlify/functions/google-map-embed.mts'), /places\.googleapis\.com/);
+  assert.match(read('netlify/functions/google-map-embed.mts'), /google\.com\/maps/);
+  assert.match(read('netlify/functions/google-map-embed.mts'), /path: '\/api\/google-map-embed'/);
 });
 
 test('engineering docs exist', () => {
