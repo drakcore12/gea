@@ -170,6 +170,21 @@ test('home interactive guidance stays lightweight and directly accessible', () =
   assert.match(floating, /prefers-reduced-motion: no-preference/);
 });
 
+test('Google reputation media and location load independently', () => {
+  const html = read('index.html');
+  const runtime = read('home-redesign.js');
+
+  assert.match(html, /data-review-avatar-src="\/assets\/img\/reviews\/avatar-lala-vasquez\.svg"/);
+  assert.match(html, /google-review-avatar__fallback/);
+  assert.match(html, /data-google-map-load/);
+  assert.match(html, /Abrir en Google Maps/);
+  assert.doesNotMatch(html, /<iframe[^>]+google\.com\/maps/i);
+  assert.match(runtime, /initializeReviewAvatarLoading/);
+  assert.match(runtime, /initializeGoogleMapLoader/);
+  assert.match(runtime, /IntersectionObserver/);
+  assert.match(runtime, /output=embed/);
+});
+
 test('engineering docs exist', () => {
   [
     'docs/engineering/ARCHITECTURE.md',
