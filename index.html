@@ -121,13 +121,13 @@
           <p>Elige el síntoma que más se parece a tu caso. Te orientamos hacia el servicio adecuado y dejamos el mensaje listo para WhatsApp.</p>
         </div>
         <div class="diagnosis-options" role="list" aria-label="Síntomas frecuentes">
-          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-smell"><span aria-hidden="true">🔥</span><strong>Huele a gas</strong><small>Olor fuerte o sospecha de fuga</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="breaker"><span aria-hidden="true">⚡</span><strong>Se dispara el breaker</strong><small>Cortes, chispas o sobrecarga</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="no-power"><span aria-hidden="true">💡</span><strong>Hay un punto sin energía</strong><small>Toma, interruptor o iluminación</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="water-leak"><span aria-hidden="true">💧</span><strong>Hay fuga o humedad</strong><small>Goteo, filtración o tubería</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="low-pressure"><span aria-hidden="true">🚿</span><strong>Hay poca presión</strong><small>Flujo irregular o bomba</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-installation"><span aria-hidden="true">🔧</span><strong>Necesito instalar o revisar gas</strong><small>Red, punto, calentador o conexión</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--neutral" data-diagnosis="unknown"><span aria-hidden="true">?</span><strong>No sé qué está fallando</strong><small>Cuéntanos los síntomas</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-smell" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-gas.svg" width="30" height="30" alt=""></span><strong>Huele a gas</strong><small>Olor fuerte o sospecha de fuga</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="breaker" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-electricidad.svg" width="30" height="30" alt=""></span><strong>Se dispara el breaker</strong><small>Cortes, chispas o sobrecarga</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="no-power" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-electricidad.svg" width="30" height="30" alt=""></span><strong>Hay un punto sin energía</strong><small>Toma, interruptor o iluminación</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="water-leak" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-agua.svg" width="30" height="30" alt=""></span><strong>Hay fuga o humedad</strong><small>Goteo, filtración o tubería</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="low-pressure" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-agua.svg" width="30" height="30" alt=""></span><strong>Hay poca presión</strong><small>Flujo irregular o bomba</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-installation" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-gas.svg" width="30" height="30" alt=""></span><strong>Necesito instalar o revisar gas</strong><small>Red, punto, calentador o conexión</small></button>
+          <button type="button" class="diagnosis-option diagnosis-option--neutral" data-diagnosis="unknown" aria-pressed="false"><span class="diagnosis-option__unknown" aria-hidden="true">?</span><strong>No sé qué está fallando</strong><small>Cuéntanos los síntomas</small></button>
         </div>
         <div class="diagnosis-result" data-diagnosis-result hidden aria-live="polite">
           <div>
@@ -154,15 +154,15 @@
         </div>
         <div class="safety-grid">
           <details class="safety-card safety-card--gas">
-            <summary><span aria-hidden="true">🔥</span><strong>Si percibes olor a gas</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
+            <summary><span aria-hidden="true"><img src="/assets/img/icono-gas.svg" width="30" height="30" alt=""></span><strong>Si percibes olor a gas</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
             <div><p>Evita encender o apagar interruptores y no generes llamas. Ventila solo si puedes hacerlo sin exponerte al riesgo y cierra la llave de gas únicamente si es seguro. Si el olor es intenso, sal del lugar y contacta la línea de emergencias de tu proveedor.</p></div>
           </details>
           <details class="safety-card safety-card--electric">
-            <summary><span aria-hidden="true">⚡</span><strong>Si hay chispas u olor a quemado</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
+            <summary><span aria-hidden="true"><img src="/assets/img/icono-electricidad.svg" width="30" height="30" alt=""></span><strong>Si hay chispas u olor a quemado</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
             <div><p>No manipules cables ni equipos afectados. Si puedes hacerlo de forma segura, corta la energía desde el interruptor general y mantén a las personas alejadas de humedad o partes expuestas.</p></div>
           </details>
           <details class="safety-card safety-card--water">
-            <summary><span aria-hidden="true">💧</span><strong>Si hay una fuga de agua</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
+            <summary><span aria-hidden="true"><img src="/assets/img/icono-agua.svg" width="30" height="30" alt=""></span><strong>Si hay una fuga de agua</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
             <div><p>Cierra la llave de paso si está accesible y es seguro hacerlo. Aleja equipos eléctricos del agua sin tocarlos si están energizados y evita intervenir tuberías ocultas por tu cuenta.</p></div>
           </details>
         </div>
