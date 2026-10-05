@@ -275,12 +275,74 @@
   }
 
   function initializeReviewAvatarLoading() {
-    document.querySelectorAll('img[data-review-avatar-src]').forEach((image) => {
-      const source = image.dataset.reviewAvatarSrc;
-      if (!source) return;
-      image.addEventListener('load', () => image.classList.add('is-loaded'), { once: true });
-      image.src = source;
+    const avatarImages = Array.from(document.querySelectorAll('img[data-review-avatar-src]'));
+    if (!avatarImages.length) return;
+
+    const normalizeName = (value) => String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toLowerCase();
+
+    const safeGoogleImageUrl = (value) => {
+      if (typeof value !== 'string' || !value.trim()) return null;
+
+      try {
+        const url = new URL(value);
+        const hostname = url.hostname.toLowerCase();
+        const isGoogleUserContent =
+          hostname === 'googleusercontent.com' ||
+          hostname.endsWith('.googleusercontent.com');
+
+        if (url.protocol !== 'https:' || !isGoogleUserContent) return null;
+        return url.href;
+      } catch (_) {
+        return null;
+      }
+    };
+
+    avatarImages.forEach((image) => {
+      const fallback = image.dataset.reviewAvatarSrc;
+      if (!fallback) return;
+      image.addEventListener('load', () => image.classList.add('is-loaded'));
+      image.src = fallback;
     });
+
+    fetch('/api/google-review-avatars', {
+      method: 'GET',
+      headers: { accept: 'application/json' },
+      cache: 'default',
+    })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (!payload?.configured || !Array.isArray(payload.reviews)) return;
+
+        const photosByAuthor = new Map(
+          payload.reviews
+            .map((review) => [normalizeName(review?.name), safeGoogleImageUrl(review?.photoUri)])
+            .filter(([name, photoUri]) => name && photoUri),
+        );
+
+        avatarImages.forEach((image) => {
+          const authorName = image.closest('.google-review-card')
+            ?.querySelector('.google-review-author-copy strong')
+            ?.textContent;
+          const photoUri = photosByAuthor.get(normalizeName(authorName));
+          if (!photoUri) return;
+
+          const fallback = image.dataset.reviewAvatarSrc;
+          image.referrerPolicy = 'no-referrer';
+          image.addEventListener('error', () => {
+            if (fallback && image.src !== new URL(fallback, window.location.href).href) {
+              image.src = fallback;
+            }
+          }, { once: true });
+          image.src = photoUri;
+        });
+      })
+      .catch(() => {
+        // Los SVG locales siguen funcionando como fallback.
+      });
   }
 
   function initializeGoogleMapLoader() {
