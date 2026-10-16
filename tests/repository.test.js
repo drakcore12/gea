@@ -167,7 +167,7 @@ test('home interactive guidance stays lightweight and directly accessible', () =
   assert.match(html, /data-diagnosis="gas-smell"/);
   assert.match(html, /data-diagnosis-result/);
   assert.match(html, /data-coverage-location="Medellín"/);
-  assert.match(html, /prefers-reduced-motion|diagnosis-option/);
+  assert.match(html, /prefers-reduced-motion|diagnosis-choice/);
   assert.match(runtime, /America\/Bogota/);
   assert.match(runtime, /IntersectionObserver/);
   assert.match(runtime, /initializeQuickDiagnosis/);
