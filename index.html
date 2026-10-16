@@ -289,6 +289,7 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
   <script src="/intro.js" defer></script>
   <link rel="stylesheet" href="./home-redesign.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./home-gauge-section.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="./home-guidance.css">
   <noscript><link rel="stylesheet" href="./no-js.css"></noscript>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"HomeAndConstructionBusiness","@id":"https://solucionesgea.com/#business","name":"Soluciones GEA","alternateName":"Soluciones GEA Ingeniería Integral","url":"https://solucionesgea.com/","telephone":"+573017605677","email":"solucionesgea.oficial@gmail.com","image":"https://solucionesgea.com/assets/img/imagotipo-horizontal.svg","logo":"https://solucionesgea.com/assets/img/imagotipo-horizontal.svg","description":"Servicios técnicos de electricidad, plomería, agua y gas para hogares, comercios y empresas en Medellín y el Valle de Aburrá.","knowsAbout":["instalaciones eléctricas","mantenimiento eléctrico","plomería","fugas de agua","bombas y presión de agua","redes internas de gas","mantenimiento de gas","mantenimiento técnico comercial"],"contactPoint":{"@type":"ContactPoint","telephone":"+573017605677","email":"solucionesgea.oficial@gmail.com","contactType":"customer service","areaServed":"CO","availableLanguage":"es"},"address":{"@type":"PostalAddress","streetAddress":"Carrera 141 #62-86","addressLocality":"Medellín","addressRegion":"Antioquia","addressCountry":"CO"},"areaServed":["Medellín","Bello","Envigado","Itagüí","Sabaneta","La Estrella"],"sameAs":["https://share.google/o8vbV41rlIalXuJp7","https://www.facebook.com/share/1EoStaCKFL/","https://www.instagram.com/solucionesgea_oficial?stkn=MW9mdzRvcW90dGs1NQ==","https://www.tiktok.com/@solucionesgea_oficial"]},{"@type":"ItemList","name":"Servicios principales de Soluciones GEA en Medellín","itemListElement":[{"@type":"ListItem","position":1,"name":"Electricista en Medellín","url":"https://solucionesgea.com/servicios/electricista-medellin/"},{"@type":"ListItem","position":2,"name":"Plomero y fugas de agua en Medellín","url":"https://solucionesgea.com/servicios/plomero-fugas-agua-medellin/"},{"@type":"ListItem","position":3,"name":"Servicio de gas en Medellín","url":"https://solucionesgea.com/servicios/gas-medellin/"}]}]}</script>
 </head>
@@ -375,57 +376,101 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
     </section>
 
     <section id="diagnostico" class="home-section quick-diagnosis" aria-labelledby="diagnosis-title">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">Diagnóstico rápido</p>
-          <h2 id="diagnosis-title">¿Qué está pasando?</h2>
-          <p>Elige el síntoma que más se parece a tu caso. Te orientamos hacia el servicio adecuado y dejamos el mensaje listo para WhatsApp.</p>
+      <div class="container guidance-layout">
+        <div class="guidance-heading">
+          <p class="guidance-kicker">01 / Encontrar una solución</p>
+          <h2 id="diagnosis-title">¿Qué está <em>pasando?</em></h2>
+          <p>Empieza por lo que notas. Elige una situación y descubre cómo podemos ayudarte.</p>
+          <div class="guidance-note"><span class="guidance-note__line" aria-hidden="true"></span><span>Tu caso, un primer paso.</span></div>
         </div>
-        <div class="diagnosis-options" role="list" aria-label="Síntomas frecuentes">
-          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-smell" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-gas.svg" width="30" height="30" alt=""></span><strong>Huele a gas</strong><small>Olor fuerte o sospecha de fuga</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="breaker" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-electricidad.svg" width="30" height="30" alt=""></span><strong>Se dispara el breaker</strong><small>Cortes, chispas o sobrecarga</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--electric" data-diagnosis="no-power" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-electricidad.svg" width="30" height="30" alt=""></span><strong>Hay un punto sin energía</strong><small>Toma, interruptor o iluminación</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="water-leak" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-agua.svg" width="30" height="30" alt=""></span><strong>Hay fuga o humedad</strong><small>Goteo, filtración o tubería</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--water" data-diagnosis="low-pressure" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-agua.svg" width="30" height="30" alt=""></span><strong>Hay poca presión</strong><small>Flujo irregular o bomba</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--gas" data-diagnosis="gas-installation" aria-pressed="false"><span aria-hidden="true"><img src="/assets/img/icono-gas.svg" width="30" height="30" alt=""></span><strong>Necesito instalar o revisar gas</strong><small>Red, punto, calentador o conexión</small></button>
-          <button type="button" class="diagnosis-option diagnosis-option--neutral" data-diagnosis="unknown" aria-pressed="false"><span class="diagnosis-option__unknown" aria-hidden="true">?</span><strong>No sé qué está fallando</strong><small>Cuéntanos los síntomas</small></button>
-        </div>
-        <div class="diagnosis-result" data-diagnosis-result hidden aria-live="polite">
-          <div>
-            <p class="diagnosis-result__eyebrow">Servicio recomendado</p>
-            <h3 data-diagnosis-title></h3>
-            <p data-diagnosis-copy></p>
-            <p class="diagnosis-result__safety" data-diagnosis-safety hidden></p>
+        <div class="diagnosis-workspace">
+          <div class="diagnosis-options" role="group" aria-label="Síntomas frecuentes">
+            <button type="button" class="diagnosis-choice diagnosis-choice--gas" data-diagnosis="gas-smell" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>01</span><span>Gas</span></span>
+              <strong>Huele a gas</strong><small>Olor fuerte o sospecha de fuga</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
+            <button type="button" class="diagnosis-choice diagnosis-choice--electric" data-diagnosis="breaker" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>02</span><span>Electricidad</span></span>
+              <strong>Se dispara el breaker</strong><small>Cortes o sobrecarga</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
+            <button type="button" class="diagnosis-choice diagnosis-choice--electric" data-diagnosis="no-power" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>03</span><span>Electricidad</span></span>
+              <strong>Un punto sin energía</strong><small>Toma, interruptor o iluminación</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
+            <button type="button" class="diagnosis-choice diagnosis-choice--water" data-diagnosis="water-leak" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>04</span><span>Agua</span></span>
+              <strong>Fuga o humedad</strong><small>Goteo, filtración o tubería</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
+            <button type="button" class="diagnosis-choice diagnosis-choice--water" data-diagnosis="low-pressure" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>05</span><span>Agua</span></span>
+              <strong>Poca presión de agua</strong><small>Flujo irregular o bomba</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
+            <button type="button" class="diagnosis-choice diagnosis-choice--gas" data-diagnosis="gas-installation" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>06</span><span>Gas</span></span>
+              <strong>Instalar o revisar gas</strong><small>Red, calentador o conexión</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
+            <button type="button" class="diagnosis-choice diagnosis-choice--neutral" data-diagnosis="unknown" aria-pressed="false" aria-controls="diagnosis-result">
+              <span class="diagnosis-choice__meta" aria-hidden="true"><span>07</span><span>Cuéntanos</span></span>
+              <strong>No sé qué está fallando</strong><small>No necesitas saber de técnica para pedir ayuda.</small>
+              <span class="diagnosis-choice__state" aria-hidden="true">Seleccionado</span>
+            </button>
           </div>
-          <div class="diagnosis-result__actions">
-            <a class="button button-primary" data-diagnosis-whatsapp href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Enviar caso por WhatsApp</a>
-            <a class="diagnosis-service-link" data-diagnosis-service href="#servicios">Ver servicio →</a>
+          <div id="diagnosis-result" class="diagnosis-result" data-diagnosis-result hidden aria-live="polite">
+            <div>
+              <p class="diagnosis-result__eyebrow">Este es tu siguiente paso</p>
+              <h3 data-diagnosis-title></h3><p data-diagnosis-copy></p>
+              <p class="diagnosis-result__safety" data-diagnosis-safety hidden></p>
+            </div>
+            <div class="diagnosis-result__actions">
+              <a class="button button-primary" data-diagnosis-whatsapp href="https://wa.me/573017605677" target="_blank" rel="noopener noreferrer">Enviar caso por WhatsApp</a>
+              <a class="diagnosis-service-link" data-diagnosis-service href="#servicios">Conocer el servicio</a>
+            </div>
           </div>
+          <noscript><p class="diagnosis-noscript">Descríbenos el problema por <a href="https://wa.me/573017605677">WhatsApp</a>.</p></noscript>
         </div>
-        <noscript><p class="diagnosis-noscript">Puedes describirnos el problema directamente por <a href="https://wa.me/573017605677">WhatsApp</a>.</p></noscript>
       </div>
     </section>
 
     <section class="home-section safety-section" aria-labelledby="safety-title">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">Mientras coordinamos la atención</p>
-          <h2 id="safety-title">Qué hacer ante una falla</h2>
-          <p>Medidas básicas para reducir el riesgo mientras recibes orientación. Si existe peligro inmediato, aléjate de la zona y contacta al servicio de emergencias correspondiente.</p>
+      <div class="container guidance-layout">
+        <div class="guidance-heading">
+          <p class="guidance-kicker">02 / La seguridad va primero</p>
+          <h2 id="safety-title">Qué hacer <em>ante una falla.</em></h2>
+          <p>Mientras coordinamos la atención, empieza por protegerte.</p>
+          <p class="safety-priority">Si hay peligro inmediato, aléjate de la zona y contacta al servicio de emergencias correspondiente.</p>
         </div>
-        <div class="safety-grid">
-          <details class="safety-card safety-card--gas">
-            <summary><span aria-hidden="true"><img src="/assets/img/icono-gas.svg" width="30" height="30" alt=""></span><strong>Si percibes olor a gas</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
-            <div><p>Evita encender o apagar interruptores y no generes llamas. Ventila solo si puedes hacerlo sin exponerte al riesgo y cierra la llave de gas únicamente si es seguro. Si el olor es intenso, sal del lugar y contacta la línea de emergencias de tu proveedor.</p></div>
+        <div class="safety-guides">
+          <details class="safety-guide safety-guide--gas" name="gea-safety">
+            <summary><span class="safety-guide__number" aria-hidden="true">01</span><span class="safety-guide__title"><small>Gas</small><strong>Si percibes olor a gas</strong></span><span class="safety-guide__action" aria-hidden="true"><span>Ver guía</span><span>Cerrar</span></span></summary>
+            <div class="safety-guide__body"><ol>
+              <li>Evita accionar interruptores y no generes llamas.</li>
+              <li>Ventila y cierra la llave de gas solo si puedes hacerlo sin exponerte.</li>
+              <li>Si el olor es intenso, sal del lugar y contacta la línea de emergencias de tu proveedor.</li>
+            </ol></div>
           </details>
-          <details class="safety-card safety-card--electric">
-            <summary><span aria-hidden="true"><img src="/assets/img/icono-electricidad.svg" width="30" height="30" alt=""></span><strong>Si hay chispas u olor a quemado</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
-            <div><p>No manipules cables ni equipos afectados. Si puedes hacerlo de forma segura, corta la energía desde el interruptor general y mantén a las personas alejadas de humedad o partes expuestas.</p></div>
+          <details class="safety-guide safety-guide--electric" name="gea-safety">
+            <summary><span class="safety-guide__number" aria-hidden="true">02</span><span class="safety-guide__title"><small>Electricidad</small><strong>Si hay chispas u olor a quemado</strong></span><span class="safety-guide__action" aria-hidden="true"><span>Ver guía</span><span>Cerrar</span></span></summary>
+            <div class="safety-guide__body"><ol>
+              <li>No manipules cables ni equipos afectados.</li>
+              <li>Si puedes hacerlo de forma segura, corta la energía desde el interruptor general.</li>
+              <li>Mantén a las personas alejadas de la humedad y de las partes expuestas.</li>
+            </ol></div>
           </details>
-          <details class="safety-card safety-card--water">
-            <summary><span aria-hidden="true"><img src="/assets/img/icono-agua.svg" width="30" height="30" alt=""></span><strong>Si hay una fuga de agua</strong><span class="safety-card__plus" aria-hidden="true">+</span></summary>
-            <div><p>Cierra la llave de paso si está accesible y es seguro hacerlo. Aleja equipos eléctricos del agua sin tocarlos si están energizados y evita intervenir tuberías ocultas por tu cuenta.</p></div>
+          <details class="safety-guide safety-guide--water" name="gea-safety">
+            <summary><span class="safety-guide__number" aria-hidden="true">03</span><span class="safety-guide__title"><small>Agua</small><strong>Si hay una fuga de agua</strong></span><span class="safety-guide__action" aria-hidden="true"><span>Ver guía</span><span>Cerrar</span></span></summary>
+            <div class="safety-guide__body"><ol>
+              <li>Cierra la llave de paso si está accesible y es seguro hacerlo.</li>
+              <li>No toques equipos eléctricos energizados ni los manipules cerca del agua.</li>
+              <li>Evita intervenir tuberías ocultas por tu cuenta.</li>
+            </ol></div>
           </details>
+          <p class="safety-guides__footer">Abre una situación para ver los pasos.</p>
         </div>
       </div>
     </section>
