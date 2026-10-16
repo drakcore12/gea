@@ -159,7 +159,12 @@
 .home-ux .safety-guides { border-top: 1px solid #3b5074; }
 .home-ux .safety-guide {
   --guide-accent: #ffae50;
+  padding: 0;
+  border: 0;
   border-bottom: 1px solid #3b5074;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
   transition: background .25s ease;
 }
 .home-ux .safety-guide--gas { --guide-accent: #91db6f; }
@@ -171,10 +176,12 @@
   gap: 16px;
   min-height: 116px;
   padding: 24px 16px;
+  color: #ffffff;
   list-style: none;
   cursor: pointer;
 }
 .home-ux .safety-guide summary::-webkit-details-marker { display: none; }
+.home-ux .safety-guide summary::after { content: none; }
 .home-ux .safety-guide__number { align-self: start; color: #a7b9d5; font: 500 .7rem/1.6 Inter, sans-serif; }
 .home-ux .safety-guide__title small {
   display: block;
