@@ -161,8 +161,8 @@ test('home interactive guidance stays lightweight and directly accessible', () =
   const motion = read('gea-motion.js');
   const floating = read('floating-whatsapp.css');
 
-  assert.doesNotMatch(html, /data-gea-intro/);
-  assert.doesNotMatch(html, /intro\.js/);
+  assert.match(html, /data-gea-intro-gate/);
+  assert.match(html, /intro\.js/);
   assert.match(html, /data-live-status/);
   assert.match(html, /data-diagnosis="gas-smell"/);
   assert.match(html, /data-diagnosis-result/);
