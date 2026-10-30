@@ -855,25 +855,54 @@ html.no-js body[data-gea-intro-active] > :not(.gea-intro) {
 
     <section id="contacto" class="home-section home-contact" aria-labelledby="contact-title">
       <div class="container">
-        <div class="section-heading">
-          <h2 id="contact-title">Cuéntanos qué necesitas</h2>
-          <p>Escríbenos por WhatsApp o <a href="tel:+573017605677">llama al 301 760 5677</a>. Confirma tu barrio o municipio para coordinar la visita.</p>
+        <div class="gea-contact-intro">
+          <p class="gea-contact-kicker">CONTACTO DIRECTO <span aria-hidden="true">/</span> MEDELLÍN Y VALLE DE ABURRÁ</p>
+          <div class="section-heading">
+            <h2 id="contact-title">Hablemos de lo que <em>necesitas resolver.</em></h2>
+            <p>¿Electricidad, agua o gas? Cuéntanos qué ocurre y coordinamos contigo la atención según tu ubicación y disponibilidad.</p>
+          </div>
+
+          <div class="gea-contact-quick" aria-label="Canales de contacto directo">
+            <a class="gea-contact-quick__primary" href="https://wa.me/573017605677?text=Hola%2C%20Soluciones%20GEA.%20Quiero%20consultar%20un%20servicio." target="_blank" rel="noopener noreferrer" data-track-event="contact_click" data-analytics="contact_section_whatsapp">
+              <span>Escribir por WhatsApp</span><span class="gea-contact-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="gea-contact-quick__secondary" href="tel:+573017605677" data-track-event="contact_click" data-analytics="contact_section_phone">
+              <span>Llamar al 301 760 5677</span><span class="gea-contact-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="gea-contact-facts" aria-label="Información de atención">
+            <div class="gea-contact-fact">
+              <span class="gea-contact-fact__label">HORARIO DE ATENCIÓN</span>
+              <strong>6:00 a.m. – 6:00 p.m.</strong>
+            </div>
+            <div class="gea-contact-fact">
+              <span class="gea-contact-fact__label">EMERGENCIAS</span>
+              <strong>Atención prioritaria en el mismo horario</strong>
+            </div>
+          </div>
+          <p class="gea-contact-location">Atendemos solicitudes en Medellín y el Valle de Aburrá. Confírmanos tu barrio o municipio.</p>
         </div>
 
-        <div class="schedule-grid" aria-label="Horarios de atención">
-          <div class="schedule-card"><strong>6:00 a.m. – 6:00 p.m.</strong><span>Horario de atención regular</span></div>
-          <div class="schedule-card"><strong>Emergencias</strong><span>Prioridad, mismo horario</span></div>
+        <div class="gea-contact-form-panel">
+          <div class="gea-contact-form-header">
+            <div>
+              <p class="gea-contact-form-kicker">SOLICITUD DE SERVICIO</p>
+              <h3>Cuéntanos los detalles</h3>
+              <p>Completa estos datos y continúa la conversación por WhatsApp.</p>
+            </div>
+            <span class="gea-contact-form-count" aria-label="Cuatro datos para tu solicitud">04 DATOS</span>
+          </div>
+          <form class="contact-form" id="lead-form" novalidate>
+            <label for="nombre">Tu nombre<input id="nombre" required name="nombre" autocomplete="name" maxlength="80" placeholder="¿Cómo te llamas?"></label>
+            <label for="telefono">Tu teléfono<input id="telefono" required type="tel" name="telefono" autocomplete="tel" inputmode="tel" maxlength="20" pattern="[0-9+() -]{7,20}" placeholder="Número de contacto"></label>
+            <label for="servicio">Tipo de servicio<select id="servicio" required name="servicio"><option value="">Selecciona una opción</option><option>Electricidad</option><option>Agua / plomería</option><option>Gas</option><option>Emergencia</option><option>Otro</option></select></label>
+            <label for="detalle">¿Qué está sucediendo?<textarea id="detalle" required name="detalle" maxlength="1000" rows="4" placeholder="Describe brevemente lo que necesitas y tu barrio o municipio."></textarea></label>
+            <label class="privacy-consent" for="privacy-consent"><input id="privacy-consent" name="privacyConsent" type="checkbox" required><span>Autorizo a Soluciones GEA a tratar los datos de esta solicitud para responderme, preparar la cotización, coordinar el servicio y atender garantías o reclamaciones, conforme a la <a href="/privacidad.html">Política de tratamiento de datos y privacidad</a>.</span></label>
+            <button class="button button-primary button-large gea-contact-submit" type="button" data-lead-submit><span>Enviar solicitud por WhatsApp</span><span aria-hidden="true">↗</span></button>
+            <p class="form-note">Se abrirá WhatsApp con la información ingresada. Sin obligación de contratar; confirmamos alcance y condiciones antes del trabajo. <a href="/condiciones-servicio.html">Ver condiciones del servicio</a>.</p>
+          </form>
         </div>
-
-        <form class="contact-form" id="lead-form" novalidate>
-          <label for="nombre">Nombre<input id="nombre" required name="nombre" autocomplete="name" maxlength="80"></label>
-          <label for="telefono">Teléfono<input id="telefono" required type="tel" name="telefono" autocomplete="tel" inputmode="tel" maxlength="20" pattern="[0-9+() -]{7,20}"></label>
-          <label for="servicio">¿Qué necesitas?<select id="servicio" required name="servicio"><option value="">Selecciona una opción</option><option>Electricidad</option><option>Agua / plomería</option><option>Gas</option><option>Emergencia</option><option>Otro</option></select></label>
-          <label for="detalle">Cuéntanos qué está pasando<textarea id="detalle" required name="detalle" maxlength="1000" rows="5"></textarea></label>
-          <label class="privacy-consent" for="privacy-consent"><input id="privacy-consent" name="privacyConsent" type="checkbox" required><span>Autorizo a Soluciones GEA a tratar los datos de esta solicitud para responderme, preparar la cotización, coordinar el servicio y atender garantías o reclamaciones, conforme a la <a href="/privacidad.html">Política de tratamiento de datos y privacidad</a>.</span></label>
-          <button class="button button-primary button-large" type="button" data-lead-submit>Enviar solicitud por WhatsApp</button>
-          <p class="form-note">Al continuar se abrirá WhatsApp con la información ingresada. La solicitud no obliga a contratar; el alcance y las condiciones se confirman antes de ejecutar el trabajo. Consulta las <a href="/condiciones-servicio.html">condiciones del servicio</a>.</p>
-        </form>
       </div>
     </section>
   </main>
